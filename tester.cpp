@@ -25,7 +25,10 @@ int main(int argc, char const *argv[])
     list.insert(7, 3);
     list.remove(3);
 
-    std::cout << list;
+    LinkedList<int> list2(list);
+    std::cout << list << std::endl;
+
+    std::cout << list2;
 
     return 0;
 }

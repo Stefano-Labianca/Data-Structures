@@ -16,7 +16,7 @@ class LinkedList: public ILinkedList <T, std::shared_ptr<Node<T>>>
     public:
         LinkedList();
         LinkedList(std::shared_ptr<Node<T>>& head);
-        // LinkedList(LinkedList<T>& otherList);
+        LinkedList(LinkedList<T>& otherList);
         ~LinkedList();
 
         unsigned int getSize() const override;
@@ -50,22 +50,22 @@ LinkedList<T>::LinkedList(std::shared_ptr<Node<T>>& head)
     this->len = 1;
 }
 
-// template <class T>
-// LinkedList<T>::LinkedList(LinkedList<T>& otherList)
-// {
-//     this->len = otherList.len;
+template <class T>
+LinkedList<T>::LinkedList(LinkedList<T>& otherList)
+{
+    if (!this->head.get())
+    {
+        std::shared_ptr<Node<T>> it = otherList.begin();
 
-//     if (!this->head)
-//     {
-//         ListNode it = std::move(this->head);
+        for (unsigned int i = 0; i < otherList.getSize(); i++)
+        {
+            T value = it->getNodeValue();
+            this->append(value);
 
-
-//         for (unsigned int i = 0; i < otherList.len; i++)
-//         {
-//             Node node(otherList.);
-//         }
-//     } 
-// }
+            it = it->getNext();
+        }
+    } 
+}
 
 template <class T>
 LinkedList<T>::~LinkedList()
