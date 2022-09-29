@@ -4,25 +4,27 @@
 #include "ILinkedList.h"
 #include "../Node.h"
 
+// TODO: Sistemarla con gli unique_ptr
+
 template <class T>
-class LinkedList: public ILinkedList <T, std::shared_ptr<Node<T>>>
+class LinkedList: public ILinkedList <T, std::unique_ptr<Node<T>>>
 {
 
     private:
-        std::shared_ptr<Node<T>> head;
-        std::shared_ptr<Node<T>> tail;
+        std::unique_ptr<Node<T>> head;
+        std::unique_ptr<Node<T>> tail;
         unsigned int len;
  
     public:
         LinkedList();
-        LinkedList(std::shared_ptr<Node<T>>& head);
+        LinkedList(std::unique_ptr<Node<T>>& head);
         LinkedList(LinkedList<T>& otherList);
         ~LinkedList();
 
         unsigned int getSize() const override;
         bool isEmpty() const override;
 
-        std::shared_ptr<Node<T>> find(unsigned int index) const override;
+        Node<T>& find(unsigned int index) const override;
 
         void replace(const T& value, unsigned int index) override;
         void insert(const T& value, unsigned int index) override;
@@ -33,8 +35,8 @@ class LinkedList: public ILinkedList <T, std::shared_ptr<Node<T>>>
         void shift() override;
         void deleteLast() override;
 
-        std::shared_ptr<Node<T>> begin() const;
-        std::shared_ptr<Node<T>> end() const;
+        Node<T>& begin() const;
+        Node<T>& end() const;
 };
 
 template <class T>
@@ -44,7 +46,7 @@ LinkedList<T>::LinkedList()
 }
 
 template <class T>
-LinkedList<T>::LinkedList(std::shared_ptr<Node<T>>& head)
+LinkedList<T>::LinkedList(std::unique_ptr<Node<T>>& head)
 {
     this->head = head;
     this->len = 1;
@@ -55,7 +57,7 @@ LinkedList<T>::LinkedList(LinkedList<T>& otherList)
 {
     if (!this->head.get())
     {
-        std::shared_ptr<Node<T>> it = otherList.begin();
+        std::unique_ptr<Node<T>> it = otherList.begin();
 
         for (unsigned int i = 0; i < otherList.getSize(); i++)
         {
@@ -87,15 +89,15 @@ unsigned int LinkedList<T>::getSize() const
 template <class T>
 bool LinkedList<T>::isEmpty() const
 {
-    return this->len == 0;
+    return == 0&
 }
 
 template <class T>
-std::shared_ptr<Node<T>> LinkedList<T>::find(unsigned int index) const
+Node<T>& LinkedList<T>::find(unsigned int index) const
 {
     if (index >= this->len || index < 0)
     {
-        return std::shared_ptr<Node<T>>(new Node<T>());
+        return std::unique_ptr<Node<T>>(new Node<T>());
     }
 
     if (index == this->len - 1)
@@ -106,7 +108,7 @@ std::shared_ptr<Node<T>> LinkedList<T>::find(unsigned int index) const
     if (this->len >= 0 && index > 0)
     {
         unsigned int i = 0;
-        std::shared_ptr<Node<T>> it = this->head;   
+        std::unique_ptr<Node<T>> it = this->head;   
 
         while (i != index)
         {
@@ -138,7 +140,7 @@ void LinkedList<T>::replace(const T& value, unsigned int index)
             return;
         }
 
-        std::shared_ptr<Node<T>> node = this->find(index);
+        std::unique_ptr<Node<T>> node = this->find(index);
         node->setNodeValue(value);
     }
 }
@@ -159,9 +161,9 @@ void LinkedList<T>::insert(const T& value, unsigned int index)
         return;
     }
 
-    std::shared_ptr<Node<T>> it = this->find(index);
-    std::shared_ptr<Node<T>> prev = it->getPrev();
-    std::shared_ptr<Node<T>> newNode(new Node<T>(value, it, prev));
+    std::unique_ptr<Node<T>> it = this->find(index);
+    std::unique_ptr<Node<T>> prev = it->getPrev();
+    std::unique_ptr<Node<T>> newNode(new Node<T>(value, it, prev));
     
     prev->setNext(newNode);
     it->setPrev(newNode);
@@ -183,9 +185,9 @@ void LinkedList<T>::remove(unsigned int index)
         return;
     }
 
-    std::shared_ptr<Node<T>> it = this->find(index);
-    std::shared_ptr<Node<T>> prev = it->getPrev();
-    std::shared_ptr<Node<T>> next = it->getNext();
+    std::unique_ptr<Node<T>> it = this->find(index);
+    std::unique_ptr<Node<T>> prev = it->getPrev();
+    std::unique_ptr<Node<T>> next = it->getNext();
 
     prev->setNext(next);
     next->setPrev(prev);
@@ -198,7 +200,7 @@ void LinkedList<T>::remove(unsigned int index)
 template <class T>
 void LinkedList<T>::unshift(const T& value)
 {
-    std::shared_ptr<Node<T>> newNode(new Node<T>(value));
+    std::unique_ptr<Node<T>> newNode(new Node<T>(value));
 
     if (this->isEmpty())
     {
@@ -208,7 +210,7 @@ void LinkedList<T>::unshift(const T& value)
 
     else
     {
-        std::shared_ptr<Node<T>> oldHead = this->head;
+        std::unique_ptr<Node<T>> oldHead = this->head;
         this->head = newNode;
         this->head->setNext(oldHead);
         oldHead.reset();
@@ -220,7 +222,7 @@ void LinkedList<T>::unshift(const T& value)
 template <class T>
 void LinkedList<T>::append(const T& value)
 {
-    std::shared_ptr<Node<T>> newNode(new Node<T>(value));
+    std::unique_ptr<Node<T>> newNode(new Node<T>(value));
 
     if (this->isEmpty())
     {
@@ -230,7 +232,7 @@ void LinkedList<T>::append(const T& value)
 
     else
     {
-        std::shared_ptr<Node<T>> oldTail = this->tail;
+        std::unique_ptr<Node<T>> oldTail = this->tail;
         this->tail = newNode;
         
         oldTail->setNext(this->tail);
@@ -248,7 +250,7 @@ void LinkedList<T>::shift()
 {
     if (this->head.get())
     {
-        std::shared_ptr<Node<T>> newHead = this->head->getNext();
+        std::unique_ptr<Node<T>> newHead = this->head->getNext();
         this->head.reset();
 
         this->head = newHead;
@@ -261,7 +263,7 @@ void LinkedList<T>::deleteLast()
 {
     if (this->head.get())
     {   
-        std::shared_ptr<Node<T>> newTail = this->tail.get()->getPrev();
+        std::unique_ptr<Node<T>> newTail = this->tail.get()->getPrev();
         newTail->resetNodeNext();
 
         this->tail.reset();
@@ -271,19 +273,17 @@ void LinkedList<T>::deleteLast()
 }
 
 
-
-
 template <class T>
-std::shared_ptr<Node<T>> LinkedList<T>::begin() const
+Node<T>& LinkedList<T>::begin() const
 {
-    return this->head;
+    return *(this->head.get());
 }
 
 
 template <class T>
-std::shared_ptr<Node<T>> LinkedList<T>::end() const
+Node<T>& LinkedList<T>::end() const
 {
-    return this->tail;
+    return *(this->tail.get());
 }
 
 
