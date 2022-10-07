@@ -1,38 +1,33 @@
-// #include "./LinkedList/LinkedList.h"
-#include "./Node.h"
+#include "./LinkedList/LinkedList.h"
 
 #include <iostream>
-#include <memory>
+
+#include "Node.h"
 
 int main(int argc, char const *argv[])
 {
-    std::unique_ptr<Node<int>> first(new Node<int>(10));
-    std::unique_ptr<Node<int>> third(new Node<int>(30, first));
 
-    Node<int>& node = third->copy();
-    std::cout << node;
+    Node<int> al(10);
+    Node<int> am(20, &al);
+    Node<int> at(am);
 
-    // LinkedList<int> list;
-    
-    // list.append(1);
-    // list.append(2);
-    // list.append(3);
-    // list.append(4);
-    // list.append(5);
 
-    // std::shared_ptr<Node<int>> node = list.find(1);
+    LinkedList<int> list;
 
-    // // list.replace(6, 2);
-    // // list.replace(9, list.getSize() - 1);
-    // // list.replace(10, 0);
+    list.append(1);
+    list.append(2);
+    list.append(3);
+    list.append(4);
+    list.append(5);
 
-    // list.insert(7, 3);
-    // list.remove(3);
+    list.insert(8, 1);
 
-    // LinkedList<int> list2(list);
-    // std::cout << list << std::endl;
+    std::cout << list;
 
-    // std::cout << list2;
+    list.remove(1);
+
+    std::cout << list;
+
 
     return 0;
 }

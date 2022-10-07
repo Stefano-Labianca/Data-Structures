@@ -4,111 +4,126 @@
 #include "ILinkedList.h"
 #include "../Node.h"
 
-// TODO: Sistemarla con gli unique_ptr
 
 template <class T>
-class LinkedList: public ILinkedList <T, std::unique_ptr<Node<T>>>
+class LinkedList: public ILinkedList<T, Node<T>*>
 {
-
     private:
-        std::unique_ptr<Node<T>> head;
-        std::unique_ptr<Node<T>> tail;
-        unsigned int len;
- 
+        Node<T>* _head;
+        Node<T>* _tail;
+        uint32_t _len;
+
     public:
         LinkedList();
-        LinkedList(std::unique_ptr<Node<T>>& head);
+        LinkedList(const T& value);
         LinkedList(LinkedList<T>& otherList);
         ~LinkedList();
 
-        unsigned int getSize() const override;
+        uint32_t getSize() const override;
         bool isEmpty() const override;
 
-        Node<T>& find(unsigned int index) const override;
-
-        void replace(const T& value, unsigned int index) override;
-        void insert(const T& value, unsigned int index) override;
-        void remove(unsigned int index);
+        Node<T>* find(uint32_t index) const override;
+        void insert(const T& value, uint32_t index) override;
+        void remove(uint32_t index);
 
         void unshift(const T& value) override;
         void append(const T& value) override;
         void shift() override;
         void deleteLast() override;
 
-        Node<T>& begin() const;
-        Node<T>& end() const;
+        Node<T>* begin() const;
+        Node<T>* end() const;
 };
 
 template <class T>
 LinkedList<T>::LinkedList()
 {
-    this->len = 0;
+    this->_len = 0;
+    this->_head = nullptr;
+    this->_tail = nullptr;
 }
 
 template <class T>
-LinkedList<T>::LinkedList(std::unique_ptr<Node<T>>& head)
+LinkedList<T>::LinkedList(const T& value)
 {
-    this->head = head;
-    this->len = 1;
+    Node<T> newHead(value);
+
+    this->_head = &newHead;
+    this->_len = 1;
 }
 
 template <class T>
 LinkedList<T>::LinkedList(LinkedList<T>& otherList)
 {
-    if (!this->head.get())
-    {
-        std::unique_ptr<Node<T>> it = otherList.begin();
+    // if (!this->_head)
+    // {
+    //     std::unique_ptr<Node<T>> it = otherList.begin();
 
-        for (unsigned int i = 0; i < otherList.getSize(); i++)
-        {
-            T value = it->getNodeValue();
-            this->append(value);
+    //     for (uint32_t i = 0; i < otherList.getSize(); i++)
+    //     {
+    //         T value = it->getNodeValue();
+    //         this->append(value);
 
-            it = it->getNext();
-        }
-    } 
+    //         it = it->getNext();
+    //     }
+    // } 
 }
 
 template <class T>
 LinkedList<T>::~LinkedList()
 {
-    while (this->head.get())
+    Node<T>* it = this->_head->getNext();
+    Node<T>* head = this->_head;
+
+    while (it)
     {
-        this->head = this->head->getNext();
+        Node<T>* tempIt = it->getNext();
+        delete it;
+
+        it = tempIt;
+        this->_len--;
     }
+
+    delete head;
+    this->_len--;
 }
 
 
 template <class T>
-unsigned int LinkedList<T>::getSize() const
+uint32_t LinkedList<T>::getSize() const
 {
-    return this->len;
+    return this->_len;
 }
 
 
 template <class T>
 bool LinkedList<T>::isEmpty() const
 {
-    return == 0&
+    return this->_len == 0;
 }
 
 template <class T>
-Node<T>& LinkedList<T>::find(unsigned int index) const
+Node<T>* LinkedList<T>::find(uint32_t index) const
 {
-    if (index >= this->len || index < 0)
+    if (index >= this->_len)
     {
-        return std::unique_ptr<Node<T>>(new Node<T>());
+        index %= this->_len; 
     }
 
-    if (index == this->len - 1)
+    if (index == this->_len - 1)
     {
-        return this->tail;
+        return this->_tail;
     }
 
-    if (this->len >= 0 && index > 0)
+    if (index == 0)
     {
-        unsigned int i = 0;
-        std::unique_ptr<Node<T>> it = this->head;   
+        return this->_head;
+    }
+
+    if (this->_len >= 0 && index > 0)
+    {
+        uint32_t i = 0;
+        Node<T>* it = this->_head;   
 
         while (i != index)
         {
@@ -119,35 +134,13 @@ Node<T>& LinkedList<T>::find(unsigned int index) const
         return it;
     }
 
-    return this->head;
+    return nullptr;
 }
 
 
-template <class T>
-void LinkedList<T>::replace(const T& value, unsigned int index)
-{
-    if (!this->isEmpty() && index >= 0 && index < this->len)
-    {
-        if (index == 0)
-        {
-            this->head->setNodeValue(value);
-            return;
-        }
-
-        if (index == this->len - 1)
-        {
-            this->tail->setNodeValue(value);
-            return;
-        }
-
-        std::unique_ptr<Node<T>> node = this->find(index);
-        node->setNodeValue(value);
-    }
-}
-
 
 template <class T>
-void LinkedList<T>::insert(const T& value, unsigned int index)
+void LinkedList<T>::insert(const T& value, uint32_t index)
 {
     if (this->isEmpty() || index == 0)
     {
@@ -155,135 +148,156 @@ void LinkedList<T>::insert(const T& value, unsigned int index)
         return;
     }
 
-    if (index == this->len - 1)
+    if (index == this->_len - 1)
     {
         this->append(value);
         return;
     }
 
-    std::unique_ptr<Node<T>> it = this->find(index);
-    std::unique_ptr<Node<T>> prev = it->getPrev();
-    std::unique_ptr<Node<T>> newNode(new Node<T>(value, it, prev));
+    Node<T>* it = this->find(index);
+    Node<T>* prev = it->getPrev();
     
+    Node<T>* newNode = new Node<T>;
+    newNode->setNodeValue(value);
+
     prev->setNext(newNode);
+    newNode->setPrev(prev);
+    
+    newNode->setNext(it);
     it->setPrev(newNode);
-    this->len += 1;
+
+    this->_len += 1;
 }
 
 template <class T>
-void LinkedList<T>::remove(unsigned int index)
+void LinkedList<T>::remove(uint32_t index)
 {
-    if (this->isEmpty() || index == 0)
+
+    if (!this->isEmpty())
     {
-        this->shift();
-        return;
+        if (index == 0)
+        {
+            this->shift();
+            return;
+        }
+
+        if (index == this->_len - 1)
+        {
+            this->deleteLast();
+            return;
+        }
     }
 
-    if (index == this->len - 1)
-    {
-        this->deleteLast();
-        return;
-    }
 
-    std::unique_ptr<Node<T>> it = this->find(index);
-    std::unique_ptr<Node<T>> prev = it->getPrev();
-    std::unique_ptr<Node<T>> next = it->getNext();
+    Node<T>* it = this->find(index);
+    Node<T>* prev = it->getPrev();
+    Node<T>* next = it->getNext();
 
     prev->setNext(next);
     next->setPrev(prev);
 
-    it.reset();
-    this->len -= 1;
+    delete it;
+    it = nullptr;
+
+    this->_len -= 1;
 
 }
 
 template <class T>
 void LinkedList<T>::unshift(const T& value)
 {
-    std::unique_ptr<Node<T>> newNode(new Node<T>(value));
+    Node<T>* newNode = new Node<T>;
+    newNode->setNodeValue(value);
 
     if (this->isEmpty())
     {
-        this->head = newNode;
-        this->tail = newNode;
+        this->_head = newNode;
+        this->_tail = newNode;
     }
 
     else
     {
-        std::unique_ptr<Node<T>> oldHead = this->head;
-        this->head = newNode;
-        this->head->setNext(oldHead);
-        oldHead.reset();
+        Node<T>* oldHead = this->_head;
+        this->_head = newNode;
+
+        this->_head->setNext(oldHead);
+        oldHead->setPrev(this->_head);
     }
 
-    this->len += 1;
+    this->_len += 1;
 }
 
 template <class T>
 void LinkedList<T>::append(const T& value)
 {
-    std::unique_ptr<Node<T>> newNode(new Node<T>(value));
+    Node<T>* newNode = new Node<T>;
+    newNode->setNodeValue(value);
 
     if (this->isEmpty())
     {
-        this->head = newNode;
-        this->tail = newNode;
+        this->_head = newNode;
+        this->_tail = newNode;
     }
 
     else
     {
-        std::unique_ptr<Node<T>> oldTail = this->tail;
-        this->tail = newNode;
-        
-        oldTail->setNext(this->tail);
-        this->tail->setPrev(oldTail);
-
-        oldTail.reset();
+        this->_tail->setNext(newNode);
+        newNode->setPrev(this->_tail);
+        this->_tail = newNode;
     }
 
-    this->len += 1;
+    this->_len += 1;
 }
 
 
 template <class T>
 void LinkedList<T>::shift()
 {
-    if (this->head.get())
+    if (this->_head)
     {
-        std::unique_ptr<Node<T>> newHead = this->head->getNext();
-        this->head.reset();
+        Node<T>* newHead = this->_head->getNext();
+        Node<T>* oldHead = this->_head;
 
-        this->head = newHead;
-        this->len -= 1;
+        this->_head = newHead;
+
+        delete oldHead;
+        oldHead = nullptr;
+        this->_head->setPrev(nullptr);
+
+        this->_len -= 1;
     }
 }
 
 template <class T>
 void LinkedList<T>::deleteLast()
 {
-    if (this->head.get())
+    if (this->_head)
     {   
-        std::unique_ptr<Node<T>> newTail = this->tail.get()->getPrev();
-        newTail->resetNodeNext();
+        Node<T>* newTail = this->_tail->getPrev();
 
-        this->tail.reset();
-        this->tail = newTail;
-        this->len -= 1;
+        delete this->_tail;
+        this->_tail = nullptr;
+
+        newTail->setNext(nullptr);
+        
+        this->_tail = newTail;
+        this->_len -= 1;
+
     }
 }
 
 
 template <class T>
-Node<T>& LinkedList<T>::begin() const
+Node<T>* LinkedList<T>::begin() const
 {
-    return *(this->head.get());
+    return this->_head;
 }
 
 
 template <class T>
-Node<T>& LinkedList<T>::end() const
+Node<T>* LinkedList<T>::end() const
 {
-    return *(this->tail.get());
+    return this->_tail;
 }
 
 

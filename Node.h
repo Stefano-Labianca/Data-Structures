@@ -2,66 +2,72 @@
 #define _NODE_H
 
 #include <iostream>
-#include <memory>
 
 template <class T>
 class Node
 {
     private:
         T value;
-        std::unique_ptr<Node<T>> next;
-        std::unique_ptr<Node<T>> prev; 
+        Node<T>* next;
+        Node<T>* prev; 
 
     public:
         Node();
         Node(const T& value);
-        Node(const T& value, std::unique_ptr<Node<T>>& next);
-        Node(const T& value, std::unique_ptr<Node<T>>& next, std::unique_ptr<Node<T>>& prev);
+        Node(const T& value, Node<T>* next);
+        Node(const T& value, Node<T>* next, Node<T>* prev);
+        Node(const Node<T>& source);
 
         T getNodeValue();
-        Node<T>& getNext();
-        Node<T>& getPrev();
-        Node<T>& copy();
+        Node<T>* getNext();
+        Node<T>* getPrev();
 
         void setNodeValue(const T& value);
-        void setNext(std::unique_ptr<Node<T>>& next);
-        void setPrev(std::unique_ptr<Node<T>>& prev);
-        void resetNodePointers();
-        void resetNodeNext();
-        void resetNodePrev();
-
+        void setNext(Node<T>* next);
+        void setPrev(Node<T>* prev);
+ 
         template <class V>
-        friend std::ostream& operator<<(std::ostream& out, const Node<V>& node);
+        friend std::ostream& operator<<(std::ostream& out, const Node<V>* node);
 };
 
 template <class T>
-Node<T>::Node() = default;
-
-template <class T>
-Node<T>::Node(const T& value): value(value) { }
-
-template <class T>
-Node<T>::Node(const T& value, std::unique_ptr<Node<T>>& next)
+Node<T>::Node()
 {
-    this->value = std::move(value);
-    this->next = std::move(next);
+    this->next = nullptr;
+    this->prev = nullptr;
+}
+
+
+template <class T>
+Node<T>::Node(const T& value)
+{ 
+    this->value = value;
+    this->next = nullptr;
+    this->prev = nullptr;
 }
 
 template <class T>
-Node<T>::Node(const T& value, std::unique_ptr<Node<T>>& next, std::unique_ptr<Node<T>>& prev)
+Node<T>::Node(const T& value, Node<T>* next)
 {
     this->value = value;
-    this->next = std::move(next);
-    this->prev = std::move(prev);
+    this->next = next;
+    this->prev = nullptr;
 }
 
+template <class T>
+Node<T>::Node(const T& value, Node<T>* next, Node<T>* prev)
+{
+    this->value = value;
+    this->next = &next;
+    this->prev = &prev;
+}
 
 template <class T>
-std::ostream& operator<<(std::ostream& out, const Node<T>& node)
+Node<T>::Node(const Node<T>& source)
 {
-    out << "{ " << node.value << " }" << std::endl;
-
-    return out;
+    this->value = source.value;
+    this->prev = source.prev;
+    this->next = source.next;
 }
 
 
@@ -72,22 +78,18 @@ T Node<T>::getNodeValue()
 }
 
 template <class T>
-Node<T>& Node<T>::getNext()
+Node<T>* Node<T>::getNext()
 {
-    return *(this->next.get());
+    return this->next;
 }
 
 template <class T>
-Node<T>& Node<T>::getPrev()
+Node<T>* Node<T>::getPrev()
 {
-    return *(this->prev.get());
+    return this->prev;
 }
 
-template <class T>
-Node<T>& Node<T>::copy()
-{
-    return *this;
-}
+
 
 template <class T>
 void Node<T>::setNodeValue(const T& value)
@@ -96,35 +98,25 @@ void Node<T>::setNodeValue(const T& value)
 }
 
 template <class T>
-void Node<T>::setNext(std::unique_ptr<Node<T>>& next)
+void Node<T>::setNext(Node<T>* next)
 {
-    this->next = std::move(next);
+    this->next = next;
 }
 
 template <class T>
-void Node<T>::setPrev(std::unique_ptr<Node<T>>& prev)
+void Node<T>::setPrev(Node<T>* prev)
 {
-    this->prev = std::move(prev);
-}
-
-template <class T>
-void Node<T>::resetNodePointers()
-{
-    this->prev.reset();
-    this->next.reset();
+    this->prev = prev;
 }
 
 
 template <class T>
-void Node<T>::resetNodeNext()
+std::ostream& operator<<(std::ostream& out, const Node<T>* node)
 {
-    this->next.reset();
+    out << "{ " << node->value << " }" << std::endl;
+
+    return out;
 }
 
-template <class T>
-void Node<T>::resetNodePrev()
-{
-    this->prev.reset();
-}
 
 #endif
