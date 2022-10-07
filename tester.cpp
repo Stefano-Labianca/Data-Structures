@@ -26,8 +26,11 @@ int main(int argc, char const *argv[])
 
     list.remove(1);
 
-    std::cout << list;
+    std::cout << "Prima Lista: " << list;
 
+    LinkedList<int> sList(list);
+
+    std::cout << "Seconda Lista: " << sList;
 
     return 0;
 }

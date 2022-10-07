@@ -90,7 +90,6 @@ Node<T>* Node<T>::getPrev()
 }
 
 
-
 template <class T>
 void Node<T>::setNodeValue(const T& value)
 {

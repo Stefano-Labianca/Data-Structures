@@ -55,18 +55,24 @@ LinkedList<T>::LinkedList(const T& value)
 template <class T>
 LinkedList<T>::LinkedList(LinkedList<T>& otherList)
 {
-    // if (!this->_head)
-    // {
-    //     std::unique_ptr<Node<T>> it = otherList.begin();
+    if (!otherList.isEmpty())
+    {
+        this->_len = 0;
+        this->_head = nullptr;
+        this->_tail = nullptr;
 
-    //     for (uint32_t i = 0; i < otherList.getSize(); i++)
-    //     {
-    //         T value = it->getNodeValue();
-    //         this->append(value);
+        Node<T>* it = otherList.begin();
 
-    //         it = it->getNext();
-    //     }
-    // } 
+        for (uint32_t i = 0; i < otherList.getSize(); i++)
+        {
+            T value = it->getNodeValue();
+            this->append(value);
+            it = it->getNext();
+        }
+
+        delete it;
+        it = nullptr;
+    } 
 }
 
 template <class T>
