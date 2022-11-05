@@ -1,7 +1,7 @@
 CMakeFiles/structures.dir/tester.cpp.obj: \
  C:\Users\Utente\Desktop\Data-Structures\tester.cpp \
- c:\users\utente\desktop\data-structures\linkedlist\linkedlist.h \
- c:\users\utente\desktop\data-structures\linkedlist\ILinkedList.h \
+ c:\users\utente\desktop\data-structures\stack\stack.h \
+ c:\users\utente\desktop\data-structures\stack\IStack.h \
  d:\mingw64\include\c++\12.1.0\iostream \
  d:\mingw64\include\c++\12.1.0\x86_64-w64-mingw32\bits\c++config.h \
  d:\mingw64\include\c++\12.1.0\x86_64-w64-mingw32\bits\os_defines.h \
@@ -139,24 +139,8 @@ CMakeFiles/structures.dir/tester.cpp.obj: \
  d:\mingw64\include\c++\12.1.0\bits\ostream.tcc \
  d:\mingw64\include\c++\12.1.0\istream \
  d:\mingw64\include\c++\12.1.0\bits\istream.tcc \
- c:\users\utente\desktop\data-structures\node.h \
- d:\mingw64\include\c++\12.1.0\memory \
+ d:\mingw64\include\c++\12.1.0\vector \
  d:\mingw64\include\c++\12.1.0\bits\stl_uninitialized.h \
- d:\mingw64\include\c++\12.1.0\bits\stl_tempbuf.h \
- d:\mingw64\include\c++\12.1.0\bits\stl_raw_storage_iter.h \
- d:\mingw64\include\c++\12.1.0\bits\align.h \
- d:\mingw64\include\c++\12.1.0\bit \
- d:\mingw64\include\c++\12.1.0\bits\uses_allocator.h \
- d:\mingw64\include\c++\12.1.0\bits\unique_ptr.h \
- d:\mingw64\include\c++\12.1.0\tuple \
- d:\mingw64\include\c++\12.1.0\bits\shared_ptr.h \
- d:\mingw64\include\c++\12.1.0\bits\shared_ptr_base.h \
- d:\mingw64\include\c++\12.1.0\bits\allocated_ptr.h \
- d:\mingw64\include\c++\12.1.0\ext\aligned_buffer.h \
- d:\mingw64\include\c++\12.1.0\ext\concurrence.h \
- d:\mingw64\include\c++\12.1.0\bits\shared_ptr_atomic.h \
- d:\mingw64\include\c++\12.1.0\bits\atomic_base.h \
- d:\mingw64\include\c++\12.1.0\bits\atomic_lockfree_defines.h \
- d:\mingw64\include\c++\12.1.0\backward\auto_ptr.h \
- d:\mingw64\include\c++\12.1.0\pstl\glue_memory_defs.h \
- d:\mingw64\include\c++\12.1.0\pstl\execution_defs.h
+ d:\mingw64\include\c++\12.1.0\bits\stl_vector.h \
+ d:\mingw64\include\c++\12.1.0\bits\stl_bvector.h \
+ d:\mingw64\include\c++\12.1.0\bits\vector.tcc
