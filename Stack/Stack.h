@@ -3,7 +3,6 @@
 
 
 #include "IStack.h"
-#include <exception>
 
 #include "../LinkedList/LinkedList.h"
 
@@ -58,34 +57,43 @@ StackNode<T>* StackNode<T>::getNodeNext()
 
 // ----------------------------------
 
-
 template <class T>
 class Stack : public IStack<T, StackNode<T>*>
 {
+    public:
+        typedef typename IStack<T, StackNode<T>*>::Type Type;
+        typedef typename IStack<T, StackNode<T>*>::Iterator Iterator;
+
     private:
-        StackNode<T>* _top;
+        Iterator _top;
         uint32_t _size;
 
     public:
         Stack();
-        explicit Stack(const StackNode<T>& top);
+        explicit Stack(const Iterator & top);
         Stack(const Stack<T>& source);
         ~Stack();
         
         bool isEmpty() const override;
-        T peek() const override;
-        void push(const T& item) override;
-        StackNode<T>* pop() override;
+        Type peek() const override;
+        void push(const Type& item) override;
+        void pop() override;
         
-        void write(const T& value, uint32_t index);
-        T read(uint32_t index) const;
+        void write(const Type& value, uint32_t index);
+        Type at(uint32_t index) const;
 
-        StackNode<T>* getTopNode() const;
-        int indexOf(const T& value) const;
+        Iterator end() const;
+        Iterator begin() const;
+        Iterator next(Iterator pos) const override;
+
+        Type read(const Iterator pos) const;
+        bool isEnd(const Iterator pos) const;
+
+        int indexOf(const Type& value) const;
 
         Stack<T>& operator=(const Stack<T>& stack);
         bool operator==(const Stack<T>& stack) const;
-
+        bool operator!=(const Stack<T>& stack) const;
 };
 
 template <class T>
@@ -97,7 +105,7 @@ Stack<T>::Stack()
 
 
 template <class T>
-Stack<T>::Stack(const StackNode<T>& top)
+Stack<T>::Stack(const Iterator& top)
 {
     this->_top = &top;
     this->_size = 1;
@@ -107,7 +115,7 @@ template <class T>
 Stack<T>::Stack(const Stack<T>& source)
 {
     LinkedList<T> list;
-    StackNode<T>* it = source._top;
+    Iterator it = source._top;
     this->_size = 0;
     this->_top = nullptr;
 
@@ -118,6 +126,7 @@ Stack<T>::Stack(const Stack<T>& source)
     }
 
     delete it;
+    it = nullptr;
 
     Node<T>* itList = list.begin();
 
@@ -128,6 +137,7 @@ Stack<T>::Stack(const Stack<T>& source)
     }
 
     delete itList;
+    itList = nullptr;
 }
 
 
@@ -136,23 +146,62 @@ Stack<T>::~Stack()
 {
     while (!this->isEmpty())
     {
-        delete this->pop();
+        this->pop();
     }
+
+    delete this->_top;
 }
 
 
 template <class T>
-T Stack<T>::peek() const
+typename Stack<T>::Type Stack<T>::peek() const
 {
     return this->_top->_value;
 }
 
 
 template <class T>
-StackNode<T>* Stack<T>::getTopNode() const
+typename Stack<T>::Iterator Stack<T>::begin() const
 {
     return this->_top;
 }
+
+template <class T>
+typename Stack<T>::Type Stack<T>::read(const Iterator pos) const
+{
+    if (!this->isEnd(pos) && !this->isEmpty())
+    {
+        return pos->_value;
+    }
+}
+
+
+template <class T>
+bool Stack<T>::isEnd(const Iterator pos) const
+{
+    return pos == nullptr;
+}
+
+
+template <class T>
+typename Stack<T>::Iterator Stack<T>::next(Iterator pos) const
+{
+    return pos->_next;
+}
+
+template <class T>
+typename Stack<T>::Iterator Stack<T>::end() const
+{
+    Iterator it = this->begin();
+
+    while (!this->isEnd(it))
+    {
+        it = this->next(it);
+    }
+
+    return it;
+}
+
 
 template <class T>
 bool Stack<T>::isEmpty() const
@@ -162,38 +211,35 @@ bool Stack<T>::isEmpty() const
 
 
 template <class T>
-StackNode<T>* Stack<T>::pop()
+void Stack<T>::pop()
 {
     if (!this->isEmpty())
     {
-        StackNode<T>* oldTop = this->_top;
+        Iterator oldTop = this->_top;
         this->_top = oldTop->_next;
-
         this->_size--;
 
-        return oldTop;        
+        delete oldTop;
+        oldTop = nullptr;
     }
-
-    return nullptr;
 }
 
 
 template <class T>
-void Stack<T>::push(const T& item)
+void Stack<T>::push(const Type& item)
 {
-    StackNode<T>* newTop = new StackNode<T>;
+    Iterator newTop = new StackNode<T>;
     newTop->_value = item;
 
     newTop->_next = this->_top;
     this->_top = newTop;
-
     this->_size++;
 }
 
 template <class T>
-int Stack<T>::indexOf(const T& value) const
+int Stack<T>::indexOf(const Type& value) const
 {
-    StackNode<T>* it = this->_top;
+    Iterator it = this->_top;
     int index = 0;
 
     while (it)
@@ -212,11 +258,11 @@ int Stack<T>::indexOf(const T& value) const
 
 
 template <class T>
-void Stack<T>::write(const T& value, uint32_t index) 
+void Stack<T>::write(const Type& value, uint32_t index)
 {
     if (index > 0 && index < this->_size)
     {   
-        StackNode<T>* it = this->_top;
+        Iterator it = this->_top;
         uint32_t i = 0;
 
         while (it)
@@ -235,11 +281,11 @@ void Stack<T>::write(const T& value, uint32_t index)
 
 
 template <class T>
-T Stack<T>::read(uint32_t index) const
+typename Stack<T>::Type Stack<T>::at(uint32_t index) const
 {
     if (index > 0 && index < this->_size)
     {   
-        StackNode<T>* it = this->_top;
+        Iterator it = this->_top;
         uint32_t i = 0;
 
         while (it)
@@ -277,12 +323,38 @@ bool Stack<T>::operator==(const Stack<T>& stack) const
         return false;
     }
 
-    StackNode<T>* itCurrent = this->_top;
-    StackNode<T>* itSource = stack._top;
+    Iterator itCurrent = this->_top;
+    Iterator itSource = stack._top;
 
     while (itCurrent)
     {
         if (itCurrent->_value != itSource->_value)
+        {
+            return false;
+        }
+
+        itCurrent = itCurrent->_next;
+        itSource = itSource->_next;
+    }
+    
+    return true;
+}
+
+
+template <class T>
+bool Stack<T>::operator!=(const Stack<T>& stack) const
+{
+    if (stack._size != this->_size)
+    {
+        return true;
+    }
+
+    Iterator itCurrent = this->_top;
+    Iterator itSource = stack._top;
+
+    while (itCurrent)
+    {
+        if (itCurrent->_value == itSource->_value)
         {
             return false;
         }

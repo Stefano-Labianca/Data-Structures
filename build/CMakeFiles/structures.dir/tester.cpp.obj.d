@@ -139,8 +139,7 @@ CMakeFiles/structures.dir/tester.cpp.obj: \
  d:\mingw64\include\c++\12.1.0\bits\ostream.tcc \
  d:\mingw64\include\c++\12.1.0\istream \
  d:\mingw64\include\c++\12.1.0\bits\istream.tcc \
- d:\mingw64\include\c++\12.1.0\vector \
- d:\mingw64\include\c++\12.1.0\bits\stl_uninitialized.h \
- d:\mingw64\include\c++\12.1.0\bits\stl_vector.h \
- d:\mingw64\include\c++\12.1.0\bits\stl_bvector.h \
- d:\mingw64\include\c++\12.1.0\bits\vector.tcc
+ c:\users\utente\desktop\data-structures\linkedlist\linkedlist.h \
+ c:\users\utente\desktop\data-structures\linkedlist\ILinkedList.h \
+ c:\users\utente\desktop\data-structures\node.h \
+ c:\users\utente\desktop\data-structures\stack\arraystack.h
