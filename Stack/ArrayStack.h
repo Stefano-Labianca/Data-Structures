@@ -2,7 +2,7 @@
 #define _ARRAY_STACK_H
 
 #include "IStack.h"
-#include "../color.hpp"
+// #include "../color.hpp"
 
 
 class IndexOutOfBoundException : public std::exception
@@ -13,10 +13,9 @@ class IndexOutOfBoundException : public std::exception
     public:
         IndexOutOfBoundException(std::size_t userIndex, std::size_t maxIndex, uint32_t codeLine, const char* fileName)
         {
-            std::cout << dye::red("IndexOutOfBound: Accesso con indice negativo o con indice superiore al massimo.") << std::endl;
-            // this->_msg = "IndexOutOfBound: Accesso con indice negativo o con indice superiore al massimo.\n";
-            // this->_msg = "Riga: " + std::to_string(codeLine) + "\n";
-            this->_msg = "Riga: " + std::to_string(codeLine) + "\n";
+            // std::cout << dye::red("IndexOutOfBound: Accesso con indice negativo o con indice superiore al massimo.") << std::endl;
+            this->_msg = "IndexOutOfBound: Accesso con indice negativo o con indice superiore al massimo.\n";
+            this->_msg += "Riga: " + std::to_string(codeLine) + "\n";
             this->_msg += "File: " + std::string(fileName) + "\n";
             this->_msg += "Il tuo indice: " + std::to_string(userIndex) + "\n";
             this->_msg += "L'indice minimo: 0\n";
@@ -30,16 +29,20 @@ class IndexOutOfBoundException : public std::exception
 };
 
 
-
+/**
+ * @brief Classe che implementa la struttura dati dello Stack attraverso un array
+ * 
+ * @tparam T Tipo di dato memorizzato all'interno della struttura
+ */
 template <class T>
 class ArrayStack : public IStack<T, std::size_t>
 {
     public:
-        typedef typename IStack<T, std::size_t>::Type Type;
-        typedef typename IStack<T, std::size_t>::Iterator Iterator;
+        typedef typename IStack<T, std::size_t>::Type Type; 
+        typedef typename IStack<T, std::size_t>::Iterator Iterator; 
 
     private:
-        static const Iterator _DEFAULT_SIZE = 16ULL;
+        static const Iterator _DEFAULT_SIZE = 16ULL; // Dimensioni di default dell'array
 
         Type* _array; // Array che simula uno stack
         Iterator _size; // Dimensioni dell'array
@@ -61,6 +64,7 @@ class ArrayStack : public IStack<T, std::size_t>
 
         bool isEnd(const Iterator pos) const;
         Type read(const Iterator pos) const override;
+        void write(const Type& item, const Iterator pos) const override;
 
         Type peek() const override;
         Iterator getSize() const;
@@ -72,7 +76,11 @@ class ArrayStack : public IStack<T, std::size_t>
         Type& operator[](Iterator pos);
 };
 
-
+/**
+ * @brief Crea un'istanza della classe ArrayStack con dimensioni massime di default pari a 16
+ * 
+ * @tparam T Tipo di dato memorizzato nella struttura dati
+ */
 template <class T>
 ArrayStack<T>::ArrayStack()
 {
@@ -81,7 +89,12 @@ ArrayStack<T>::ArrayStack()
     this->_headIndex = 0;
 }
 
-
+/**
+ * @brief Crea un'stanza della classe ArrayStack con dimensioni massime pari a size
+ * 
+ * @tparam T Tipo di dato memorizzato nella struttura dati
+ * @param size Dimensioni massime dell'array
+ */
 template <class T>
 ArrayStack<T>::ArrayStack(Iterator size)
 {
@@ -90,7 +103,12 @@ ArrayStack<T>::ArrayStack(Iterator size)
     this->_headIndex = 0;
 }
 
-
+/**
+ * @brief Costruttore di copia della classe ArrayStack
+ * 
+ * @tparam T Tipo di dato memorizzato nella struttura dati
+ * @param source Istanza della classe ArrayStack da copiare all'interno di una nuova istanza
+ */
 template <class T>
 ArrayStack<T>::ArrayStack(const ArrayStack<T>& source)
 {
@@ -104,7 +122,11 @@ ArrayStack<T>::ArrayStack(const ArrayStack<T>& source)
     }
 }
 
-
+/**
+ * @brief Distruttore della classe ArrayStack
+ * 
+ * @tparam T Tipo di dato memorizzato nella struttura
+ */
 template <class T>
 ArrayStack<T>::~ArrayStack()
 {
@@ -113,19 +135,30 @@ ArrayStack<T>::~ArrayStack()
     this->_headIndex = 0;
 }
 
-
+/**
+ * @brief Inserisce un nuovo elemento alla fine dell'array
+ * 
+ * @tparam T Tipo dell'elemento da inserire
+ * @param item Elemento da inserire
+ */
 template <class T>
 void ArrayStack<T>::push(const T& item)
 {
     if (this->_headIndex < this->_size)
     {
-        this->_array[this->_headIndex] = item;
+        uint32_t index = (this->_size - 1) - this->_headIndex;
+
+        this->_array[index] = item;
         this->_headIndex++;
     }
 
 }
 
-
+/**
+ * @brief Elimina l'ultimo elemento inserito nella struttura
+ * 
+ * @tparam T Tipo dell'elemento da eliminare
+ */
 template <class T>
 void ArrayStack<T>::pop()
 {
@@ -135,39 +168,56 @@ void ArrayStack<T>::pop()
     }
 }
 
-
+/**
+ * @brief Verifica se la struttura dati è vuota, restituendo true se è 
+ * vuota, altrimenti false.
+ * 
+ * @tparam T Tipo di dato contenuto nella struttura dati
+ * @return bool 
+ */
 template <class T>
 bool ArrayStack<T>::isEmpty() const
 {
     return this->_headIndex == 0;
 }
 
-
+/**
+ * @brief Restituisce l'elemento, inserito per ultimo, all'interno della
+ * struttura dati
+ * 
+ * @tparam T Tipo di dato dell'elemento da prelevare 
+ * @return ArrayStack<T>::Type 
+ */
 template <class T>
 typename ArrayStack<T>::Type ArrayStack<T>::peek() const
 {
     return this->_array[this->_headIndex - 1];
 }
 
-
+/**
+ * @brief Restituisce la prima posizione dell'array
+ * 
+ * @tparam T Tipo di dato contenuto nella struttura dati
+ * @return ArrayStack<T>::Iterator 
+ */
 template <class T>
 typename ArrayStack<T>::Iterator ArrayStack<T>::begin() const
 {
-    return 0;
+    return this->_size - this->_headIndex;
 }
 
 
 template <class T>
 typename ArrayStack<T>::Iterator ArrayStack<T>::end() const
 {
-    return this->_headIndex - 1;
+    return this->_size;
 }
 
 
 template <class T>
 bool ArrayStack<T>::isEnd(const Iterator pos) const
 {
-    return pos == this->_headIndex;
+    return pos == this->_size;
 }
 
 /**
@@ -209,6 +259,17 @@ typename ArrayStack<T>::Type ArrayStack<T>::read(const Iterator pos) const
         return this->_array[pos];
     }
 }
+
+
+template <class T>
+void ArrayStack<T>::write(const Type& item, const Iterator pos) const
+{
+    if (!this->isEnd(pos) && !this->isEmpty())
+    {
+        this->_array[pos] = item;
+    }
+}
+
 
 
 template <class T>
@@ -259,9 +320,8 @@ bool ArrayStack<T>::operator!=(const ArrayStack<T>& arrayStack) const
         }
     }
     
-    
     return false;
-}
+} 
 
 template <class T>
 typename ArrayStack<T>::Type& ArrayStack<T>::operator[](Iterator pos)
@@ -282,7 +342,6 @@ typename ArrayStack<T>::Type& ArrayStack<T>::operator[](Iterator pos)
         throw;
     }
 }
-
 
 
 #endif // _ARRAY_STACK_H
