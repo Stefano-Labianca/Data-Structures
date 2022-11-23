@@ -1,5 +1,5 @@
-#ifndef LINKED_LIST_H
-#define LINKED_LIST_H
+#ifndef _LINKED_LIST_H
+#define _LINKED_LIST_H
 
 #include "ILinkedList.h"
 #include "../Node.h"
@@ -308,4 +308,4 @@ Node<T>* LinkedList<T>::end() const
 
 
 
-#endif // LINKED_LIST_H
+#endif // _LINKED_LIST_H

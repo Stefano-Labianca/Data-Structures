@@ -64,7 +64,7 @@ class ArrayStack : public IStack<T, std::size_t>
 
         bool isEnd(const Iterator pos) const;
         Type read(const Iterator pos) const override;
-        void write(const Type& item, const Iterator pos) const override;
+        void write(const Type& item, const Iterator pos) const;
 
         Type peek() const override;
         Iterator getSize() const;

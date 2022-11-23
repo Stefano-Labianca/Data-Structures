@@ -1,7 +1,5 @@
 CMakeFiles/structures.dir/tester.cpp.obj: \
  C:\Users\Utente\Desktop\Data-Structures\tester.cpp \
- c:\users\utente\desktop\data-structures\stack\stack.h \
- c:\users\utente\desktop\data-structures\stack\IStack.h \
  d:\mingw64\include\c++\12.1.0\iostream \
  d:\mingw64\include\c++\12.1.0\x86_64-w64-mingw32\bits\c++config.h \
  d:\mingw64\include\c++\12.1.0\x86_64-w64-mingw32\bits\os_defines.h \
@@ -139,7 +137,5 @@ CMakeFiles/structures.dir/tester.cpp.obj: \
  d:\mingw64\include\c++\12.1.0\bits\ostream.tcc \
  d:\mingw64\include\c++\12.1.0\istream \
  d:\mingw64\include\c++\12.1.0\bits\istream.tcc \
- c:\users\utente\desktop\data-structures\linkedlist\linkedlist.h \
- c:\users\utente\desktop\data-structures\linkedlist\ILinkedList.h \
- c:\users\utente\desktop\data-structures\node.h \
- c:\users\utente\desktop\data-structures\stack\arraystack.h
+ c:\users\utente\desktop\data-structures\queue\queue.h \
+ c:\users\utente\desktop\data-structures\queue\iqueue.h

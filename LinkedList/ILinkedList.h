@@ -1,5 +1,5 @@
-#ifndef ILINKED_LIST_H
-#define ILINKED_LIST_H
+#ifndef _ILINKED_LIST_H
+#define _ILINKED_LIST_H
 
 #include <iostream>
 #include <ostream>
@@ -52,4 +52,4 @@ std::ostream& operator<<(std::ostream& out, const ILinkedList<V, U>& list)
 }
 
 
-#endif // ILINKED_LIST_H
+#endif // _ILINKED_LIST_H

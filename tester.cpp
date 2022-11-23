@@ -1,28 +1,24 @@
-#include "./Stack/Stack.h"
-#include "./Stack/ArrayStack.h"
 
 #include <iostream>
+#include "./Queue/Queue.h"
 
 
 int main(int argc, char const *argv[])
 {
-    ArrayStack<int> arrayStack;
-    Stack<int> stack;
+    Queue<int> queue;
 
-    arrayStack.push(10);
-    arrayStack.push(20);
-    arrayStack.push(30);
-    arrayStack.push(40);
+    queue.enqueue(9);
+    queue.enqueue(3);
+    queue.enqueue(39);  
 
-    stack.push(10);
-    stack.push(20);
-    stack.push(30);
-    stack.push(40);
+    Queue<int> q(queue);
 
-    std::cout << std::endl << arrayStack << std::endl;
-    std::cout << std::endl << stack << std::endl;
+    std::cout << (q == queue) << std::endl;
+    std::cout << (q != queue) << std::endl;
+    std::cout << q << std::endl;
 
-
+    q.dequeue();
+    std::cout << q << std::endl;
 
     return 0;
 }
