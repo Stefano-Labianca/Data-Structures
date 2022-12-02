@@ -1,25 +1,25 @@
 
 #include <iostream>
 #include "./Queue/Queue.h"
-
+#include "./Queue/ArrayQueue.h"
 
 int main(int argc, char const *argv[])
 {
     Queue<int> queue;
+    ArrayQueue<int> arrQueue;
 
-    queue.enqueue(9);
-    queue.enqueue(3);
-    queue.enqueue(39);  
+    // queue.enqueue(9);
+    // queue.enqueue(3);
+    // queue.enqueue(39);  
 
-    Queue<int> q(queue);
+    arrQueue.enqueue(9);
+    arrQueue.enqueue(3);
+    arrQueue.enqueue(39);  
 
-    std::cout << (q == queue) << std::endl;
-    std::cout << (q != queue) << std::endl;
-    std::cout << q << std::endl;
+    ArrayQueue<int> arrQ = arrQueue;
 
-    q.dequeue();
-    std::cout << q << std::endl;
+    std::cout << (arrQueue == arrQ) << std::endl;
+
 
     return 0;
 }
-    

@@ -46,6 +46,7 @@
         "typeinfo": "cpp",
         "bitset": "cpp",
         "stack": "cpp",
-        "list": "cpp"
+        "list": "cpp",
+        "map": "cpp"
     }
 }

@@ -53,7 +53,6 @@ void QueueNode<T>::setValue(const T& value)
 }
 
 
-
 template <class T>
 class Queue : public IQueue<T, QueueNode<T>*>
 {   
@@ -64,7 +63,7 @@ class Queue : public IQueue<T, QueueNode<T>*>
     private:
         Iterator _front; // Puntatore elemento in testa alla coda
         Iterator _back; // Puntatore elemento in fondo alla coda 
-        uint32_t _len; // Lunghezza della coda
+        std::size_t _len; // Lunghezza della coda
 
     public:
         Queue();
@@ -72,13 +71,14 @@ class Queue : public IQueue<T, QueueNode<T>*>
         ~Queue();
 
         bool isEmpty() const;
-        uint32_t getLength() const;
+        std::size_t getLength() const;
         Type read(const Iterator pos) const;
         void write(const Type& item, Iterator pos);
         
         void enqueue(const Type& item);
         void dequeue();
-        
+        Type top() const;
+
         Iterator begin() const;
         Iterator end() const;
         bool isEnd(const Iterator& pos) const;
@@ -139,7 +139,7 @@ bool Queue<T>::isEmpty() const
 
 
 template <class T>
-uint32_t Queue<T>::getLength() const
+std::size_t Queue<T>::getLength() const
 {
     return this->_len;
 }
@@ -148,7 +148,10 @@ uint32_t Queue<T>::getLength() const
 template <class T>
 typename Queue<T>::Type Queue<T>::read(const Iterator pos) const
 {
-    return pos->getValue();
+    if (pos)
+    {
+        return pos->getValue();
+    }
 }
 
 template <class T>
@@ -191,6 +194,12 @@ void Queue<T>::dequeue()
 
         this->_len--;
     }
+}
+
+template <class T>
+typename Queue<T>::Type Queue<T>::top() const
+{
+    return this->_front->_value;
 }
 
 

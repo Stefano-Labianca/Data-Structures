@@ -84,7 +84,7 @@ class ArrayStack : public IStack<T, std::size_t>
 template <class T>
 ArrayStack<T>::ArrayStack()
 {
-    this->_array = new T[this->_DEFAULT_SIZE];
+    this->_array = new Type[this->_DEFAULT_SIZE];
     this->_size = this->_DEFAULT_SIZE;
     this->_headIndex = 0;
 }
@@ -114,7 +114,7 @@ ArrayStack<T>::ArrayStack(const ArrayStack<T>& source)
 {
     this->_size = source._size;
     this->_headIndex = source._headIndex;
-    this->_array = new T[source._size];
+    this->_array = new Type[source._size];
 
     for (Iterator it = source.begin(); it < source.getLength(); it++)
     {
@@ -309,18 +309,16 @@ bool ArrayStack<T>::operator!=(const ArrayStack<T>& arrayStack) const
 {
     if (arrayStack._headIndex == this->_headIndex)
     {
-        return false;
-    }
-
-    for (Iterator it = arrayStack.begin(); it < arrayStack.getLength(); it++)
-    {
-        if (this->_array[it] == arrayStack._array[it])
+        for (Iterator it = arrayStack.begin(); it < arrayStack.getLength(); it++)
         {
-            return true;
+            if (this->_array[it] == arrayStack._array[it])
+            {
+                return true;
+            }
         }
     }
     
-    return false;
+    return true;
 } 
 
 template <class T>
