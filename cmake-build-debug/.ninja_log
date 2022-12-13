@@ -1,7 +1,15 @@
 # ninja log v5
-1	575	6905790200297233	CMakeFiles/structures.dir/tester.cpp.obj	321228b2cc783d02
-4	1033	6905790324986538	CMakeFiles/structures.dir/tester.cpp.obj	321228b2cc783d02
-5	978	6905807668515705	CMakeFiles/structures.dir/tester.cpp.obj	321228b2cc783d02
-3	701	6905807974554435	CMakeFiles/structures.dir/tester.cpp.obj	321228b2cc783d02
 5	597	6905808610781940	CMakeFiles/structures.dir/tester.cpp.obj	321228b2cc783d02
 598	821	6905808612411836	structures.exe	b4747226347a2ee8
+4	837	6926316348533627	CMakeFiles/structures.dir/tester.cpp.obj	321228b2cc783d02
+838	1875	6926316358804239	structures.exe	b4747226347a2ee8
+4	583	6926316895095748	CMakeFiles/structures.dir/tester.cpp.obj	321228b2cc783d02
+584	751	6926316896645673	structures.exe	b4747226347a2ee8
+5	839	6926318843841560	CMakeFiles/structures.dir/tester.cpp.obj	321228b2cc783d02
+840	1057	6926318845851495	structures.exe	b4747226347a2ee8
+10	614	6926318936150399	CMakeFiles/structures.dir/tester.cpp.obj	321228b2cc783d02
+615	838	6926318938110442	structures.exe	b4747226347a2ee8
+4	674	6926319065597507	CMakeFiles/structures.dir/tester.cpp.obj	321228b2cc783d02
+675	947	6926319067707498	structures.exe	b4747226347a2ee8
+5	792	6926319319916335	CMakeFiles/structures.dir/tester.cpp.obj	321228b2cc783d02
+793	1023	6926319322116376	structures.exe	b4747226347a2ee8

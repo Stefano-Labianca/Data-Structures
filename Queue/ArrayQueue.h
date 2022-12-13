@@ -231,7 +231,7 @@ bool ArrayQueue<T>::operator==(const ArrayQueue<T>& arrayQueue) const
         return false;
     }
 
-    for (Iterator it = arrayQueue.begin(); it < arrayQueue.getLength(); it++)
+    for (Iterator it = arrayQueue.begin(); it < arrayQueue._currentSize; it++)
     {
         if (this->_circularArray[it] != arrayQueue._circularArray[it])
         {
@@ -247,7 +247,7 @@ bool ArrayQueue<T>::operator!=(const ArrayQueue<T>& arrayQueue) const
 {
     if (arrayQueue._headIndex == this->_headIndex)
     {
-        for (Iterator it = arrayQueue.begin(); it < arrayQueue.getLength(); it++)
+        for (Iterator it = arrayQueue.begin(); it < arrayQueue._currentSize; it++)
         {
             if (this->_circularArray[it] == arrayQueue._circularArray[it])
             {

@@ -96,7 +96,11 @@
 				6,
 				7,
 				8,
-				9
+				9,
+				10,
+				11,
+				12,
+				13
 			]
 		}
 	],
@@ -151,6 +155,26 @@
 		{
 			"backtrace" : 1,
 			"path" : "Queue/ArrayQueue.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Set/ISet.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Set/Set.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "BinaryTree/IBinaryTree.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "BinaryTree/BinaryTree.h",
 			"sourceGroupIndex" : 1
 		}
 	],

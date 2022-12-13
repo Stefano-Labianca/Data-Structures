@@ -8,7 +8,8 @@ add_executable(structures tester.cpp
     Node.h ./LinkedList/LinkedList.h ./LinkedList/ILinkedList.h
     ./Stack/Stack.h ./Stack/IStack.h ./Stack/ArrayStack.h   
     ./Queue/Queue.h ./Queue/IQueue.h ./Queue/ArrayQueue.h   
-)
+    ./Set/ISet.h ./Set/Set.h
+        BinaryTree/IBinaryTree.h BinaryTree/BinaryTree.h)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
