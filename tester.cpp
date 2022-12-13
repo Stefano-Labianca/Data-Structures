@@ -1,24 +1,23 @@
 
 #include <iostream>
-#include "./Queue/Queue.h"
-#include "./Queue/ArrayQueue.h"
+#include "BinaryTree/BinaryTree.h"
 
 int main(int argc, char const *argv[])
 {
-    Queue<int> queue;
-    ArrayQueue<int> arrQueue;
+//    BinaryTree<int> bTree;
+    BinaryTree<int> bTree;
 
-    arrQueue.enqueue(9);
-    arrQueue.enqueue(3);
-    arrQueue.enqueue(39);
-    arrQueue.enqueue(19);
+    bTree.addLeftChild(10);
+    bTree.addLeftChild(23);
+    bTree.addRightChild(41);
 
-    ArrayQueue<int> arrQ;
-    arrQ.enqueue(10);
-    arrQ.enqueue(20);
+    bTree.addLeftChild(bTree._root->_leftChild, 1);
+    bTree.addRightChild(bTree._root->_leftChild, 100);
 
-    std::cout << (arrQueue != arrQ) << std::endl;
+    bTree.addRightChild(bTree._root->_rightChild, 40);
 
+
+    bTree.leverOrderTraversal(bTree._root);
 
     return 0;
 }

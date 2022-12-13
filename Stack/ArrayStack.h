@@ -2,8 +2,6 @@
 #define _ARRAY_STACK_H
 
 #include "IStack.h"
-// #include "../color.hpp"
-
 
 class IndexOutOfBoundException : public std::exception
 {   
@@ -13,7 +11,6 @@ class IndexOutOfBoundException : public std::exception
     public:
         IndexOutOfBoundException(std::size_t userIndex, std::size_t maxIndex, uint32_t codeLine, const char* fileName)
         {
-            // std::cout << dye::red("IndexOutOfBound: Accesso con indice negativo o con indice superiore al massimo.") << std::endl;
             this->_msg = "IndexOutOfBound: Accesso con indice negativo o con indice superiore al massimo.\n";
             this->_msg += "Riga: " + std::to_string(codeLine) + "\n";
             this->_msg += "File: " + std::string(fileName) + "\n";
@@ -31,8 +28,8 @@ class IndexOutOfBoundException : public std::exception
 
 /**
  * @brief Classe che implementa la struttura dati dello Stack attraverso un array
- * 
- * @tparam T Tipo di dato memorizzato all'interno della struttura
+ *
+ * @tparam T - Tipo di dato memorizzato all'interno della struttura
  */
 template <class T>
 class ArrayStack : public IStack<T, std::size_t>
