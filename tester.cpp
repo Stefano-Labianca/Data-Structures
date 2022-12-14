@@ -5,19 +5,29 @@
 int main(int argc, char const *argv[])
 {
 //    BinaryTree<int> bTree;
-    BinaryTree<int> bTree;
+    BinaryTree<int> bTree(1);
+    BinaryTree<int> sTree(10);
 
-    bTree.addLeftChild(10);
-    bTree.addLeftChild(23);
-    bTree.addRightChild(41);
+    BinaryTree<int>::Iterator node = new BinaryTreeNode<int>(2);
 
-    bTree.addLeftChild(bTree._root->_leftChild, 1);
-    bTree.addRightChild(bTree._root->_leftChild, 100);
+    bTree.addLeftChild(node, bTree.getRoot());
+    bTree.addRightChild(5);
 
-    bTree.addRightChild(bTree._root->_rightChild, 40);
+    bTree.addRightChild(3);
+    bTree.addRightChild(7);
+
+    sTree.addLeftChild(8);
+    sTree.addLeftChild(6);
+    sTree.addRightChild(30);
+
+    bTree.addLeftChild(sTree.getRoot(), node);
 
 
-    bTree.leverOrderTraversal(bTree._root);
+    std::cout << "Altezza: " << bTree.getHeight() << std::endl;
+    std::cout << "Numero di nodi: " << bTree.calculateNodesAmount() << std::endl;
+    std::cout << "Altezza Massima: " << bTree.calculateMaxLevel(bTree.getRoot(), bTree.getRoot()->getNodeLevel()) << std::endl;
+
+    bTree.levelOrderTraversal(bTree.getRoot());
 
     return 0;
 }
