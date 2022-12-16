@@ -20,7 +20,7 @@ int main(int argc, char const *argv[])
     sTree.addLeftChild(6);
     sTree.addRightChild(30);
 
-    bTree.addLeftChild(sTree.getRoot(), node);
+    bTree.addRightChild(&sTree, node);
 
 
     std::cout << "Altezza: " << bTree.getHeight() << std::endl;
@@ -28,6 +28,20 @@ int main(int argc, char const *argv[])
     std::cout << "Altezza Massima: " << bTree.calculateMaxLevel(bTree.getRoot(), bTree.getRoot()->getNodeLevel()) << std::endl;
 
     bTree.levelOrderTraversal(bTree.getRoot());
+
+
+    std::cout << "\n\nCancellazione ---------\n\n";
+
+
+    bTree.deleteLeft(node);
+
+    std::cout << "Altezza: " << bTree.getHeight() << std::endl;
+    std::cout << "Numero di nodi: " << bTree.calculateNodesAmount() << std::endl;
+    std::cout << "Altezza Massima: " << bTree.calculateMaxLevel(bTree.getRoot(), bTree.getRoot()->getNodeLevel()) << std::endl;
+
+    bTree.levelOrderTraversal(bTree.getRoot());
+
+
 
     return 0;
 }
