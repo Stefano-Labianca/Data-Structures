@@ -4,43 +4,23 @@
 
 int main(int argc, char const *argv[])
 {
-//    BinaryTree<int> bTree;
-    BinaryTree<int> bTree(1);
-    BinaryTree<int> sTree(10);
+    BinaryTree<int> fTree(1);
+    BinaryTree<int> sTree(100);
 
-    BinaryTree<int>::Iterator node = new BinaryTreeNode<int>(2);
+    BinaryTreeNode<int>* sNode;
 
-    bTree.addLeftChild(node, bTree.getRoot());
-    bTree.addRightChild(5);
+    sTree.addLeftChild(200);
+    sTree.addRightChild(300);
 
-    bTree.addRightChild(3);
-    bTree.addRightChild(7);
+    sTree.addRightChild(sTree.getRoot()->getNodeLeftChild(), 400);
+    sTree.addLeftChild(sTree.getRoot()->getNodeRightChild(), 500);
 
-    sTree.addLeftChild(8);
-    sTree.addLeftChild(6);
-    sTree.addRightChild(30);
+    sTree.addLeftChild(sTree.getRoot()->getNodeRightChild()->getNodeLeftChild(), 600);
+    sTree.addRightChild(sTree.getRoot()->getNodeRightChild()->getNodeLeftChild(), 700);
 
-    bTree.addRightChild(&sTree, node);
-
-
-    std::cout << "Altezza: " << bTree.getHeight() << std::endl;
-    std::cout << "Numero di nodi: " << bTree.calculateNodesAmount() << std::endl;
-    std::cout << "Altezza Massima: " << bTree.calculateMaxLevel(bTree.getRoot(), bTree.getRoot()->getNodeLevel()) << std::endl;
-
-    bTree.levelOrderTraversal(bTree.getRoot());
-
-
-    std::cout << "\n\nCancellazione ---------\n\n";
-
-
-    bTree.deleteLeft(node);
-
-    std::cout << "Altezza: " << bTree.getHeight() << std::endl;
-    std::cout << "Numero di nodi: " << bTree.calculateNodesAmount() << std::endl;
-    std::cout << "Altezza Massima: " << bTree.calculateMaxLevel(bTree.getRoot(), bTree.getRoot()->getNodeLevel()) << std::endl;
-
-    bTree.levelOrderTraversal(bTree.getRoot());
-
+    fTree.addLeftChild(2);
+    fTree.addRightChild(3);
+    fTree.addRightChild(fTree.getRoot()->getNodeLeftChild(), 4);
 
 
     return 0;
