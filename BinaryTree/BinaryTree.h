@@ -14,7 +14,7 @@ class BinaryTreeNode
 {
     friend class BinaryTree<T>;
 
-    private:
+    protected:
         T _value;
         BinaryTreeNode<T>* _parent;
         BinaryTreeNode<T>* _leftChild;
@@ -28,9 +28,12 @@ class BinaryTreeNode
         BinaryTreeNode(T value, uint32_t level, BinaryTreeNode<T>* parent);
         BinaryTreeNode(const BinaryTreeNode<T>& source);
 
-        T getNodeValue();
         void setNodeValue(T value);
+        void setNodeParent(BinaryTreeNode<T>* parent);
+        void setNodeLeftChild(BinaryTreeNode<T>* left);
+        void setNodeRightChild(BinaryTreeNode<T>* right);
 
+        T getNodeValue();
         BinaryTreeNode<T>* getNodeParent();
         BinaryTreeNode<T>* getNodeLeftChild();
         BinaryTreeNode<T>* getNodeRightChild();
@@ -91,6 +94,25 @@ void BinaryTreeNode<T>::setNodeValue(T value)
 }
 
 template <class T>
+void BinaryTreeNode<T>::setNodeParent(BinaryTreeNode<T>* parent)
+{
+    this->_parent = parent;
+}
+
+template <class T>
+void BinaryTreeNode<T>::setNodeLeftChild(BinaryTreeNode<T>* left)
+{
+    this->_leftChild = left;
+}
+
+template <class T>
+void BinaryTreeNode<T>::setNodeRightChild(BinaryTreeNode<T>* right)
+{
+    this->_rightChild = right;
+}
+
+
+template <class T>
 BinaryTreeNode<T>* BinaryTreeNode<T>::getNodeParent()
 {
     return this->_parent;
@@ -127,12 +149,12 @@ class BinaryTree : public IBinaryTree<T, BinaryTreeNode<T>*>
         typedef typename IBinaryTree<T, BinaryTreeNode<T>*>::Type Type;
         typedef typename IBinaryTree<T, BinaryTreeNode<T>*>::Iterator Iterator;
 
-    private:
+    protected:
         Iterator _root;
         uint32_t _height;
 
 
-    private:
+    protected:
         bool _isNodeEmpty(Iterator node);
         void _updateHeight();
         void _updateHeight(uint32_t subTreeHeight, uint32_t parentH);
@@ -163,6 +185,8 @@ class BinaryTree : public IBinaryTree<T, BinaryTreeNode<T>*>
         Iterator getLeftChild(Iterator node);
         Iterator getRightChild(Iterator node);
         Iterator getParent(Iterator node);
+
+        void setRoot(Iterator newRoot);
 
         void preorderTraversal(Iterator root);
         void postorderTraversal(Iterator root);
@@ -534,6 +558,13 @@ template <class T>
 bool BinaryTree<T>::isLeaf(Iterator node)
 {
     return (this->isLeftEmpty(node)) && (this->isRightEmpty(node));
+}
+
+
+template <class T>
+void BinaryTree<T>::setRoot(Iterator newRoot)
+{
+    this->_root = newRoot;
 }
 
 

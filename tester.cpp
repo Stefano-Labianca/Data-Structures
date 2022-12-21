@@ -1,26 +1,36 @@
 
 #include <iostream>
-#include "BinaryTree/BinaryTree.h"
+#include "BST/BinarySearchTree.h"
 
 int main(int argc, char const *argv[])
 {
-    BinaryTree<int> fTree(1);
-    BinaryTree<int> sTree(100);
+    BinarySearchTree<int> bSearch;
 
-    BinaryTreeNode<int>* sNode;
+    bSearch.insert(17);
+    bSearch.insert(7);
+    bSearch.insert(33);
+    bSearch.insert(40);
+    bSearch.insert(42);
+    bSearch.insert(37);
+    bSearch.insert(21);
+    bSearch.insert(27);
+    bSearch.insert(7);
+    bSearch.insert(8);
+    bSearch.insert(13);
+    bSearch.insert(1);
+    bSearch.insert(5);
 
-    sTree.addLeftChild(200);
-    sTree.addRightChild(300);
+    bSearch.remove(33);
 
-    sTree.addRightChild(sTree.getRoot()->getNodeLeftChild(), 400);
-    sTree.addLeftChild(sTree.getRoot()->getNodeRightChild(), 500);
+    BinarySearchTree<int>::Iterator s = bSearch.getRoot();
 
-    sTree.addLeftChild(sTree.getRoot()->getNodeRightChild()->getNodeLeftChild(), 600);
-    sTree.addRightChild(sTree.getRoot()->getNodeRightChild()->getNodeLeftChild(), 700);
+    std::cout << bSearch.successor(s)->getNodeValue() << std::endl;
 
-    fTree.addLeftChild(2);
-    fTree.addRightChild(3);
-    fTree.addRightChild(fTree.getRoot()->getNodeLeftChild(), 4);
+    BinarySearchTree<int>* sub;
+
+    sub = bSearch.subTree(bSearch.getRoot()->getNodeRightChild());
+    sub->travers();
+
 
 
     return 0;
