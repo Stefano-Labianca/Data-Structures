@@ -4,37 +4,22 @@
 
 int main(int argc, char const *argv[])
 {
-    BinarySearchTree<int> bSearch;
+    BinaryTree<int> binaryTree(1);
 
-    bSearch.insert(17);
-    bSearch.insert(7);
-    bSearch.insert(33);
-    bSearch.insert(40);
-    bSearch.insert(42);
-    bSearch.insert(37);
-    bSearch.insert(21);
-    bSearch.insert(27);
-    bSearch.insert(7);
-    bSearch.insert(8);
-    bSearch.insert(13);
-    bSearch.insert(1);
-    bSearch.insert(5);
+    binaryTree.addLeftChild(2);
+    binaryTree.addRightChild(3);
 
-    bSearch.remove(33);
+    BinaryTree<int>::Iterator it = binaryTree.getRoot()->getNodeRightChild();
 
-    BinarySearchTree<int>::Iterator s = bSearch.getRoot();
+    binaryTree.addLeftChild(it, 4);
+    binaryTree.addRightChild(it, 7);
 
-    std::cout << bSearch.successor(s)->getNodeValue() << std::endl;
+    BinaryTree<int>::Iterator itS = it->getNodeLeftChild();
 
-    BinarySearchTree<int>* sub;
+    binaryTree.addRightChild(itS, 5);
 
-    sub = bSearch.subTree(bSearch.getRoot()->getNodeRightChild());
-    sub->travers();
-
-    std::cout << std::endl;
-
-    bSearch.travers();
-
+    BinaryTree<int>* sub = binaryTree.subTree(it);
+    sub->levelOrderTraversal(sub->getRoot());
 
     return 0;
 }

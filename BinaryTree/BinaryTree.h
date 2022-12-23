@@ -210,6 +210,8 @@ class BinaryTree : public IBinaryTree<T, BinaryTreeNode<T>*>
         uint32_t getHeight();
         uint32_t calculateNodesAmount();
         uint32_t calculateMaxLevel(Iterator node);
+
+        BinaryTree<T>* subTree(Iterator root);
 };
 
 
@@ -414,6 +416,29 @@ void BinaryTree<T>::deleteRight(Iterator node)
         uint32_t newH = this->calculateMaxLevel(this->_root);
         this->_height = newH;
     }
+}
+
+template <class T>
+BinaryTree<T>* BinaryTree<T>::subTree(Iterator root)
+{
+    if (root == this->_root)
+    {
+        return this;
+    }
+
+    BinaryTree<T>* subT = new BinaryTree<T>;
+    Iterator subRoot = new BinaryTreeNode<T>(root->_value);
+
+    subRoot->_leftChild = root->_leftChild;
+    subRoot->_rightChild = root->_rightChild;
+
+    subT->_root = subRoot;
+    this->_decreaseLevel(subRoot, root->_level);
+
+    uint32_t newH = subT->calculateMaxLevel(subT->_root);
+    subT->_height = newH;
+
+    return subT;
 }
 
 

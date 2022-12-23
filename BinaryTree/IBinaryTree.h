@@ -42,6 +42,8 @@ class IBinaryTree
         virtual Iterator getRightChild(Iterator node) = 0;
         virtual Iterator getParent(Iterator node) = 0;
 
+        virtual IBinaryTree<T, I>* subTree(Iterator root) = 0;
+
 };
 
 
