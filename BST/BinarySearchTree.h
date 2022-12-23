@@ -3,8 +3,6 @@
 
 #include "../BinaryTree/BinaryTree.h"
 
-// TODO: Verificare l'uso con le chiavi
-// TODO: Aggiornamento livelli e altezza
 
 template <class T>
 class BinarySearchTree : public BinaryTree<T>
@@ -92,10 +90,15 @@ void BinarySearchTree<T>::insert(Type nodeValue)
         }
     }
 
-
     Iterator child = new BinaryTreeNode<T>(nodeValue);
     this->_link(parent, child, nodeValue);
+    BinaryTree<T>::_updateLevels(child, parent->getNodeLevel());
 
+    if ((child->getNodeLevel() > parent->getNodeLevel()) && (this->_bTree->getHeight() != child->getNodeLevel()))
+    {
+        Iterator root = this->_bTree->getRoot();
+        this->_bTree->setHeight(this->_bTree->calculateMaxLevel(root));
+    }
 }
 
 
@@ -104,7 +107,7 @@ typename BinarySearchTree<T>::Iterator BinarySearchTree<T>::lookup(Type needle)
 {
     Iterator it = this->_bTree->getRoot();
 
-    while (it && it->getNodeValue() != needle)
+    while (!BinaryTree<T>::_isNodeEmpty(it) && it->getNodeValue() != needle)
     {
         if (needle < it->getNodeValue())
         {
@@ -127,7 +130,7 @@ void BinarySearchTree<T>::remove(Type needle)
 {
     Iterator node = this->lookup(needle);
 
-    if (node)
+    if (!BinaryTree<T>::_isNodeEmpty(node))
     {
         if (!this->isLeftEmpty(node) && !this->isRightEmpty(node))
         {
@@ -153,6 +156,8 @@ void BinarySearchTree<T>::remove(Type needle)
             }
 
             this->_link(node->getNodeParent(), newChild, needle);
+            uint32_t newH = this->calculateMaxLevel(this->_bTree->getRoot());
+            this->_bTree->setHeight(newH);
 
             delete node;
             node = nullptr;
@@ -195,7 +200,7 @@ typename BinarySearchTree<T>::Iterator BinarySearchTree<T>::max(Iterator start)
 template <class T>
 typename BinarySearchTree<T>::Iterator BinarySearchTree<T>::successor(Iterator node)
 {
-    if (!node)
+    if (BinaryTree<T>::_isNodeEmpty(node))
     {
         return node;
     }
@@ -219,7 +224,7 @@ typename BinarySearchTree<T>::Iterator BinarySearchTree<T>::successor(Iterator n
 template <class T>
 typename BinarySearchTree<T>::Iterator BinarySearchTree<T>::predecessor(Iterator node)
 {
-    if (!node)
+    if (BinaryTree<T>::_isNodeEmpty(node))
     {
         return node;
     }
@@ -251,12 +256,12 @@ bool BinarySearchTree<T>::isEmpty()
 template <class T>
 void BinarySearchTree<T>::travers()
 {
-    Iterator u = this->min(this->_bTree->getRoot());
+    Iterator it = this->min(this->_bTree->getRoot());
 
-    while (u)
+    while (!BinaryTree<T>::_isNodeEmpty(it))
     {
-        std::cout << u->getNodeValue() << " ";
-        u = this->successor(u);
+        std::cout << it->getNodeValue() << " ";
+        it = this->successor(it);
     }
 
 }
@@ -271,12 +276,16 @@ BinarySearchTree<T>* BinarySearchTree<T>::subTree(Iterator root)
     }
 
     BinarySearchTree<T>* subT = new BinarySearchTree<T>;
-    BinaryTreeNode<T>* subRoot = new BinaryTreeNode<T>(root->getNodeValue());
+    Iterator subRoot = new BinaryTreeNode<T>(root->getNodeValue());
 
     subRoot->setNodeRightChild(root->getNodeRightChild());
     subRoot->setNodeLeftChild(root->getNodeLeftChild());
 
     subT->_bTree->setRoot(subRoot);
+    BinaryTree<T>::_decreaseLevel(subRoot, root->getNodeLevel());
+
+    uint32_t newH = this->_bTree->calculateMaxLevel(subRoot);
+    subT->_bTree->setHeight(newH);
 
     return subT;
 }
@@ -286,12 +295,12 @@ BinarySearchTree<T>* BinarySearchTree<T>::subTree(Iterator root)
 template <class T>
 void BinarySearchTree<T>::_link(BinaryTreeNode<Type>* parent, BinaryTreeNode<Type>* child, Type childValue)
 {
-    if (child)
+    if (!BinaryTree<T>::_isNodeEmpty(child))
     {
         child->setNodeParent(parent);
     }
 
-    if (parent)
+    if (!BinaryTree<T>::_isNodeEmpty(parent))
     {
         if (childValue < parent->getNodeValue())
         {

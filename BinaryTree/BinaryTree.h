@@ -14,7 +14,7 @@ class BinaryTreeNode
 {
     friend class BinaryTree<T>;
 
-    protected:
+    private:
         T _value;
         BinaryTreeNode<T>* _parent;
         BinaryTreeNode<T>* _leftChild;
@@ -39,6 +39,7 @@ class BinaryTreeNode
         BinaryTreeNode<T>* getNodeRightChild();
 
         uint32_t getNodeLevel();
+        void setNodeLevel(uint32_t newLvl);
 };
 
 template <class T>
@@ -111,6 +112,11 @@ void BinaryTreeNode<T>::setNodeRightChild(BinaryTreeNode<T>* right)
     this->_rightChild = right;
 }
 
+template <class T>
+void BinaryTreeNode<T>::setNodeLevel(uint32_t newLvl)
+{
+    this->_level = newLvl;
+}
 
 template <class T>
 BinaryTreeNode<T>* BinaryTreeNode<T>::getNodeParent()
@@ -149,7 +155,7 @@ class BinaryTree : public IBinaryTree<T, BinaryTreeNode<T>*>
         typedef typename IBinaryTree<T, BinaryTreeNode<T>*>::Type Type;
         typedef typename IBinaryTree<T, BinaryTreeNode<T>*>::Iterator Iterator;
 
-    protected:
+    private:
         Iterator _root;
         uint32_t _height;
 
@@ -160,6 +166,7 @@ class BinaryTree : public IBinaryTree<T, BinaryTreeNode<T>*>
         void _updateHeight(uint32_t subTreeHeight, uint32_t parentH);
         void _updateLevels(Iterator startingNode, uint32_t initLevel);
         void _erase(Iterator root);
+        void _decreaseLevel(Iterator root, uint32_t decrementFactor);
 
     public:
         BinaryTree();
@@ -187,6 +194,7 @@ class BinaryTree : public IBinaryTree<T, BinaryTreeNode<T>*>
         Iterator getParent(Iterator node);
 
         void setRoot(Iterator newRoot);
+        void setHeight(uint32_t newH);
 
         void preorderTraversal(Iterator root);
         void postorderTraversal(Iterator root);
@@ -503,6 +511,13 @@ uint32_t BinaryTree<T>::getHeight()
 }
 
 template <class T>
+void BinaryTree<T>::setHeight(uint32_t newH)
+{
+    this->_height = newH;
+}
+
+
+template <class T>
 uint32_t BinaryTree<T>::calculateNodesAmount()
 {
     Queue<Iterator> queue;
@@ -630,7 +645,6 @@ void BinaryTree<T>::_updateHeight()
     {
         this->_height++;
     }
-
 }
 
 
@@ -649,6 +663,22 @@ void BinaryTree<T>::_updateLevels(Iterator startingNode, uint32_t initLevel)
         startingNode->_level = initLevel + 1;
         this->_updateLevels(startingNode->_leftChild, startingNode->_level);
         this->_updateLevels(startingNode->_rightChild, startingNode->_level);
+    }
+}
+
+
+template <class T>
+void BinaryTree<T>::_decreaseLevel(Iterator root, uint32_t decrementFactor)
+{
+    if (!this->_isNodeEmpty(root))
+    {
+        if (root->_level > 0)
+        {
+            root->_level -= decrementFactor;
+        }
+
+        this->_decreaseLevel(root->_leftChild, decrementFactor);
+        this->_decreaseLevel(root->_rightChild, decrementFactor);
     }
 }
 

@@ -4,17 +4,17 @@
 
 
 # Configuration directories and files
-SourceDirectory: C:/Users/labia/OneDrive/Desktop/Data-Structures
-BuildDirectory: C:/Users/labia/OneDrive/Desktop/Data-Structures/cmake-build-debug
+SourceDirectory: C:/Users/Utente/Desktop/Data-Structures
+BuildDirectory: C:/Users/Utente/Desktop/Data-Structures/cmake-build-debug
 
 # Where to place the cost data store
 CostDataFile: 
 
 # Site is something like machine.domain, i.e. pragmatic.crd
-Site: LAPTOP-Q3TARTN9
+Site: DESKTOP-4KVIMPN
 
 # Build name is osname-revision-compiler, i.e. Linux-2.4.2-2smp-c++
-BuildName: Win32-mingw32-make
+BuildName: Win32-ninja
 
 # Subprojects
 LabelsForSubprojects: 
@@ -27,8 +27,8 @@ SubmitInactivityTimeout:
 NightlyStartTime: 00:00:00 EDT
 
 # Commands for the build/test/submit cycle
-ConfigureCommand: "C:/Program Files/JetBrains/CLion 2022.1.3/bin/cmake/win/bin/cmake.exe" "C:/Users/labia/OneDrive/Desktop/Data-Structures"
-MakeCommand: C:/Program\ Files/JetBrains/CLion\ 2022.1.3/bin/cmake/win/bin/cmake.exe --build . --config "${CTEST_CONFIGURATION_TYPE}" -- -i
+ConfigureCommand: "D:/CLion/bin/cmake/win/bin/cmake.exe" "C:/Users/Utente/Desktop/Data-Structures"
+MakeCommand: D:\CLion\bin\cmake\win\bin\cmake.exe --build . --config "${CTEST_CONFIGURATION_TYPE}"
 DefaultCTestConfigurationType: Release
 
 # version control
@@ -63,7 +63,7 @@ UpdateOptions:
 UpdateType: git
 
 # Compiler info
-Compiler: C:/Program Files/JetBrains/CLion 2022.1.3/bin/mingw/bin/g++.exe
+Compiler: D:/CLion/bin/mingw/bin/g++.exe
 CompilerVersion: 11.2.0
 
 # Dynamic analysis (MemCheck)
@@ -81,7 +81,7 @@ MemoryCheckCommandOptions:
 MemoryCheckSuppressionFile: 
 
 # Coverage
-CoverageCommand: C:/Program Files/JetBrains/CLion 2022.1.3/bin/mingw/bin/gcov.exe
+CoverageCommand: D:/CLion/bin/mingw/bin/gcov.exe
 CoverageExtraFlags: -l
 
 # Testing options

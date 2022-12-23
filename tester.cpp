@@ -31,6 +31,9 @@ int main(int argc, char const *argv[])
     sub = bSearch.subTree(bSearch.getRoot()->getNodeRightChild());
     sub->travers();
 
+    std::cout << std::endl;
+
+    bSearch.travers();
 
 
     return 0;
