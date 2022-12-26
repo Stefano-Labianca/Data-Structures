@@ -8,6 +8,10 @@ template <class T, class I>
 class ILinkedList
 {
     public:
+        typedef T Type;
+        typedef I Iterator;
+
+    public:
         virtual uint32_t getSize() const = 0;
         virtual bool isEmpty() const = 0;
 
@@ -21,7 +25,8 @@ class ILinkedList
         virtual void remove(uint32_t index) = 0;
 
         virtual I begin() const = 0;
-        virtual I end() const = 0;
+        virtual I last() const = 0;
+        virtual bool isEnd(I it) const = 0;
 
         template <typename V, typename U>
         friend std::ostream& operator<<(std::ostream& out, const ILinkedList<V, U>& list);
@@ -33,9 +38,9 @@ std::ostream& operator<<(std::ostream& out, const ILinkedList<V, U>& list)
 {
     U it = list.begin();
 
-    while (it)
+    while (!list.isEnd(it))
     {
-        if  (it == list.end())
+        if  (it == list.last())
         {
             out << "[ " << it->getNodeValue() << " ]" << std::endl;
         }

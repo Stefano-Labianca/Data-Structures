@@ -2,27 +2,202 @@
 #define _LINKED_LIST_H
 
 #include "ILinkedList.h"
-#include "../Node.h"
+
+#include <iostream>
+
+// TODO: Mettere delle eccezioni nella classe
+// nei metodi in cui ho gli indici circolari, se index sfora la grandezza della lista allora vai di
+// IndexOutOfBound
+
+template <class T>
+class LinkedList;
+
+/**
+ * Classe del nodo della lista contatenata doppia
+ * @tparam T: Tipo di dato contenuto nel nodo
+ */
+template <class T>
+class LinkedNode
+{
+    friend class LinkedList<T>;
+
+    private:
+        T _value; // Valore del nodo
+        LinkedNode<T>* _next; // Puntatore al nodo successivo
+        LinkedNode<T>* _prev; // Puntatore al nodo precedente
+
+    public:
+        LinkedNode();
+        LinkedNode(const T& value);
+        LinkedNode(const T& value, LinkedNode<T>* next);
+        LinkedNode(const T& value, LinkedNode<T>* next, LinkedNode<T>* prev);
+        LinkedNode(const LinkedNode<T>& source);
+
+        T getNodeValue();
+        LinkedNode<T>* getNext();
+        LinkedNode<T>* getPrev();
+
+        void setNodeValue(const T& value);
+        void setNext(LinkedNode<T>* next);
+        void setPrev(LinkedNode<T>* prev);
+
+        template <class V>
+        friend std::ostream& operator<<(std::ostream& out, const LinkedNode<V>* node);
+};
+
+template <class T>
+LinkedNode<T>::LinkedNode()
+{
+    this->_next = nullptr;
+    this->_prev = nullptr;
+}
 
 
 template <class T>
-class LinkedList: public ILinkedList<T, Node<T>*>
+LinkedNode<T>::LinkedNode(const T& value)
 {
+    this->_value = value;
+    this->_next = nullptr;
+    this->_prev = nullptr;
+}
+
+template <class T>
+LinkedNode<T>::LinkedNode(const T& value, LinkedNode<T>* next)
+{
+    this->_value = value;
+    this->_next = next;
+    this->_prev = nullptr;
+}
+
+template <class T>
+LinkedNode<T>::LinkedNode(const T& value, LinkedNode<T>* next, LinkedNode<T>* prev)
+{
+    this->_value = value;
+    this->_next = &next;
+    this->_prev = &prev;
+}
+
+template <class T>
+LinkedNode<T>::LinkedNode(const LinkedNode<T>& source)
+{
+    this->_value = source.value;
+    this->_prev = source.prev;
+    this->_next = source.next;
+}
+
+/**
+ * Restituisce il valore contenuto nel nodo
+ *
+ * @tparam T: Tipo di dato contenuto nel nodo
+ * @return Valore del nodo
+ */
+template <class T>
+T LinkedNode<T>::getNodeValue()
+{
+    return this->_value;
+}
+
+/**
+ * Restituisce il puntatore al nodo successivo
+ *
+ * @tparam T: Tipo di dato contenuto nel nodo
+ * @return Puntatore al nodo sucessivo
+ */
+template <class T>
+LinkedNode<T>* LinkedNode<T>::getNext()
+{
+    return this->_next;
+}
+
+/**
+ * Restituisce il puntatore al nodo precedente.
+ *
+ * @tparam T: Tipo di dato contenuto nel nodo
+ * @return Puntatore al nodo precedente
+ */
+template <class T>
+LinkedNode<T>* LinkedNode<T>::getPrev()
+{
+    return this->_prev;
+}
+
+/**
+ * Imposta il valore del nodo
+ *
+ * @tparam T: Tipo di dato contenuto nel nodo
+ * @param value: Valore del nodo
+ */
+template <class T>
+void LinkedNode<T>::setNodeValue(const T& value)
+{
+    this->_value = value;
+}
+
+/**
+ * Imposta il nodo successivo del nodo corrente
+ *
+ * @tparam T: Tipo di dato contenuto nel nodo
+ * @param next: Puntatore al nodo successivo di questo nodo
+ */
+template <class T>
+void LinkedNode<T>::setNext(LinkedNode<T>* next)
+{
+    this->_next = next;
+}
+
+/**
+ * Imposta il nodo precedente del nodo corrente
+ *
+ * @tparam T: Tipo di dato contenuto nel nodo
+ * @param prev: Puntatore al nodo precedente di questo nodo
+ */
+template <class T>
+void LinkedNode<T>::setPrev(LinkedNode<T>* prev)
+{
+    this->_prev = prev;
+}
+
+
+template <class T>
+std::ostream& operator<<(std::ostream& out, const LinkedNode<T>* node)
+{
+    out << "{ " << node->_value << " }" << std::endl;
+
+    return out;
+}
+
+
+/**
+ * Classe che realizza con puntatori la struttura dati della Lista Doppia Concatenata.
+ *
+ * @tparam T: Tipo di dato memorizzato nella lista
+ */
+template <class T>
+class LinkedList: public ILinkedList<T, LinkedNode<T>*>
+{
+    public:
+        typedef typename ILinkedList<T, LinkedNode<T>*>::Type Type;
+        typedef typename ILinkedList<T, LinkedNode<T>*>::Iterator Iterator;
+
     private:
-        Node<T>* _head;
-        Node<T>* _tail;
-        uint32_t _len;
+        Iterator _headPtr; // Nodo sentinella che punta al primo elemento della lista
+        Iterator _tail; // Puntatore all'ultimo elemento della lista
+        uint32_t _len; // Lunghezza della lista
+
+    private:
+        void _createLookout();
+        void _createLookout(const T& value);
 
     public:
         LinkedList();
         LinkedList(const T& value);
-        LinkedList(LinkedList<T>& otherList);
+        LinkedList(const LinkedList<T>& otherList);
         ~LinkedList();
 
         uint32_t getSize() const override;
         bool isEmpty() const override;
 
-        Node<T>* find(uint32_t index) const override;
+        Iterator find(uint32_t index) const override;
         void insert(const T& value, uint32_t index) override;
         void remove(uint32_t index);
 
@@ -31,89 +206,103 @@ class LinkedList: public ILinkedList<T, Node<T>*>
         void shift() override;
         void deleteLast() override;
 
-        Node<T>* begin() const;
-        Node<T>* end() const;
+        Iterator begin() const;
+        Iterator last() const;
+
+        bool isEnd(Iterator it) const;
+
+        LinkedList<T>& operator=(const LinkedList<T>& list);
+        bool operator==(const LinkedList<T>& list) const;
+        bool operator!=(const LinkedList<T>& list) const;
+
 };
 
 template <class T>
 LinkedList<T>::LinkedList()
 {
     this->_len = 0;
-    this->_head = nullptr;
-    this->_tail = nullptr;
+    this->_createLookout();
 }
 
 template <class T>
 LinkedList<T>::LinkedList(const T& value)
 {
-    Node<T> newHead(value);
-
-    this->_head = &newHead;
     this->_len = 1;
+    this->_createLookout(value);
 }
 
 template <class T>
-LinkedList<T>::LinkedList(LinkedList<T>& otherList)
+LinkedList<T>::LinkedList(const LinkedList<T>& otherList)
 {
+    this->_len = 0;
+    this->_createLookout();
+
     if (!otherList.isEmpty())
     {
-        this->_len = 0;
-        this->_head = nullptr;
-        this->_tail = nullptr;
+        Iterator it = otherList.begin();
 
-        Node<T>* it = otherList.begin();
-
-        for (uint32_t i = 0; i < otherList.getSize(); i++)
+        for (uint32_t i = 0; i < otherList._len; i++)
         {
-            T value = it->getNodeValue();
-            this->append(value);
-            it = it->getNext();
+            this->append(it->_value);
+            it = it->_next;
         }
-
-        delete it;
-        it = nullptr;
-    } 
+    }
 }
 
 template <class T>
 LinkedList<T>::~LinkedList()
 {
-    Node<T>* it = this->_head->getNext();
-    Node<T>* head = this->_head;
-
-    while (it)
+    while (!this->isEmpty())
     {
-        Node<T>* tempIt = it->getNext();
-        delete it;
-
-        it = tempIt;
-        this->_len--;
+        this->shift();
     }
 
-    delete head;
-    this->_len--;
+    delete this->_headPtr;
 }
 
-
+/**
+ * Resituisce la lunghezza della lista.
+ *
+ * @tparam T: Tipo della lista e dei nodi
+ * @return Lunghezza della lista
+ */
 template <class T>
 uint32_t LinkedList<T>::getSize() const
 {
     return this->_len;
 }
 
-
+/**
+ * Restituisce true se la lista contiene degli elementi, altrimenti false
+ *
+ * @tparam T: Tipo della lista e dei nodi
+ * @return True se la lista e' vuota, altrimenti false
+ */
 template <class T>
 bool LinkedList<T>::isEmpty() const
 {
-    return this->_len == 0;
+    return (this->_headPtr->_next == this->_headPtr);
 }
 
+/**
+ * Cerca e restituisce un nodo in posizione index, dove index e' compreso fra 0 e n - 1, estremi inclusi, con
+ * n lunghezza della lista.
+ *
+ * Se index >= n, allora la nuova posizione e' pari a:
+ *
+ *      newIndex = index % n.
+ *
+ *
+ * @tparam T: Tipo della lista e dei nodi
+ * @param index: Posizione del nodo da prendere
+ * @return Nodo in posizione index
+ */
 template <class T>
-Node<T>* LinkedList<T>::find(uint32_t index) const
+typename LinkedList<T>::Iterator LinkedList<T>::find(uint32_t index) const
 {
     if (index >= this->_len)
     {
-        index %= this->_len; 
+        index %= this->_len;
     }
 
     if (index == this->_len - 1)
@@ -123,13 +312,14 @@ Node<T>* LinkedList<T>::find(uint32_t index) const
 
     if (index == 0)
     {
-        return this->_head;
+        return this->begin();
     }
 
-    if (this->_len >= 0 && index > 0)
+
+    if (this->_len >= 0)
     {
         uint32_t i = 0;
-        Node<T>* it = this->_head;   
+        Iterator it = this->begin();
 
         while (i != index)
         {
@@ -139,12 +329,16 @@ Node<T>* LinkedList<T>::find(uint32_t index) const
         
         return it;
     }
-
-    return nullptr;
 }
 
 
-
+/**
+ * Inserisce un nodo con valore value, in posizione index della lista
+ *
+ * @tparam T: Tipo della lista e dei nodi
+ * @param value: Valore del nodo
+ * @param index: Indice in cui inserire il nodo
+ */
 template <class T>
 void LinkedList<T>::insert(const T& value, uint32_t index)
 {
@@ -160,25 +354,32 @@ void LinkedList<T>::insert(const T& value, uint32_t index)
         return;
     }
 
-    Node<T>* it = this->find(index);
-    Node<T>* prev = it->getPrev();
-    
-    Node<T>* newNode = new Node<T>;
-    newNode->setNodeValue(value);
+    if (index >= this->_len)
+    {
+        Iterator it = this->find(index);
+        Iterator prev = it->_prev;
 
-    prev->setNext(newNode);
-    newNode->setPrev(prev);
-    
-    newNode->setNext(it);
-    it->setPrev(newNode);
+        Iterator newNode = new LinkedNode<T>(value);
 
-    this->_len += 1;
+        prev->_next = newNode;
+        newNode->_prev = prev;
+
+        newNode->_next = it;
+        it->_prev = newNode;
+
+        this->_len += 1;
+    }
 }
 
+/**
+ * Elimina un nodo in posizione index della lista
+ *
+ * @tparam T: Tipo della lista e dei nodi
+ * @param index: Indice del nodo da eliminare
+ */
 template <class T>
 void LinkedList<T>::remove(uint32_t index)
 {
-
     if (!this->isEmpty())
     {
         if (index == 0)
@@ -192,63 +393,85 @@ void LinkedList<T>::remove(uint32_t index)
             this->deleteLast();
             return;
         }
+
+        if (index >= this->_len)
+        {
+            index %= this->_len;
+
+            Iterator it = this->find(index);
+            Iterator prev = it->getPrev();
+            Iterator next = it->getNext();
+
+            prev->_next = next;
+            next->_prev = prev;
+
+            delete it;
+            it = nullptr;
+
+            this->_len -= 1;
+        }
     }
-
-
-    Node<T>* it = this->find(index);
-    Node<T>* prev = it->getPrev();
-    Node<T>* next = it->getNext();
-
-    prev->setNext(next);
-    next->setPrev(prev);
-
-    delete it;
-    it = nullptr;
-
-    this->_len -= 1;
-
 }
 
+/**
+ * Aggiunge un nodo, con valore "value", all'inizio della lista.
+ *
+ * @tparam T: Tipo della lista e dei nodi
+ * @param value: Valore del nodo
+ */
 template <class T>
 void LinkedList<T>::unshift(const T& value)
 {
-    Node<T>* newNode = new Node<T>;
-    newNode->setNodeValue(value);
+    Iterator newNode = new LinkedNode<T>;
+    newNode->_value = value;
 
     if (this->isEmpty())
     {
-        this->_head = newNode;
-        this->_tail = newNode;
+       this->_createLookout(value);
     }
 
     else
     {
-        Node<T>* oldHead = this->_head;
-        this->_head = newNode;
+        Iterator oldHead = this->_headPtr->_next;
+        this->_headPtr->_next = newNode;
 
-        this->_head->setNext(oldHead);
-        oldHead->setPrev(this->_head);
+        newNode->_prev = this->_headPtr;
+        newNode->_next = oldHead;
+        oldHead->_prev = newNode;
     }
 
+    this->_tail = newNode;
     this->_len += 1;
 }
 
+
+/**
+ * Aggiunge un nodo, con valore "value", alla fine della lista.
+ *
+ * @tparam T: Tipo della lista e dei nodi
+ * @param value: Valore del nodo
+ */
 template <class T>
 void LinkedList<T>::append(const T& value)
 {
-    Node<T>* newNode = new Node<T>;
-    newNode->setNodeValue(value);
+    Iterator newNode = new LinkedNode<T>;
+    newNode->_value = value;
 
     if (this->isEmpty())
     {
-        this->_head = newNode;
-        this->_tail = newNode;
+       this->_createLookout(value);
     }
 
     else
     {
-        this->_tail->setNext(newNode);
-        newNode->setPrev(this->_tail);
+        Iterator oldTail = this->_tail;
+
+        oldTail->_next = newNode;
+        newNode->_prev = oldTail;
+
+        newNode->_next = this->_headPtr;
+        this->_headPtr->_prev = newNode;
+
         this->_tail = newNode;
     }
 
@@ -256,54 +479,231 @@ void LinkedList<T>::append(const T& value)
 }
 
 
+/**
+ * Cancella il primo nodo dalla lista
+ *
+ * @tparam T: Tipo della lista e dei nodi
+ */
 template <class T>
 void LinkedList<T>::shift()
 {
-    if (this->_head)
+    if (!this->isEmpty())
     {
-        Node<T>* newHead = this->_head->getNext();
-        Node<T>* oldHead = this->_head;
+        Iterator newHead;
+        Iterator oldHead = this->_headPtr->_next;
 
-        this->_head = newHead;
+        if (this->_len > 1)
+        {
+            newHead = oldHead->_next;
+
+            this->_headPtr->_next = newHead;
+            newHead->_prev = this->_headPtr;
+        }
 
         delete oldHead;
         oldHead = nullptr;
-        this->_head->setPrev(nullptr);
+
+        if (this->_len == 1)
+        {
+            this->_headPtr->_next = this->_headPtr;
+            this->_headPtr->_prev = this->_headPtr;
+        }
 
         this->_len -= 1;
     }
 }
 
+
+/**
+ * Cancella l'ultimo nodo dalla lista
+ *
+ * @tparam T: Tipo della lista e dei nodi
+ */
 template <class T>
 void LinkedList<T>::deleteLast()
 {
-    if (this->_head)
-    {   
-        Node<T>* newTail = this->_tail->getPrev();
+    if (!this->isEmpty())
+    {
+        Iterator newTail;
+        Iterator oldTail = this->_tail;
 
-        delete this->_tail;
-        this->_tail = nullptr;
+        if (this->_len > 1)
+        {
+            newTail = this->_tail->_prev;
 
-        newTail->setNext(nullptr);
-        
-        this->_tail = newTail;
+            newTail->_next = this->_headPtr;
+            this->_headPtr->_prev = newTail;
+
+            this->_tail = newTail;
+        }
+
+        delete oldTail;
+        oldTail = nullptr;
+
+        if (this->_len == 1)
+        {
+            this->_headPtr->_next = this->_headPtr;
+            this->_headPtr->_prev = this->_headPtr;
+
+            this->_tail = nullptr;
+        }
+
         this->_len -= 1;
-
     }
 }
 
 
+/**
+ * Restituisce la testa della lista, cioe' il primo elemento
+ *
+ * @tparam T: Tipo della lista e dei nodi
+ * @return Puntatore al primo nodo della lista
+ */
 template <class T>
-Node<T>* LinkedList<T>::begin() const
+typename LinkedList<T>::Iterator LinkedList<T>::begin() const
 {
-    return this->_head;
+    return this->_headPtr->_next;
+}
+
+
+/**
+ * Restituisce la coda della lista, cioe' l'ultimo elemento
+ *
+ * @tparam T: Tipo della lista e dei nodi
+ * @return Puntatore all'ultimo nodo della lista
+ */
+template <class T>
+typename LinkedList<T>::Iterator LinkedList<T>::last() const
+{
+    return this->_tail;
+}
+
+
+/**
+ * Restituisce true se ho raggiunto la fine della lista, altrimenti false
+ *
+ * @tparam T: Tipo della lista e dei nodi
+ * @param it: Posizione da verificare
+ * @return Valore booleano pari a true se ho raggiunto la fine della lista, altrimenti false.
+ */
+template <class T>
+bool LinkedList<T>::isEnd(Iterator it) const
+{
+    return (it == this->_headPtr);
+}
+
+
+/**
+ * Crea il nodo sentinella della lista vuota
+ *
+ * @tparam T: Tipo della lista e dei nodi
+ */
+template <class T>
+void LinkedList<T>::_createLookout()
+{
+    this->_headPtr = new LinkedNode<T>;
+
+    this->_headPtr->_next = this->_headPtr;
+    this->_headPtr->_prev = this->_headPtr;
+
+    this->_tail = nullptr;
+}
+
+/**
+ * Crea il nodo sentinella della lista e li aggiunge un nodo con
+ * valore "value"
+ *
+ * @tparam T: Tipo del nodo e della lista
+ * @param value: Valore del nodo
+ */
+template <class T>
+void LinkedList<T>::_createLookout(const T& value)
+{
+    Iterator newHead = new LinkedNode<T>(value);
+
+    this->_headPtr = new LinkedNode<T>;
+    this->_headPtr->_next = newHead;
+
+    newHead->_next = this->_headPtr;
+    newHead->_prev = this->_headPtr;
+
+    this->_headPtr->_prev = newHead;
+    this->_tail = newHead;
 }
 
 
 template <class T>
-Node<T>* LinkedList<T>::end() const
+LinkedList<T>& LinkedList<T>::operator=(const LinkedList<T>& list)
 {
-    return this->_tail;
+    if (this != &list)
+    {
+        this->_createLookout();
+
+        if (!list.isEmpty())
+        {
+            Iterator it = list.begin();
+
+            while (!list.isEnd(it))
+            {
+                this->append(it->_value);
+                it = it->_next;
+            }
+        }
+    }
+
+    return *this;
+}
+
+
+template <class T>
+bool LinkedList<T>::operator==(const LinkedList<T>& list) const
+{
+    if (this->_len != list._len)
+    {
+        return false;
+    }
+
+    Iterator itF = this->begin();
+    Iterator itS = list.begin();
+
+    while (!list.isEnd(itS))
+    {
+       if (itF->_value != itS->_value)
+       {
+           return false;
+       }
+
+        itF = itF->_next;
+        itS = itS->_next;
+    }
+
+    return true;
+}
+
+
+template <class T>
+bool LinkedList<T>::operator!=(const LinkedList<T>& list) const
+{
+    if (this->_len != list._len)
+    {
+        return true;
+    }
+
+    Iterator itF = this->begin();
+    Iterator itS = list.begin();
+
+    while (!list.isEnd(itS))
+    {
+        if (itF->_value != itS->_value)
+        {
+            return true;
+        }
+
+        itF = itF->_next;
+        itS = itS->_next;
+    }
+
+    return false;
 }
 
 

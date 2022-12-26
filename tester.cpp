@@ -1,25 +1,21 @@
 
 #include <iostream>
-#include "BST/BinarySearchTree.h"
+//#include "BST/BinarySearchTree.h"
+#include "LinkedList/LinkedList.h"
 
 int main(int argc, char const *argv[])
 {
-    BinaryTree<int> binaryTree(1);
+    LinkedList<int> list;
 
-    binaryTree.addLeftChild(2);
-    binaryTree.addRightChild(3);
+    list.append(1);
+    list.append(3);
 
-    BinaryTree<int>::Iterator it = binaryTree.getRoot()->getNodeRightChild();
+    LinkedList<int> list1;
 
-    binaryTree.addLeftChild(it, 4);
-    binaryTree.addRightChild(it, 7);
+    list1.append(1);
 
-    BinaryTree<int>::Iterator itS = it->getNodeLeftChild();
-
-    binaryTree.addRightChild(itS, 5);
-
-    BinaryTree<int>* sub = binaryTree.subTree(it);
-    sub->levelOrderTraversal(sub->getRoot());
+    std::cout << (list == list1) << std::endl;
+    std::cout << (list1 != list);
 
     return 0;
 }

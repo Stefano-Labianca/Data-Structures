@@ -1,5 +1,16 @@
-#ifndef _ISET_H
-#define _ISET_H
+#ifndef ISET_H
+#define ISET_H
+
+#include "ISet.h"
+//#include "../LinkedList/LinkedList.h"
+
+//template <class T>
+//class Set : public ISet<T, Node<T>*>
+//{
+//
+//};
 
 
-#endif // _ISET_H
+
+
+#endif // ISET_H
