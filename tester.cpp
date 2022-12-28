@@ -1,21 +1,32 @@
 
 #include <iostream>
 //#include "BST/BinarySearchTree.h"
-#include "LinkedList/LinkedList.h"
+#include "LinkedList/SortedLinkedList.h"
 
 int main(int argc, char const *argv[])
 {
-    LinkedList<int> list;
+    SortedLinkedList<int> sList(10);
 
-    list.append(1);
-    list.append(3);
+    sList.add(49);
+    sList.add(6);
+    sList.add(12);
+    sList.add(88);
+    sList.add(49);
 
-    LinkedList<int> list1;
+    SortedLinkedList<int> sortedLinkedList;
+    sortedLinkedList = sList;
 
-    list1.append(1);
+    std::cout << sList << std::endl;
+    std::cout << sortedLinkedList << std::endl;
 
-    std::cout << (list == list1) << std::endl;
-    std::cout << (list1 != list);
+    std::cout << (sortedLinkedList == sList) << std::endl;
+    std::cout << (sortedLinkedList != sList) << std::endl;
+
+    sortedLinkedList.remove(2);
+
+    std::cout << (sortedLinkedList == sList) << std::endl;
+    std::cout << (sortedLinkedList != sList) << std::endl;
+
 
     return 0;
 }

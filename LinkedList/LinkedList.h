@@ -73,8 +73,8 @@ template <class T>
 LinkedNode<T>::LinkedNode(const T& value, LinkedNode<T>* next, LinkedNode<T>* prev)
 {
     this->_value = value;
-    this->_next = &next;
-    this->_prev = &prev;
+    this->_next = next;
+    this->_prev = prev;
 }
 
 template <class T>
@@ -198,8 +198,12 @@ class LinkedList: public ILinkedList<T, LinkedNode<T>*>
         bool isEmpty() const override;
 
         Iterator find(uint32_t index) const override;
+
         void insert(const T& value, uint32_t index) override;
+        void insert(Iterator pos, const T& value);
+
         void remove(uint32_t index);
+        void remove(Iterator pos);
 
         void unshift(const T& value) override;
         void append(const T& value) override;
@@ -216,6 +220,7 @@ class LinkedList: public ILinkedList<T, LinkedNode<T>*>
         bool operator!=(const LinkedList<T>& list) const;
 
 };
+
 
 template <class T>
 LinkedList<T>::LinkedList()
@@ -315,7 +320,6 @@ typename LinkedList<T>::Iterator LinkedList<T>::find(uint32_t index) const
         return this->begin();
     }
 
-
     if (this->_len >= 0)
     {
         uint32_t i = 0;
@@ -356,20 +360,66 @@ void LinkedList<T>::insert(const T& value, uint32_t index)
 
     if (index >= this->_len)
     {
-        Iterator it = this->find(index);
-        Iterator prev = it->_prev;
-
-        Iterator newNode = new LinkedNode<T>(value);
-
-        prev->_next = newNode;
-        newNode->_prev = prev;
-
-        newNode->_next = it;
-        it->_prev = newNode;
-
-        this->_len += 1;
+        index %= this->_len;
     }
+
+    Iterator it = this->find(index);
+    Iterator prev = it->_prev;
+
+    Iterator newNode = new LinkedNode<T>(value);
+
+    prev->_next = newNode;
+    newNode->_prev = prev;
+
+    newNode->_next = it;
+    it->_prev = newNode;
+
+    this->_len += 1;
 }
+
+/**
+ * Inserisce un nodo con valore value, in posizione precedente a pos.
+ * pos avra' posizione i + 1, con i la sua posizione precedente all'inserimento
+ *
+ * @tparam T: Tipo della lista e dei nodi
+ * @param pos: Puntatore del nodo in cui inserire il nodo
+ * @param value: Valore del nodo
+ */
+template <class T>
+void LinkedList<T>::insert(Iterator pos, const T& value)
+{
+    Iterator prev = pos->_prev;
+
+    Iterator newNode = new LinkedNode<T>(value);
+
+    prev->_next = newNode;
+    newNode->_prev = prev;
+
+    newNode->_next = pos;
+    pos->_prev = newNode;
+
+    this->_len += 1;
+}
+
+/**
+ * Rimuove il nodo pos dalla lista.
+ *
+ * @tparam T: Tipo della lista e dei nodi
+ * @param pos: Puntatore del nodo da eliminare
+ */
+template <class T>
+void LinkedList<T>::remove(Iterator pos)
+{
+    Iterator prev = pos->getPrev();
+    Iterator next = pos->getNext();
+
+    prev->_next = next;
+    next->_prev = prev;
+
+    this->_len -= 1;
+}
+
+
 
 /**
  * Elimina un nodo in posizione index della lista
@@ -397,19 +447,19 @@ void LinkedList<T>::remove(uint32_t index)
         if (index >= this->_len)
         {
             index %= this->_len;
-
-            Iterator it = this->find(index);
-            Iterator prev = it->getPrev();
-            Iterator next = it->getNext();
-
-            prev->_next = next;
-            next->_prev = prev;
-
-            delete it;
-            it = nullptr;
-
-            this->_len -= 1;
         }
+
+        Iterator it = this->find(index);
+        Iterator prev = it->getPrev();
+        Iterator next = it->getNext();
+
+        prev->_next = next;
+        next->_prev = prev;
+
+        delete it;
+        it = nullptr;
+
+        this->_len -= 1;
     }
 }
 
@@ -440,7 +490,6 @@ void LinkedList<T>::unshift(const T& value)
         oldHead->_prev = newNode;
     }
 
-    this->_tail = newNode;
     this->_len += 1;
 }
 

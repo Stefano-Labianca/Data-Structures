@@ -12,7 +12,7 @@ add_executable(structures tester.cpp
     ./Set/ISet.h ./Set/Set.h
     ./BinaryTree/IBinaryTree.h ./BinaryTree/BinaryTree.h
     ./BST/BinarySearchTree.h
-)
+        LinkedList/SortedLinkedList.h LinkedList/ISortedLinkedList.h)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
