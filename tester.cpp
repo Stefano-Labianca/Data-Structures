@@ -1,7 +1,7 @@
 
 #include <iostream>
-//#include "BST/BinarySearchTree.h"
-#include "LinkedList/SortedLinkedList.h"
+
+#include "SortedLinkedList/SortedLinkedList.h"
 
 int main(int argc, char const *argv[])
 {

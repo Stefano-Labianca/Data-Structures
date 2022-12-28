@@ -1,7 +1,7 @@
 #ifndef _SORTEDLINKEDLIST_H
 #define _SORTEDLINKEDLIST_H
 
-#include "LinkedList.h"
+#include "../LinkedList/LinkedList.h"
 #include "ISortedLinkedList.h"
 
 
