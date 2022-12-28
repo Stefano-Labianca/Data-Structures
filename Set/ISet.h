@@ -10,17 +10,12 @@ class ISet {
         typedef I Iterator;
 
     public:
-        virtual bool isEmpty() = 0;
-        virtual bool contains(Type needle) = 0;
-        virtual void add(Type needle) = 0;
-        virtual void remove(Type needle) = 0;
+        virtual bool isEmpty() const = 0;
+        virtual bool contains(const Type& needle) const = 0;
+        virtual void add(const Type& needle) = 0;
+        virtual void remove(const Type& needle) = 0;
 
-        virtual void unions(ISet<Type, Iterator> set) = 0;
-        virtual void intersection(ISet<Type, Iterator> set) = 0;
-        virtual void difference(ISet<Type, Iterator> set) = 0;
-
-        virtual bool isSubset(ISet<Type, Iterator> set) = 0;
-        virtual uint32_t size() = 0;
+        virtual uint32_t size() const = 0;
 };
 
 

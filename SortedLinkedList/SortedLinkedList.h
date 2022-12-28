@@ -4,7 +4,11 @@
 #include "../LinkedList/LinkedList.h"
 #include "ISortedLinkedList.h"
 
-
+/**
+ * Struttura dati che realizza le liste concatenate ordinate in ordine crescente.
+ *
+ * @tparam T: Tipo della lista
+ */
 template <class T>
 class SortedLinkedList : public ISortedLinkedList<T, LinkedNode<T>*>
 {
@@ -23,14 +27,18 @@ class SortedLinkedList : public ISortedLinkedList<T, LinkedNode<T>*>
 
         uint32_t getSize() const;
         bool isEmpty() const;
+        bool isEnd(Iterator it) const;
 
         void add(const T& value);
+
         void remove(uint32_t index);
+        void remove(Iterator pos);
 
         Iterator getMin();
         Iterator getMax();
 
         Iterator find(uint32_t index);
+        Iterator find(const T& needle);
 
         template <class V>
         friend std::ostream& operator<<(std::ostream& out, const SortedLinkedList<V>& sList);
@@ -74,12 +82,7 @@ SortedLinkedList<T>::SortedLinkedList(const SortedLinkedList<T>& otherList)
 template <class T>
 SortedLinkedList<T>::~SortedLinkedList()
 {
-    while (!this->_sortedList->isEmpty())
-    {
-        this->_sortedList->shift();
-    }
-
-    delete this->_sortedList;
+    this->_sortedList->~LinkedList();
 }
 
 /**
@@ -191,6 +194,20 @@ void SortedLinkedList<T>::remove(uint32_t index)
 }
 
 /**
+ * Rimuove un nodo pos dalla lista
+ *
+ * @tparam T: Tipo della lista e dei nodi
+ * @param pos: Puntatore del nodo da rimuovere
+ */
+template <class T>
+void SortedLinkedList<T>::remove(Iterator pos)
+{
+    this->_sortedList->remove(pos);
+}
+
+
+
+/**
  * Restituisce il nodo situato in posizione index, dove index e' compreso fra 0 e n - 1 estremi inclusi
  * con n lunghezza della lista, all'interno della lista
  *
@@ -203,6 +220,48 @@ typename SortedLinkedList<T>::Iterator SortedLinkedList<T>::find(uint32_t index)
 {
     return this->_sortedList->find(index);
 }
+
+/**
+ * Restituisce il puntatore del nodo contenente il valore needle. Se non viene trovato viene restituito
+ * nullptr.
+ *
+ * @tparam T: Tipo della lista e dei nodi
+ * @param needle: Valore del nodo da cercare
+ * @return Puntatore al nodo con valore needle o nullptr
+ */
+template <class T>
+typename SortedLinkedList<T>::Iterator SortedLinkedList<T>::find(const T& needle)
+{
+    Iterator it = this->_sortedList->begin();
+
+    while (!this->_sortedList->isEnd(it))
+    {
+       if (it->getNodeValue() == needle)
+       {
+           return it;
+       }
+
+       it = it->getNext();
+    }
+
+    return nullptr;
+}
+
+
+
+/**
+ * Restituisce true se ho raggiunto la fine della lista, altrimenti false
+ *
+ * @tparam T: Tipo della lista e dei nodi
+ * @param it: Posizione da verificare
+ * @return Valore booleano pari a true se ho raggiunto la fine della lista, altrimenti false.
+ */
+template <class T>
+bool SortedLinkedList<T>::isEnd(Iterator it) const
+{
+    return this->_sortedList->isEnd(it);
+}
+
 
 /**
  * Restituisce il puntatore del nodo con il valore piu' piccolo nella lista

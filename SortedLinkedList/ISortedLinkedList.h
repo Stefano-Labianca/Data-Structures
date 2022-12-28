@@ -14,6 +14,7 @@ class ISortedLinkedList
     public:
         virtual uint32_t getSize() const = 0;
         virtual bool isEmpty() const = 0;
+        virtual bool isEnd(Iterator it) const = 0;
 
         virtual void add(const T& value) = 0;
         virtual void remove(uint32_t index) = 0;
@@ -22,6 +23,7 @@ class ISortedLinkedList
         virtual Iterator getMax() = 0;
 
         virtual Iterator find(uint32_t index) = 0;
+
 
 };
 

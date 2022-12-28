@@ -1,32 +1,28 @@
 
 #include <iostream>
 
-#include "SortedLinkedList/SortedLinkedList.h"
+#include "Set/Set.h"
 
 int main(int argc, char const *argv[])
 {
-    SortedLinkedList<int> sList(10);
+    Set<int> a;
+    Set<int> b;
 
-    sList.add(49);
-    sList.add(6);
-    sList.add(12);
-    sList.add(88);
-    sList.add(49);
 
-    SortedLinkedList<int> sortedLinkedList;
-    sortedLinkedList = sList;
+    b.add(1);
+    b.add(2);
+    b.add(4);
+    b.add(8);
 
-    std::cout << sList << std::endl;
-    std::cout << sortedLinkedList << std::endl;
+    Set<int> u = a.unions(b);
+    Set<int> i = a.intersection(b);
+    Set<int> d = a.difference(b);
 
-    std::cout << (sortedLinkedList == sList) << std::endl;
-    std::cout << (sortedLinkedList != sList) << std::endl;
+//    std::cout << a.isSubset(i);
 
-    sortedLinkedList.remove(2);
+    a = b;
 
-    std::cout << (sortedLinkedList == sList) << std::endl;
-    std::cout << (sortedLinkedList != sList) << std::endl;
-
+    std::cout << a << std::endl << b;
 
     return 0;
 }

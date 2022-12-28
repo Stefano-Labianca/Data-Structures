@@ -38,16 +38,18 @@ std::ostream& operator<<(std::ostream& out, const ILinkedList<V, U>& list)
 {
     U it = list.begin();
 
+    out << "[ ";
+
     while (!list.isEnd(it))
     {
         if  (it == list.last())
         {
-            out << "[ " << it->getNodeValue() << " ]" << std::endl;
+            out << it->getNodeValue() << " ]" << std::endl;
         }
 
         else
         {
-            out << "[ " <<it->getNodeValue() << " ] -> ";
+            out << it->getNodeValue() << ", ";
         }
 
         it = it->getNext();
