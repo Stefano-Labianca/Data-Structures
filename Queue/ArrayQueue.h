@@ -231,6 +231,11 @@ bool ArrayQueue<T>::operator==(const ArrayQueue<T>& arrayQueue) const
         return false;
     }
 
+    if (arrayQueue._length != this->_length)
+    {
+        return false;
+    }
+
     for (Iterator it = arrayQueue.begin(); it < arrayQueue._currentSize; it++)
     {
         if (this->_circularArray[it] != arrayQueue._circularArray[it])

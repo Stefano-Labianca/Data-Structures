@@ -302,7 +302,6 @@ bool Set<T>::isSubset(const Set<Type>& subSet)
 
 
 
-
 template <class V>
 std::ostream& operator<<(std::ostream& out, const Set<V>& set)
 {

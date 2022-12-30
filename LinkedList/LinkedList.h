@@ -182,7 +182,7 @@ class LinkedList: public ILinkedList<T, LinkedNode<T>*>
     private:
         Iterator _headPtr; // Nodo sentinella che punta al primo elemento della lista
         Iterator _tail; // Puntatore all'ultimo elemento della lista
-        uint32_t _len; // Lunghezza della lista
+        std::size_t _len; // Lunghezza della lista
 
     private:
         void _createLookout();
@@ -194,15 +194,15 @@ class LinkedList: public ILinkedList<T, LinkedNode<T>*>
         LinkedList(const LinkedList<T>& otherList);
         ~LinkedList();
 
-        uint32_t getSize() const override;
+        std::size_t getSize() const override;
         bool isEmpty() const override;
 
-        Iterator find(uint32_t index) const override;
+        Iterator find(std::size_t index) const;
 
-        void insert(const T& value, uint32_t index) override;
+        void insert(const T& value, std::size_t index) override;
         void insert(Iterator pos, const T& value);
 
-        void remove(uint32_t index);
+        void remove(std::size_t index);
         void remove(Iterator pos);
 
         void unshift(const T& value) override;
@@ -272,7 +272,7 @@ LinkedList<T>::~LinkedList()
  * @return Lunghezza della lista
  */
 template <class T>
-uint32_t LinkedList<T>::getSize() const
+std::size_t LinkedList<T>::getSize() const
 {
     return this->_len;
 }
@@ -303,7 +303,7 @@ bool LinkedList<T>::isEmpty() const
  * @return Nodo in posizione index
  */
 template <class T>
-typename LinkedList<T>::Iterator LinkedList<T>::find(uint32_t index) const
+typename LinkedList<T>::Iterator LinkedList<T>::find(std::size_t index) const
 {
     if (index >= this->_len)
     {
@@ -344,7 +344,7 @@ typename LinkedList<T>::Iterator LinkedList<T>::find(uint32_t index) const
  * @param index: Indice in cui inserire il nodo
  */
 template <class T>
-void LinkedList<T>::insert(const T& value, uint32_t index)
+void LinkedList<T>::insert(const T& value, std::size_t index)
 {
     if (this->isEmpty() || index == 0)
     {
@@ -428,7 +428,7 @@ void LinkedList<T>::remove(Iterator pos)
  * @param index: Indice del nodo da eliminare
  */
 template <class T>
-void LinkedList<T>::remove(uint32_t index)
+void LinkedList<T>::remove(std::size_t index)
 {
     if (!this->isEmpty())
     {

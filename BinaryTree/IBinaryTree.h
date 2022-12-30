@@ -1,5 +1,7 @@
-#ifndef _STRUCTURES_IBINARYTREE_H
-#define _STRUCTURES_IBINARYTREE_H
+#ifndef _IBINARYTREE_H
+#define _IBINARYTREE_H
+
+#include <iostream>
 
 template <class T, class I>
 class IBinaryTree
@@ -48,4 +50,4 @@ class IBinaryTree
 
 
 
-#endif // _STRUCTURES_IBINARYTREE_H
+#endif // _IBINARYTREE_H

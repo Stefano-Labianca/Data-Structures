@@ -1,7 +1,7 @@
 #ifndef STRUCTURES_BINARYTREE_H
 #define STRUCTURES_BINARYTREE_H
 
-#include <iostream>
+
 #include "./IBinaryTree.h"
 #include "../Queue/Queue.h"
 

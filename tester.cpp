@@ -1,28 +1,22 @@
 
 #include <iostream>
 
+#include "LinkedList/ArrayLinkedList.h"
 #include "Set/Set.h"
 
 int main(int argc, char const *argv[])
 {
-    Set<int> a;
-    Set<int> b;
+    ArrayLinkedList<int> a1(2);
+    ArrayLinkedList<int> a2(2);
 
+    a1.append(1);
+    a1.append(2);
 
-    b.add(1);
-    b.add(2);
-    b.add(4);
-    b.add(8);
+    a2.append(1);
 
-    Set<int> u = a.unions(b);
-    Set<int> i = a.intersection(b);
-    Set<int> d = a.difference(b);
+    std::cout << a1;
+    std::cout << a2;
 
-//    std::cout << a.isSubset(i);
-
-    a = b;
-
-    std::cout << a << std::endl << b;
 
     return 0;
 }

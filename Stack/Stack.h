@@ -128,7 +128,7 @@ Stack<T>::Stack(const Stack<T>& source)
     delete it;
     it = nullptr;
 
-    Node<T>* itList = list.begin();
+    Iterator itList = list.begin();
 
     while (itList)
     {

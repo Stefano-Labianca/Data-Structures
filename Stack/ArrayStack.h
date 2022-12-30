@@ -310,7 +310,7 @@ bool ArrayStack<T>::operator!=(const ArrayStack<T>& arrayStack) const
         {
             if (this->_array[it] == arrayStack._array[it])
             {
-                return true;
+                return false;
             }
         }
     }
