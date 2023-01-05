@@ -1,21 +1,22 @@
+#include "Dictionary/Dictionary.h"
 
-#include <iostream>
-
-#include "LinkedList/ArrayLinkedList.h"
-#include "Set/Set.h"
+#include <string>
 
 int main(int argc, char const *argv[])
 {
-    ArrayLinkedList<int> a1(2);
-    ArrayLinkedList<int> a2(2);
+    Dictionary<std::string, int> dictionary(1);
+    Dictionary<std::string, int> d(5);
 
-    a1.append(1);
-    a1.append(2);
+    dictionary.insert("One", 1);
+    dictionary.insert("Two", 2);
+    dictionary.insert("Three", 3);
 
-    a2.append(1);
+    d.insert("A", 1);
+    d.insert("V", 2);
+    d.insert("E", 3);
 
-    std::cout << a1;
-    std::cout << a2;
+
+    std::cout << dictionary.isSubset(d);
 
 
     return 0;
