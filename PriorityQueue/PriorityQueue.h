@@ -222,13 +222,12 @@ void PriorityQueue<T>::_fixUp()
 
     currentParent = this->_heap[currentParentPos];
 
-    while(  (currentChildPos > 0) && (currentChild < currentParent))
+    while((currentChildPos > 0) && (currentChild < currentParent))
     {
         //faccio lo scambio
 
-        Type temp;
-        temp = currentChild;
-        this->_heap[currentParentPos];
+        Type temp = currentChild;
+        this->_heap[currentChildPos] = this->_heap[currentParentPos];
         this->_heap[currentParentPos] = temp;
 
         currentChildPos = currentParentPos;
@@ -241,10 +240,10 @@ void PriorityQueue<T>::_fixUp()
         {
             currentParentPos = currentChildPos / 2;
         }
+
         currentChild = this->_heap[currentChildPos];
         currentParent = this->_heap[currentParentPos];
     }
-
 }
 
 /**
@@ -263,10 +262,6 @@ void PriorityQueue<T>::_fixUp()
 template <class T>
 void PriorityQueue<T>::_fixDown(std::size_t startPos, std::size_t endPos)
 {
-    /*
-
-    */
-
     bool isSwaped = true;
 
     while ((startPos <= endPos / 2) && isSwaped)
@@ -282,8 +277,7 @@ void PriorityQueue<T>::_fixDown(std::size_t startPos, std::size_t endPos)
 
         if (isSwaped)
         {
-            Type temp;
-            temp = this->_heap[startPos - 1];
+            Type temp = this->_heap[startPos - 1];
             this->_heap[startPos - 1] = this->_heap[j - 1];
             this->_heap[j - 1] = temp;
 
