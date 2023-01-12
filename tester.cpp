@@ -1,23 +1,21 @@
-#include "Dictionary/Dictionary.h"
-
-#include <string>
+#include "Tree/Tree.h"
 
 int main(int argc, char const *argv[])
 {
-    Dictionary<std::string, int> dictionary(1);
-    Dictionary<std::string, int> d(5);
+    Tree<int> tree(2);
 
-    dictionary.insert("One", 1);
-    dictionary.insert("Two", 2);
-    dictionary.insert("Three", 3);
+    tree.insertSibling(tree.getRoot(), 5);
+    tree.insertSibling(tree.getRoot(), 6);
 
-    d.insert("A", 1);
-    d.insert("V", 2);
-    d.insert("E", 3);
+    Tree<int>::Iterator s = tree.getFirstChild(tree.getRoot());
+    Tree<int>::Iterator t = tree.getNextSibling(s);
 
+    tree.insertFirstChild(s, 30);
+    tree.insertFirstChild(s, 20);
 
-    std::cout << dictionary.isSubset(d);
+    tree.insertFirstChild(t, 7);
 
+    std::cout << tree.nodesPerLevel(1);
 
     return 0;
 }
