@@ -453,7 +453,7 @@ void LinkedList<T>::remove(const T& value)
 
     Iterator it = this->begin();
 
-    while (it)
+    while (!this->isEnd(it))
     {
         if (it->_value == value)
         {
