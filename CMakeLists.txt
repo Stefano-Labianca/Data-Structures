@@ -12,7 +12,7 @@ add_executable(structures tester.cpp
     ./Queue/Queue.h ./Queue/IQueue.h ./Queue/ArrayQueue.h   
     ./Set/ISet.h ./Set/Set.h
     ./BinaryTree/IBinaryTree.h ./BinaryTree/BinaryTree.h
-    ./BST/BinarySearchTree.h LinkedList/ArrayLinkedList.h PriorityQueue/PriorityQueue.h PriorityQueue/IPriorityQueue.h Dictionary/Dictionary.h Dictionary/IDictionary.h Graph/IGraph.h Graph/Graph.h Tree/Tree.h Tree/ITree.h Lib/random.h)
+    ./BST/BinarySearchTree.h LinkedList/ArrayLinkedList.h PriorityQueue/PriorityQueue.h PriorityQueue/IPriorityQueue.h Dictionary/Dictionary.h Dictionary/IDictionary.h Graph/IGraph.h Graph/Graph.h Tree/Tree.h Tree/ITree.h Lib/random.h soluzioni-tracce-esami/even_father.h soluzioni-tracce-esami/eo_strings.h)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
