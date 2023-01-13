@@ -723,7 +723,7 @@ void LinkedList<T>::heapSort()
 
 
 /**
- * Implementazione dell'algoritmo di ordinamento dell' Heap Sort
+ * Implementazione dell'algoritmo di ordinamento Insertion Sort
  *
  * @tparam T: Tipo della lista e dei nodi
  */
