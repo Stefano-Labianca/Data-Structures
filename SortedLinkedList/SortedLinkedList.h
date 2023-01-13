@@ -40,6 +40,10 @@ class SortedLinkedList : public ISortedLinkedList<T, LinkedNode<T>*>
         Iterator find(uint32_t index);
         Iterator find(const T& needle);
 
+        Iterator begin() const;
+        Iterator last() const;
+
+
         template <class V>
         friend std::ostream& operator<<(std::ostream& out, const SortedLinkedList<V>& sList);
 
@@ -260,6 +264,30 @@ template <class T>
 bool SortedLinkedList<T>::isEnd(Iterator it) const
 {
     return this->_sortedList->isEnd(it);
+}
+
+/**
+* Restituisce la testa della lista, cioe' il primo elemento
+*
+* @tparam T: Tipo della lista e dei nodi
+* @return Puntatore al primo nodo della lista
+*/
+template <class T>
+typename SortedLinkedList<T>::Iterator SortedLinkedList<T>::begin() const
+{
+    return this->_sortedList->begin();
+}
+
+/**
+ * Restituisce la coda della lista, cioe' l'ultimo elemento
+ *
+ * @tparam T: Tipo della lista e dei nodi
+ * @return Puntatore all'ultimo nodo della lista
+ */
+template <class T>
+typename SortedLinkedList<T>::Iterator SortedLinkedList<T>::last() const
+{
+    this->_sortedList->begin();
 }
 
 

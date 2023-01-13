@@ -35,9 +35,15 @@ class ILinkedList
 template <class V, class U>
 std::ostream& operator<<(std::ostream& out, const ILinkedList<V, U>& list)
 {
-    U it = list.begin();
+    typename ILinkedList<V, U>::Iterator it = list.begin();
 
     out << "[ ";
+
+    if (list.getSize() == 0)
+    {
+        out << " ]" << std::endl;
+        return out;
+    }
 
     while (!list.isEnd(it))
     {

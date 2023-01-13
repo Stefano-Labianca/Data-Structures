@@ -2,6 +2,7 @@
 #define _LINKED_LIST_H
 
 #include "ILinkedList.h"
+#include "../PriorityQueue/PriorityQueue.h"
 
 #include <iostream>
 
@@ -80,9 +81,9 @@ LinkedNode<T>::LinkedNode(const T& value, LinkedNode<T>* next, LinkedNode<T>* pr
 template <class T>
 LinkedNode<T>::LinkedNode(const LinkedNode<T>& source)
 {
-    this->_value = source.value;
-    this->_prev = source.prev;
-    this->_next = source.next;
+    this->_value = source._value;
+    this->_prev = source._prev;
+    this->_next = source._next;
 }
 
 /**
@@ -203,6 +204,7 @@ class LinkedList: public ILinkedList<T, LinkedNode<T>*>
         void insert(Iterator pos, const T& value);
 
         void remove(std::size_t index);
+        void remove(const T& value);
         void remove(Iterator pos);
 
         void unshift(const T& value) override;
@@ -212,6 +214,9 @@ class LinkedList: public ILinkedList<T, LinkedNode<T>*>
 
         Iterator begin() const;
         Iterator last() const;
+
+        void heapSort();
+        void insertionSort();
 
         bool isEnd(Iterator it) const;
 
@@ -410,14 +415,56 @@ void LinkedList<T>::insert(Iterator pos, const T& value)
 template <class T>
 void LinkedList<T>::remove(Iterator pos)
 {
-    Iterator prev = pos->getPrev();
-    Iterator next = pos->getNext();
+    if (this->isEmpty() || this->isEnd(pos))
+    {
+        return;
+    }
+
+    Iterator prev = pos->_prev;
+    Iterator next = pos->_next;
 
     prev->_next = next;
     next->_prev = prev;
 
+    if (pos == this->last())
+    {
+        this->_tail = prev;
+    }
+
+    delete pos;
+    pos = nullptr;
+
     this->_len -= 1;
 }
+
+/**
+ * Rimuove un nodo con valore value dalla lista.
+ *
+ * @tparam T: Tipo della lista e dei nodi
+ * @param value: Valore da eliminare dalla lista
+ */
+template <class T>
+void LinkedList<T>::remove(const T& value)
+{
+    if (this->isEmpty())
+    {
+        return;
+    }
+
+    Iterator it = this->begin();
+
+    while (it)
+    {
+        if (it->_value == value)
+        {
+            this->remove(it);
+            return;
+        }
+
+        it = it->_next;
+    }
+}
+
 
 
 
@@ -639,6 +686,74 @@ template <class T>
 bool LinkedList<T>::isEnd(Iterator it) const
 {
     return (it == this->_headPtr);
+}
+
+/**
+ * Implementazione dell'algoritmo di ordinamento dell' Heap Sort
+ *
+ * @tparam T: Tipo della lista e dei nodi
+ */
+template <class T>
+void LinkedList<T>::heapSort()
+{
+    if (this->isEmpty())
+    {
+        return;
+    }
+
+    PriorityQueue<T> pQueue;
+
+    // Carico tutti gli elementi della lista disordinata nella coda con priorita'
+    for (Iterator it = this->begin(); !this->isEnd(it); it = it->_next)
+    {
+        pQueue.insert(it->_value);
+    }
+
+    /**
+     * Fin quando la coda con priorita' non è vuota, inserisco il minimo nella
+     * lista, andando sovrascrivendo il vecchio valore
+     */
+
+    for (Iterator it = this->begin(); !this->isEnd(it); it = it->_next)
+    {
+        it->_value = pQueue.min();
+        pQueue.deleteMin();
+    }
+}
+
+
+/**
+ * Implementazione dell'algoritmo di ordinamento dell' Heap Sort
+ *
+ * @tparam T: Tipo della lista e dei nodi
+ */
+template <class T>
+void LinkedList<T>::insertionSort()
+{
+    Iterator q;
+    Type type;
+
+    for (Iterator it = this->begin(); !this->isEnd(it); it = it->getNext())
+    {
+        type = it->getNodeValue();
+
+        if (it != this->begin())
+        {
+            q = this->begin();
+
+            while (q->getNodeValue() < type)
+            {
+                q = q->getNext();
+            }
+
+            LinkedNode<T> pIt(*it);
+
+            this->insert(q, type);
+            this->remove(it);
+
+            it = &pIt;
+        }
+    }
 }
 
 

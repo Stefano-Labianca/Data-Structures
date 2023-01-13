@@ -23,8 +23,8 @@ class ISortedLinkedList
         virtual Iterator getMax() = 0;
 
         virtual Iterator find(uint32_t index) = 0;
-
-
+        virtual Iterator begin() const = 0;
+        virtual Iterator last() const = 0;
 };
 
 
