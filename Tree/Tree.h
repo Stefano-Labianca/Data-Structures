@@ -9,6 +9,11 @@
 template <class T>
 class Tree;
 
+/**
+ * Classe che implementa un nodo di un albero
+ *
+ * @tparam T : Tipo del nodo
+ */
 template <class T>
 class TreeNode
 {
@@ -34,6 +39,11 @@ class TreeNode
         uint32_t getLevel();
 };
 
+/**
+ * Crea un
+ *
+ * @tparam T : Tipo del nodo
+ */
 template <class T>
 TreeNode<T>::TreeNode()
 {
@@ -44,6 +54,12 @@ TreeNode<T>::TreeNode()
     this->_level = 0;
 }
 
+/**
+ * Crea un nodo di un albero
+ *
+ * @tparam T : Tipo del nodo
+ * @param value : Valore nodo
+ */
 template <class T>
 TreeNode<T>::TreeNode(const T& value)
 {
@@ -55,6 +71,14 @@ TreeNode<T>::TreeNode(const T& value)
     this->_level = 0;
 }
 
+/**
+ * Crea un nodo di un albero
+ *
+ * @tparam T : Tipo del nodo
+ * @param value : Valore nodo
+ * @param parent : Puntatore al padre
+ * @param level : Livello nodo
+ */
 template <class T>
 TreeNode<T>::TreeNode(const T& value, TreeNode<T>* parent, uint32_t level)
 {
@@ -66,6 +90,15 @@ TreeNode<T>::TreeNode(const T& value, TreeNode<T>* parent, uint32_t level)
     this->_level = level;
 }
 
+/**
+ * Crea un nodo di un albero
+ *
+ * @tparam T : Tipo del nodo
+ * @param value : Valore nodo
+ * @param parent : Puntatore al padre
+ * @param firstChild : Puntatore al primo figlio
+ * @param level : Livello nodo
+ */
 template <class T>
 TreeNode<T>::TreeNode(const T& value, TreeNode<T>* parent, TreeNode<T>* firstChild, uint32_t level)
 {
@@ -77,6 +110,12 @@ TreeNode<T>::TreeNode(const T& value, TreeNode<T>* parent, TreeNode<T>* firstChi
     this->_level = level;
 }
 
+/**
+ * Costruttore di copia
+ *
+ * @tparam T : Tipo del nodo
+ * @param source : Nodo da copiare
+ */
 template <class T>
 TreeNode<T>::TreeNode(const TreeNode<T>& source)
 {

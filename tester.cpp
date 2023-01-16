@@ -1,21 +1,18 @@
-#include "Tree/Tree.h"
+#include "soluzioni-tracce-esami/bst.h"
+//#include "Graph/Graph.h"
+
 
 int main(int argc, char const *argv[])
 {
-    Tree<int> tree(2);
+    BST b;
 
-    tree.insertSibling(tree.getRoot(), 5);
-    tree.insertSibling(tree.getRoot(), 6);
+    b.insert(1);
+    b.insert(4);
+    b.insert(5);
+    b.insert(7);
+    b.insert(4);
 
-    Tree<int>::Iterator s = tree.getFirstChild(tree.getRoot());
-    Tree<int>::Iterator t = tree.getNextSibling(s);
-
-    tree.insertFirstChild(s, 30);
-    tree.insertFirstChild(s, 20);
-
-    tree.insertFirstChild(t, 7);
-
-    std::cout << tree.nodesPerLevel(1);
+    std::cout << b.is_bst();
 
     return 0;
 }

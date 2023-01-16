@@ -193,6 +193,11 @@ void Queue<T>::dequeue()
         oldFront = nullptr;
 
         this->_len--;
+
+        if (this->_len == 0)
+        {
+            this->_back = nullptr;
+        }
     }
 }
 

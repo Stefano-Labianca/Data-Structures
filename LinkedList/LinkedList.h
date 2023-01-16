@@ -46,6 +46,11 @@ class LinkedNode
         friend std::ostream& operator<<(std::ostream& out, const LinkedNode<V>* node);
 };
 
+/**
+ * Costruisce un nodo vuoto
+ *
+ * @tparam T: Tipo di dato contenuto nel nodo
+ */
 template <class T>
 LinkedNode<T>::LinkedNode()
 {
@@ -53,7 +58,12 @@ LinkedNode<T>::LinkedNode()
     this->_prev = nullptr;
 }
 
-
+/**
+ * Costruisce un nodo con valore value
+ *
+ * @tparam T: Tipo di dato contenuto nel nodo
+ * @param value : Valore del nodo
+ */
 template <class T>
 LinkedNode<T>::LinkedNode(const T& value)
 {
@@ -62,6 +72,13 @@ LinkedNode<T>::LinkedNode(const T& value)
     this->_prev = nullptr;
 }
 
+/**
+ * Costruisce un nodo con un valore value e un puntatore al nodo successivo
+ *
+ * @tparam T: Tipo di dato contenuto nel nodo
+ * @param value : Valore del nodo
+ * @param next : Puntatore al nodo successivo
+ */
 template <class T>
 LinkedNode<T>::LinkedNode(const T& value, LinkedNode<T>* next)
 {
@@ -70,6 +87,15 @@ LinkedNode<T>::LinkedNode(const T& value, LinkedNode<T>* next)
     this->_prev = nullptr;
 }
 
+/**
+ * Costruisce un nodo con un valore value, un puntatore al nodo successivo
+ * e un puntatore al nodo precedente
+ *
+ * @tparam T: Tipo di dato contenuto nel nodo
+ * @param value : Valore del nodo
+ * @param next : Puntatore al nodo successivo
+ * @param prev : Puntatore al nodo precedente
+ */
 template <class T>
 LinkedNode<T>::LinkedNode(const T& value, LinkedNode<T>* next, LinkedNode<T>* prev)
 {
@@ -78,6 +104,12 @@ LinkedNode<T>::LinkedNode(const T& value, LinkedNode<T>* next, LinkedNode<T>* pr
     this->_prev = prev;
 }
 
+/**
+ * Costruttore di copia
+ *
+ * @tparam T: Tipo di dato contenuto nel nodo
+ * @param source : Nodo da copiare
+ */
 template <class T>
 LinkedNode<T>::LinkedNode(const LinkedNode<T>& source)
 {
@@ -211,6 +243,7 @@ class LinkedList: public ILinkedList<T, LinkedNode<T>*>
         void append(const T& value) override;
         void shift() override;
         void deleteLast() override;
+        void removeDuplicate();
 
         Iterator begin() const;
         Iterator last() const;
@@ -226,7 +259,11 @@ class LinkedList: public ILinkedList<T, LinkedNode<T>*>
 
 };
 
-
+/**
+ * Crea una lista vuota
+ *
+ * @tparam T: Tipo della lista e dei nodi
+ */
 template <class T>
 LinkedList<T>::LinkedList()
 {
@@ -234,6 +271,11 @@ LinkedList<T>::LinkedList()
     this->_createLookout();
 }
 
+/**
+ * Costrutisce una lista con un valore value in testa
+ * @tparam T: Tipo della lista e dei nodi
+ * @param value : Valore da mettere in testa
+ */
 template <class T>
 LinkedList<T>::LinkedList(const T& value)
 {
@@ -241,6 +283,12 @@ LinkedList<T>::LinkedList(const T& value)
     this->_createLookout(value);
 }
 
+/**
+ * Costuttore di copia
+ *
+ * @tparam T: Tipo della lista e dei nodi
+ * @param otherList : Lista da copiare
+ */
 template <class T>
 LinkedList<T>::LinkedList(const LinkedList<T>& otherList)
 {
@@ -259,6 +307,11 @@ LinkedList<T>::LinkedList(const LinkedList<T>& otherList)
     }
 }
 
+/**
+ * Distruttore
+ *
+ * @tparam T: Tipo della lista e dei nodi
+ */
 template <class T>
 LinkedList<T>::~LinkedList()
 {
@@ -645,6 +698,45 @@ void LinkedList<T>::deleteLast()
         }
 
         this->_len -= 1;
+    }
+}
+
+/**
+ * Rimuove eventuali duplicati all'interno della lista
+ *
+ * @tparam T: Tipo della lista e dei nodi
+ */
+template <class T>
+void LinkedList<T>::removeDuplicate()
+{
+    if (this->isEmpty())
+    {
+        return;
+    }
+
+    Iterator scan = this->begin();
+    Iterator it = this->begin();
+    Iterator prevScan;
+
+    while (it != this->last())
+    {
+        while (!this->isEnd(scan))
+        {
+            if (it != scan)
+            {
+                if (it->_value == scan->_value)
+                {
+                    prevScan = scan->_prev;
+                    this->remove(scan);
+                    scan = prevScan;
+                }
+            }
+
+            scan = scan->_next;
+        }
+
+        it = it->_next;
+        scan = this->begin();
     }
 }
 

@@ -4,7 +4,11 @@
 #include "../BinaryTree/BinaryTree.h"
 #include "IBinarySearchTree.h"
 
-
+/**
+ * Implementazione di un albero binario di ricerca.
+ *
+ * @tparam T: Tipo di dato da salvare
+ */
 template <class T>
 class BinarySearchTree : public IBinarySearchTree<T, BinaryTreeNode<T>*>
 {

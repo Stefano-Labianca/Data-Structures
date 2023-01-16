@@ -3,28 +3,6 @@
 
 #include "IStack.h"
 
-class IndexOutOfBoundException : public std::exception
-{   
-    private:
-        std::string _msg;
-
-    public:
-        IndexOutOfBoundException(std::size_t userIndex, std::size_t maxIndex, uint32_t codeLine, const char* fileName)
-        {
-            this->_msg = "IndexOutOfBound: Accesso con indice negativo o con indice superiore al massimo.\n";
-            this->_msg += "Riga: " + std::to_string(codeLine) + "\n";
-            this->_msg += "File: " + std::string(fileName) + "\n";
-            this->_msg += "Il tuo indice: " + std::to_string(userIndex) + "\n";
-            this->_msg += "L'indice minimo: 0\n";
-            this->_msg += "L'indice massimo: " + std::to_string(maxIndex) + "\n";
-        }
-
-        const char* what() 
-        {
-            return this->_msg.c_str();
-        }
-};
-
 
 /**
  * @brief Classe che implementa la struttura dati dello Stack attraverso un array
@@ -321,20 +299,9 @@ bool ArrayStack<T>::operator!=(const ArrayStack<T>& arrayStack) const
 template <class T>
 typename ArrayStack<T>::Type& ArrayStack<T>::operator[](Iterator pos)
 {
-    try
+    if (pos >= 0 && pos < this->getLength())
     {
-        if (pos >= 0 && pos < this->getLength())
-        {
-            return this->_array[pos];
-        }
-
-        throw IndexOutOfBoundException(pos, this->_headIndex, __LINE__, __FILE__);
-    }
-
-    catch (IndexOutOfBoundException e)
-    {
-        std::cerr << e.what() << std::endl;
-        throw;
+        return this->_array[pos];
     }
 }
 

@@ -5,7 +5,7 @@
 #include "../SortedLinkedList/SortedLinkedList.h"
 
 /**
- * Classe che implementa gli insiemi.
+ * Classe che implementa gli insiemi tramite liste ordinate
  *
  * @tparam T: Tipo di dato da contenere nell'insieme
  */
@@ -46,20 +46,33 @@ class Set : public ISet<T, LinkedNode<T>*>
 };
 
 
+/**
+ * Costrutisce un insieme vuoto
+ *
+ * @tparam T: Tipo della lista e dei nodi
+ */
 template <class T>
 Set<T>::Set()
 {
     this->_set = new SortedLinkedList<T>();
 }
 
-
+/**
+ * Costrutisce di copia
+ *
+ * @tparam T: Tipo della lista e dei nodi
+ */
 template <class T>
 Set<T>::Set(const Set<T>& set)
 {
     this->_set = new SortedLinkedList<T>( *(set._set) );
 }
 
-
+/**
+ * Distruttore
+ *
+ * @tparam T: Tipo della lista e dei nodi
+ */
 template <class T>
 Set<T>::~Set()
 {

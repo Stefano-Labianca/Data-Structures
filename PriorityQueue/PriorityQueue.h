@@ -3,7 +3,11 @@
 
 #include "IPriorityQueue.h"
 
-
+/**
+ * Classe che realizza la coda con priorità
+ *
+ * @tparam T : Tipo di dato contenuto nella coda con priorita'
+ */
 template <class T>
 class PriorityQueue : public IPriorityQueue<T, std::size_t>
 {
@@ -40,6 +44,12 @@ class PriorityQueue : public IPriorityQueue<T, std::size_t>
         friend std::ostream& operator<<(std::ostream&, const PriorityQueue<V>& pQUeue);
 };
 
+
+/**
+ * Crea una coda con priorita' con dimensioni pari a quelle di default (16)
+ *
+ * @tparam T : Tipo di dato contenuto nella coda con priorita'
+ */
 template <class T>
 PriorityQueue<T>::PriorityQueue()
 {
@@ -48,6 +58,13 @@ PriorityQueue<T>::PriorityQueue()
     this->_currentSize = 0;
 }
 
+/**
+ * Crea una coda con priorita' vuota con dimensioni custom pari a size.
+ * Se size e' uguale a zero, allora la coda con priorita' avra' dimensioni di default (16)
+ *
+ * @tparam T : Tipo di dato contenuto nella coda con priorita'
+ * @param size : Dimensioni custom della coda con priorita'
+ */
 template <class T>
 PriorityQueue<T>::PriorityQueue(size_t size)
 {
@@ -66,6 +83,11 @@ PriorityQueue<T>::PriorityQueue(size_t size)
     this->_currentSize = 0;
 }
 
+/**
+ * Distuttore
+ *
+ * @tparam T : Tipo di dato contenuto nella coda con priorita'
+ */
 template<class T>
 PriorityQueue<T>::~PriorityQueue()
 {

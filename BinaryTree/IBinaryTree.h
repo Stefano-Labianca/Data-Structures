@@ -39,7 +39,7 @@ class IBinaryTree
         virtual uint32_t getHeight() = 0;
         virtual uint32_t calculateMaxLevel(Iterator node) = 0;
 
-        virtual Iterator getRoot() = 0;
+        virtual Iterator getRoot() const = 0;
         virtual Iterator getLeftChild(Iterator node) = 0;
         virtual Iterator getRightChild(Iterator node) = 0;
         virtual Iterator getParent(Iterator node) = 0;

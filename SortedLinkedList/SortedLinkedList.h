@@ -17,7 +17,7 @@ class SortedLinkedList : public ISortedLinkedList<T, LinkedNode<T>*>
         typedef typename ISortedLinkedList<T, LinkedNode<T>*>::Type Type;
 
     private:
-        LinkedList<T>* _sortedList;
+        LinkedList<T>* _sortedList; // Puntatore alla testa della lista ordinata
 
     public:
         SortedLinkedList();
@@ -53,19 +53,35 @@ class SortedLinkedList : public ISortedLinkedList<T, LinkedNode<T>*>
 };
 
 
+/**
+ * Crea una lista ordinata vuota
+ *
+ * @tparam T: Tipo della lista e dei nodi
+ */
 template <class T>
 SortedLinkedList<T>::SortedLinkedList()
 {
     this->_sortedList = new LinkedList<T>();
 }
 
-
+/**
+ * Crea una lista ordinata con un valore value in testa
+ *
+ * @tparam T: Tipo della lista e dei nodi
+ * @param value: Valore iniziale
+ */
 template <class T>
 SortedLinkedList<T>::SortedLinkedList(const T& value)
 {
     this->_sortedList = new LinkedList<T>(value);
 }
 
+/**
+ * Costruttore di copia
+ *
+ * @tparam T: Tipo della lista e dei nodi
+ * @param otherList: Lista ordinata da copiare
+ */
 template <class T>
 SortedLinkedList<T>::SortedLinkedList(const SortedLinkedList<T>& otherList)
 {
@@ -83,6 +99,11 @@ SortedLinkedList<T>::SortedLinkedList(const SortedLinkedList<T>& otherList)
     }
 }
 
+/**
+ * Distruttore
+ *
+ * @tparam T: Tipo della lista e dei nodi
+ */
 template <class T>
 SortedLinkedList<T>::~SortedLinkedList()
 {

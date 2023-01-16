@@ -3,6 +3,11 @@
 
 #include "ILinkedList.h"
 
+/**
+ * Rappresentazione della lista con gli array
+ *
+ * @tparam T: Tipo della lista
+ */
 template <class T>
 class ArrayLinkedList : public ILinkedList<T, std::size_t>
 {
@@ -55,6 +60,11 @@ class ArrayLinkedList : public ILinkedList<T, std::size_t>
         Type& operator[](Iterator pos);
 };
 
+/**
+ * Crea una lista vuota con dimensioni pari a quelle di default (16)
+ *
+ * @tparam T: Tipo della lista
+ */
 template <class T>
 ArrayLinkedList<T>::ArrayLinkedList()
 {
@@ -63,6 +73,13 @@ ArrayLinkedList<T>::ArrayLinkedList()
     this->_currentSize = 0;
 }
 
+/**
+ * Crea una lista vuota con dimensioni custom pari a size.
+ * Se size e' uguale a zero, allora la lista avra' dimensioni di default (16)
+ *
+ * @tparam T: Tipo della lista
+ * @param size : Dimensioni della lista
+ */
 template <class T>
 ArrayLinkedList<T>::ArrayLinkedList(Iterator size)
 {
@@ -81,6 +98,12 @@ ArrayLinkedList<T>::ArrayLinkedList(Iterator size)
     this->_currentSize = 0;
 }
 
+/**
+ * Costuttore di copia
+ *
+ * @tparam T: Tipo della lista
+ * @param otherList : Lista da copiare
+ */
 template <class T>
 ArrayLinkedList<T>::ArrayLinkedList(const ArrayLinkedList<T>& source)
 {
@@ -94,6 +117,11 @@ ArrayLinkedList<T>::ArrayLinkedList(const ArrayLinkedList<T>& source)
     }
 }
 
+/**
+ * Distruttore
+ *
+ * @tparam T: Tipo della lista
+ */
 template <class T>
 ArrayLinkedList<T>::~ArrayLinkedList()
 {

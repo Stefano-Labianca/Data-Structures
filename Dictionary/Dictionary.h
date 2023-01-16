@@ -14,8 +14,8 @@ template <class Key, class Value>
 class Pair : public IPair<Key, Value>
 {
     private:
-        Key _key;
-        Value _value;
+        Key _key; // Chiave
+        Value _value; // Valore
 
     public:
         Pair(Key k, Value v);
@@ -34,6 +34,14 @@ class Pair : public IPair<Key, Value>
         friend std::ostream& operator<<(std::ostream& out, const Pair<Key1,Value1>& pair);
 };
 
+/**
+ * Crea una coppia chiave-valore
+ *
+ * @tparam Key : Tipo della chiave
+ * @tparam Value : Tipo del valore associato alla chiave
+ * @param k : Chiave
+ * @param v : Valore
+ */
 template <class Key, class Value>
 Pair<Key, Value>::Pair(Key k, Value v)
 {
@@ -41,6 +49,13 @@ Pair<Key, Value>::Pair(Key k, Value v)
     this->_value = v;
 }
 
+/**
+ * Costruttore di copia
+ *
+ * @tparam Key : Tipo della chiave
+ * @tparam Value : Tipo del valore associato alla chiave
+ * @param source : Associazione da copiare
+ */
 template <class Key, class Value>
 Pair<Key, Value>::Pair(const Pair<Key, Value>& source)
 {
@@ -48,24 +63,52 @@ Pair<Key, Value>::Pair(const Pair<Key, Value>& source)
     this->_value = source._value;
 }
 
+/**
+ * Imposta una chiave
+ *
+ * @tparam Key : Tipo della chiave
+ * @tparam Value : Tipo del valore associato alla chiave
+ * @param key : Chiave da aggiornare
+ */
 template <class Key, class Value>
 void Pair<Key, Value>::setKey(Key key)
 {
     this->_key = key;
 }
 
+/**
+ * Restituisce la chiave
+ *
+ * @tparam Key : Tipo della chiave
+ * @tparam Value : Tipo del valore associato alla chiave
+ * @return Chiave
+ */
 template <class Key, class Value>
 Key Pair<Key, Value>::getKey()
 {
     return this->_key;
 }
 
+/**
+ * Imposta un valore
+ *
+ * @tparam Key : Tipo della chiave
+ * @tparam Value : Tipo del valore associato alla chiave
+ * @param value Valore da aggiornare
+ */
 template <class Key, class Value>
 void Pair<Key, Value>::setValue(Value value)
 {
     this->_value = value;
 }
 
+/**
+ * Restituisce un valore
+ *
+ * @tparam Key : Tipo della chiave
+ * @tparam Value : Tipo del valore associato alla chiave
+ * @return Valore
+ */
 template <class Key, class Value>
 Value Pair<Key, Value>::getValue()
 {
@@ -153,6 +196,12 @@ class Dictionary : public IDictionary<Key, Value>
         friend std::ostream& operator<<(std::ostream& out, const Dictionary<K, V>& dictionary);
 };
 
+/**
+ * Crea un dizionario vuoto con le dimensioni di default pari a 11
+ *
+ * @tparam Key : Tipo della chiave
+ * @tparam Value : Tipo del valore associato alla chiave
+ */
 template <class Key, class Value>
 Dictionary<Key, Value>::Dictionary()
 {
@@ -167,6 +216,14 @@ Dictionary<Key, Value>::Dictionary()
     }
 }
 
+/**
+ * Crea un dizionario con dimensioni pari a size.
+ * Se size e' zero allora il dizionario avra' le dimensioni di default 11.
+ *
+ * @tparam Key : Tipo della chiave
+ * @tparam Value : Tipo del valore associato alla chiave
+ * @param size : Dimensioni del dizionario
+ */
 template <class Key, class Value>
 Dictionary<Key, Value>::Dictionary(int size)
 {
@@ -190,6 +247,12 @@ Dictionary<Key, Value>::Dictionary(int size)
     }
 }
 
+/**
+ * Distruttore
+ *
+ * @tparam Key : Tipo della chiave
+ * @tparam Value : Tipo del valore associato alla chiave
+ */
 template<class Key, class Value>
 Dictionary<Key, Value>::~Dictionary()
 {
@@ -522,7 +585,7 @@ uint32_t Dictionary<Key, Value>::_hash(const std::string& key) {
 
     while (c)
     {
-        hash = ((hash << 5) + hash) ^ c; /* hash * 33 ^ c */
+        hash = ((hash << 5) + hash) ^ c;
         c = *chr++;
     }
 

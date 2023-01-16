@@ -188,7 +188,7 @@ class BinaryTree : public IBinaryTree<T, BinaryTreeNode<T>*>
         void deleteLeft(Iterator node);
         void deleteRight(Iterator node);
 
-        Iterator getRoot();
+        Iterator getRoot() const;
         Iterator getLeftChild(Iterator node);
         Iterator getRightChild(Iterator node);
         Iterator getParent(Iterator node);
@@ -571,7 +571,7 @@ uint32_t BinaryTree<T>::calculateNodesAmount()
 
 
 template <class T>
-typename BinaryTree<T>::Iterator BinaryTree<T>::getRoot()
+typename BinaryTree<T>::Iterator BinaryTree<T>::getRoot() const
 {
     return this->_root;
 }

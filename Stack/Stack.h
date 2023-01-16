@@ -9,8 +9,6 @@
 template <class T>
 class Stack;
 
-// TODO: Aggiungere eccezioni custom
-
 
 template <class T>
 class StackNode
