@@ -9,30 +9,42 @@
 template <class T>
 class Stack;
 
-
+/**
+ * Descrive un nodo dello stack
+ * @tparam T : Tipo di dato da contenere
+ */
 template <class T>
 class StackNode
 {
     friend class Stack<T>;
 
     private:
-        T _value;
-        StackNode<T>* _next;
+        T _value; // Valore del nodo
+        StackNode<T>* _next; // Puntarore al nodo successivo
 
     public:
         StackNode();
-        explicit StackNode(const T& value);
+        StackNode(const T& value);
 
         T& getNodeValue();
         StackNode<T>* getNodeNext();
 };
 
+/**
+ * Costruisce un nodo vuoto
+ * @tparam T : Tipo di dato da contenere
+ */
 template <class T>
 StackNode<T>::StackNode()
 {
     this->_next = nullptr;
 }
 
+/**
+ * Costruisce un nodo con valore value
+ * @tparam T : Tipo di dato da contenere
+ * @param value : Valore del nodo
+ */
 template <class T>
 StackNode<T>::StackNode(const T& value)
 {
@@ -40,12 +52,22 @@ StackNode<T>::StackNode(const T& value)
     this->_value = value;
 }
 
+/**
+ * Restituisce il valore del nodo
+ * @tparam T : Tipo di dato da contenere
+ * @return Valore del nodo
+ */
 template <class T>
 T& StackNode<T>::getNodeValue()
 {
     return this->_value;
 }
 
+/**
+ * Restituisce il puntatore al nodo successivo
+ * @tparam T : Tipo di dato da contenere
+ * @return Puntatore al nodo successivo
+ */
 template <class T>
 StackNode<T>* StackNode<T>::getNodeNext()
 {
@@ -55,6 +77,10 @@ StackNode<T>* StackNode<T>::getNodeNext()
 
 // ----------------------------------
 
+/**
+ * Descrive lo stack implementato con i puntatori
+ * @tparam T : Tipo di dato da contenere
+ */
 template <class T>
 class Stack : public IStack<T, StackNode<T>*>
 {
@@ -63,12 +89,12 @@ class Stack : public IStack<T, StackNode<T>*>
         typedef typename IStack<T, StackNode<T>*>::Iterator Iterator;
 
     private:
-        Iterator _top;
-        uint32_t _size;
+        Iterator _top; // Puntatore all'elemento in cima allo stack
+        uint32_t _size; // Dimensioni dello stack
 
     public:
         Stack();
-        explicit Stack(const Iterator & top);
+        Stack(const Iterator & top);
         Stack(const Stack<T>& source);
         ~Stack();
         
@@ -94,6 +120,10 @@ class Stack : public IStack<T, StackNode<T>*>
         bool operator!=(const Stack<T>& stack) const;
 };
 
+/**
+ * Costruisce uno stack vuoto
+ * @tparam T : Tipo di dato da contenere
+ */
 template <class T>
 Stack<T>::Stack()
 {
@@ -101,7 +131,11 @@ Stack<T>::Stack()
     this->_size = 0;
 }
 
-
+/**
+ * Costruisce uno stack con un nodo top in cima ad esso
+ * @tparam T : Tipo di dato da contenere
+ * @param top : Nodo da mettere in cima
+ */
 template <class T>
 Stack<T>::Stack(const Iterator& top)
 {
@@ -109,6 +143,12 @@ Stack<T>::Stack(const Iterator& top)
     this->_size = 1;
 }
 
+/**
+ * Costruttore di  copia
+ *
+ * @tparam T : Tipo di dato da contenere
+ * @param source : Stack da copiare
+ */
 template <class T>
 Stack<T>::Stack(const Stack<T>& source)
 {
@@ -138,7 +178,11 @@ Stack<T>::Stack(const Stack<T>& source)
     itList = nullptr;
 }
 
-
+/**
+ * Distruttore dello stack
+ *
+ * @tparam T : Tipo di dato da contenere
+ */
 template <class T>
 Stack<T>::~Stack()
 {
@@ -150,20 +194,37 @@ Stack<T>::~Stack()
     delete this->_top;
 }
 
-
+/**
+ * Restituisce il valore contenuto nel nodo in cima allo stack
+ *
+ * @tparam T : Tipo di dato da contenere
+ * @return Valore del nodo in cima
+ */
 template <class T>
 typename Stack<T>::Type Stack<T>::peek() const
 {
     return this->_top->_value;
 }
 
-
+/**
+ * Restituisce il puntatore all'elemento in cima allo stack
+ *
+ * * @tparam T : Tipo di dato da contenere
+ * @return Puntatore del nodo in cima allo stack
+ */
 template <class T>
 typename Stack<T>::Iterator Stack<T>::begin() const
 {
     return this->_top;
 }
 
+/**
+ * Leggo il valore contenuto in pos.
+ *
+* @tparam T : Tipo di dato da contenere
+ * @param pos : Nodo a cui leggere il valore
+ * @return Valore contenuto in pos
+ */
 template <class T>
 typename Stack<T>::Type Stack<T>::read(const Iterator pos) const
 {
@@ -173,20 +234,35 @@ typename Stack<T>::Type Stack<T>::read(const Iterator pos) const
     }
 }
 
-
+/**
+ * Restituisce true se ho raggiunto la fine dello stack, altrimenti false
+ * @tparam T : Tipo di dato da contenere
+ * @return True se ho raggiunto la fine dello stack, altrimenti false
+ */
 template <class T>
 bool Stack<T>::isEnd(const Iterator pos) const
 {
     return pos == nullptr;
 }
 
-
+/**
+ * Restituisce il nodo successivo a pos
+ *
+ * @tparam T : Tipo di dato da contenere
+ * @param pos : Puntarore di un nodo
+ * @return Puntatore al successivo di pos
+ */
 template <class T>
 typename Stack<T>::Iterator Stack<T>::next(Iterator pos) const
 {
     return pos->_next;
 }
 
+/**
+ * Puntatore all'ultimo elemento nello stack
+ * @tparam T : Tipo di dato da contenere
+ * @return Ultimo elemento in stack
+ */
 template <class T>
 typename Stack<T>::Iterator Stack<T>::end() const
 {
@@ -200,14 +276,23 @@ typename Stack<T>::Iterator Stack<T>::end() const
     return it;
 }
 
-
+/**
+ * Restituisce true se lo stack e' vuoto, altrimenti false
+ *
+ * @tparam T : Tipo di dato da contenere
+ * @return true se lo stack e' vuoto, altrimenti false
+ */
 template <class T>
 bool Stack<T>::isEmpty() const
 {
     return (this->_top == nullptr);
 }
 
-
+/**
+ * Elimina il nodo in cima allo stack
+ *
+ * @tparam T : Tipo di dato da contenere
+ */
 template <class T>
 void Stack<T>::pop()
 {
@@ -222,7 +307,12 @@ void Stack<T>::pop()
     }
 }
 
-
+/**
+ * Inserisce un nodo con valore item nello stack
+ *
+ * @tparam T : Tipo di dato da contenere
+ * @param item : Valore del nodo
+ */
 template <class T>
 void Stack<T>::push(const Type& item)
 {
@@ -234,6 +324,14 @@ void Stack<T>::push(const Type& item)
     this->_size++;
 }
 
+/**
+ * Restituiusce la posizione, all'internod dello stack, del nodo con
+ * valore value. -1 se non esiste
+ *
+ * @tparam T : Tipo di dato da contenere
+ * @param value : Valore da ricercare
+ * @return Indice del nodo o -1
+ */
 template <class T>
 int Stack<T>::indexOf(const Type& value) const
 {
@@ -254,7 +352,13 @@ int Stack<T>::indexOf(const Type& value) const
     return -1;
 }
 
-
+/**
+ * Scrive un valore in una posizione index
+ *
+ * @tparam T : Tipo di dato da contenere
+ * @param value : Valore da scrivere
+* @param index : Indice in cui scrivere il valore
+ */
 template <class T>
 void Stack<T>::write(const Type& value, uint32_t index)
 {
@@ -277,7 +381,13 @@ void Stack<T>::write(const Type& value, uint32_t index)
     }
 }
 
-
+/**
+ * Restituisce l'elemento che si trova in posizione index nello stack
+ *
+* @tparam T : Tipo di dato da contenere
+ * @param index : Indice
+ * @return Elemento in posizione indedx
+ */
 template <class T>
 typename Stack<T>::Type Stack<T>::at(uint32_t index) const
 {

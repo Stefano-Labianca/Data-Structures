@@ -1,5 +1,5 @@
-#ifndef STRUCTURES_BINARYTREE_H
-#define STRUCTURES_BINARYTREE_H
+#ifndef _BINARYTREE_H
+#define _BINARYTREE_H
 
 
 #include "./IBinaryTree.h"
@@ -8,19 +8,23 @@
 template <class T>
 class BinaryTree;
 
-
+/**
+ * Descrive un nodo di un albero binario
+ * 
+ * @tparam T : Contenuto del nodo
+ */
 template <class T>
 class BinaryTreeNode
 {
     friend class BinaryTree<T>;
 
     private:
-        T _value;
-        BinaryTreeNode<T>* _parent;
-        BinaryTreeNode<T>* _leftChild;
-        BinaryTreeNode<T>* _rightChild;
+        T _value; // Valore del nodo
+        BinaryTreeNode<T>* _parent; // Puntatore al genitore
+        BinaryTreeNode<T>* _leftChild; // Puntatore al figlio sinistro
+        BinaryTreeNode<T>* _rightChild; // Puntatore al figlio destro
 
-        uint32_t _level;
+        uint32_t _level; // Livello del nodo all'interno dell'albero
 
     public:
         BinaryTreeNode();
@@ -42,6 +46,11 @@ class BinaryTreeNode
         void setNodeLevel(uint32_t newLvl);
 };
 
+/**
+ * Crea un nodo di un albero binario vuoto
+ * 
+ * @tparam T : Contenuto del nodo
+ */
 template <class T>
 BinaryTreeNode<T>::BinaryTreeNode()
 {
@@ -51,6 +60,12 @@ BinaryTreeNode<T>::BinaryTreeNode()
     this->_rightChild = nullptr;
 }
 
+/**
+ * Costruttore di un nodo dell'albero binario
+ * 
+ * @tparam T : Contenuto del nodo
+ * @param value : Valore del nodo
+ */
 template <class T>
 BinaryTreeNode<T>::BinaryTreeNode(T value)
 {
@@ -61,6 +76,14 @@ BinaryTreeNode<T>::BinaryTreeNode(T value)
     this->_rightChild = nullptr;
 }
 
+/**
+ * Costruttore di un nodo dell'albero binario
+ * 
+ * @tparam T : Contenuto del nodo
+ * @param value : Valore del nodo
+ * @param level : Livello del nodo
+ * @param parent : Puntatore al padre
+ */
 template <class T>
 BinaryTreeNode<T>::BinaryTreeNode(T value, uint32_t level, BinaryTreeNode<T>* parent)
 {
@@ -71,7 +94,12 @@ BinaryTreeNode<T>::BinaryTreeNode(T value, uint32_t level, BinaryTreeNode<T>* pa
     this->_rightChild = nullptr;
 }
 
-
+/**
+ * Costruttore di copia
+ * 
+ * @tparam T : Contenuto dell'albero
+ * @param source : Nodo da copiare
+ */
 template <class T>
 BinaryTreeNode<T>::BinaryTreeNode(const BinaryTreeNode<T>& source)
 {
@@ -82,60 +110,120 @@ BinaryTreeNode<T>::BinaryTreeNode(const BinaryTreeNode<T>& source)
     this->_level = source._level;
 }
 
+/**
+ * Restituisce il valore contenuto nel nodo
+ * 
+ * @tparam T : Contenuto del nodo
+ * @return Valore del nodo
+ */
 template <class T>
 T BinaryTreeNode<T>::getNodeValue()
 {
     return this->_value;
 }
 
+/**
+ * Imposta un valore al nodo
+ * 
+ * @tparam T : Contenuto del nodo
+ * @param value : Valore da impostare
+ */
 template <class T>
 void BinaryTreeNode<T>::setNodeValue(T value)
 {
     this->_value = value;
 }
 
+/**
+ * Imposta il genitore del nodo
+ * 
+ * @tparam T : Contenuto del nodo
+ * @param parent : Puntatore del genitore 
+ */
 template <class T>
 void BinaryTreeNode<T>::setNodeParent(BinaryTreeNode<T>* parent)
 {
     this->_parent = parent;
 }
 
+/**
+ * Imposta il figlio sinistro del nodo
+ * 
+ * @tparam T : Contenuto del nodo
+ * @param left : Puntatore del figlio sinistro 
+ */
 template <class T>
 void BinaryTreeNode<T>::setNodeLeftChild(BinaryTreeNode<T>* left)
 {
     this->_leftChild = left;
 }
 
+/**
+ * Imposta il figlio destro del nodo
+ * 
+ * @tparam T : Contenuto del nodo
+ * @param right : Puntatore del figlio destro 
+ */
 template <class T>
 void BinaryTreeNode<T>::setNodeRightChild(BinaryTreeNode<T>* right)
 {
     this->_rightChild = right;
 }
 
+/**
+ * Imposta il livello del nodo
+ * 
+ * @tparam T : Contenuto del nodo
+ * @param newLvl : Nuovo livello del nodo
+ */
 template <class T>
 void BinaryTreeNode<T>::setNodeLevel(uint32_t newLvl)
 {
     this->_level = newLvl;
 }
 
+/**
+ * Restituisce il genitore del nodo
+ * 
+ * @tparam T : Contenuto del nodo
+ * @return Puntatore al genitore
+ */
 template <class T>
 BinaryTreeNode<T>* BinaryTreeNode<T>::getNodeParent()
 {
     return this->_parent;
 }
 
+/**
+ * Restituisce il figlio sinistro del nodo
+ * 
+ * @tparam T : Contenuto del nodo
+ * @return Puntatore al figlio  sinistro
+ */
 template <class T>
 BinaryTreeNode<T>* BinaryTreeNode<T>::getNodeLeftChild()
 {
     return this->_leftChild;
 }
 
+/**
+ * Restituisce il figlio destro del nodo
+ * 
+ * @tparam T : Contenuto del nodo
+ * @return Puntatore al figlio destro
+ */
 template <class T>
 BinaryTreeNode<T>* BinaryTreeNode<T>::getNodeRightChild()
 {
     return this->_rightChild;
 }
 
+/**
+ * Restituisce il livello  del nodo
+ * 
+ * @tparam T : Contenuto del nodo
+ * @return Livello del nodo
+ */
 template <class T>
 uint32_t BinaryTreeNode<T>::getNodeLevel()
 {
@@ -147,7 +235,11 @@ uint32_t BinaryTreeNode<T>::getNodeLevel()
 
 
 
-
+/**
+ * Descrive la struttura dati dell'albero binario
+ * 
+ ** @tparam T : Tipo di dato contenuto nell'albero
+ */
 template <class T>
 class BinaryTree : public IBinaryTree<T, BinaryTreeNode<T>*>
 {
@@ -156,9 +248,8 @@ class BinaryTree : public IBinaryTree<T, BinaryTreeNode<T>*>
         typedef typename IBinaryTree<T, BinaryTreeNode<T>*>::Iterator Iterator;
 
     private:
-        Iterator _root;
-        uint32_t _height;
-
+        Iterator _root; // Puntatore alla radice dell'albero binario
+        uint32_t _height; // Altezza massima dell'albero
 
     protected:
         bool _isNodeEmpty(Iterator node);
@@ -172,6 +263,8 @@ class BinaryTree : public IBinaryTree<T, BinaryTreeNode<T>*>
         BinaryTree();
         BinaryTree(Type rootValue);
         ~BinaryTree();
+
+        void create() {};
 
         void addLeftChild(Type value);
         void addRightChild(Type value);
@@ -214,7 +307,11 @@ class BinaryTree : public IBinaryTree<T, BinaryTreeNode<T>*>
         BinaryTree<T>* subTree(Iterator root);
 };
 
-
+/**
+ * Crea un albero binario vuoto
+ * 
+ * @tparam T : Tipo di dato contenuto nell'albero
+ */
 template <class T>
 BinaryTree<T>::BinaryTree()
 {
@@ -222,7 +319,12 @@ BinaryTree<T>::BinaryTree()
     this->_height = 0;
 }
 
-
+/**
+ * Crea un albero binario con radice con valore rootValue
+ * 
+ * @tparam T : Tipo di dato contenuto nell'albero
+ * @param rootValue : Valore della radice
+ */
 template <class T>
 BinaryTree<T>::BinaryTree(Type rootValue)
 {
@@ -230,7 +332,11 @@ BinaryTree<T>::BinaryTree(Type rootValue)
     this->_height = 0;
 }
 
-
+/**
+ * Distruttore
+ * 
+ * @tparam T : Tipo di dato contenuto nell'albero 
+ */
 template <class T>
 BinaryTree<T>::~BinaryTree()
 {
@@ -242,7 +348,7 @@ BinaryTree<T>::~BinaryTree()
 /**
  * Inserisce un nodo sinistra alla foglia piu' a sinistra dell'albero
  *
- * @tparam T - Tipo di dato del nodo
+ * @tparam T : Tipo di dato contenuto nell'albero
  * @param value - Valore della foglia
  */
 template <class T>
@@ -272,7 +378,13 @@ void BinaryTree<T>::addLeftChild(Type value)
 
 }
 
-
+/**
+ * Inserisce un figlio sinistro al nodo con radice node.
+ * 
+ * @tparam T : Tipo di dato contenuto nell'albero
+ * @param node :  Radice in cui  inserire il  figlio  sinistro
+ * @param value : Valore del figlio sinistro
+ */
 template <class T>
 void BinaryTree<T>::addLeftChild(Iterator node, Type value)
 {
@@ -294,7 +406,12 @@ void BinaryTree<T>::addLeftChild(Iterator node, Type value)
     }
 }
 
-
+/**
+ * Inserisce un nodo destro alla foglia piu' a destra dell'albero
+ *
+ * @tparam T : Tipo di dato contenuto nell'albero
+ * @param value - Valore della foglia
+ */
 template <class T>
 void BinaryTree<T>::addRightChild(Type value)
 {
@@ -324,6 +441,13 @@ void BinaryTree<T>::addRightChild(Type value)
 
 }
 
+/**
+ * Inserisce un figlio destro al nodo con radice node.
+ * 
+ * @tparam T : Tipo di dato contenuto nell'albero
+ * @param node :  Radice in cui  inserire il  figlio  destro
+ * @param value : Valore del figlio destro
+ */
 template <class T>
 void BinaryTree<T>::addRightChild(Iterator node, Type value)
 {
@@ -347,7 +471,13 @@ void BinaryTree<T>::addRightChild(Iterator node, Type value)
     node->_rightChild->_value = value;
 }
 
-
+/**
+ * Aggiunge un nodo sinistro ad un nodo con radice parent
+ * 
+ * @tparam T : Tipo di dato contenuto nell'albero
+ * @param child : Puntatore al figlio sinitro  di parent
+ * @param parent : Puntatore del nodo genitore di child
+ */
 template <class T>
 void BinaryTree<T>::addLeftChild(Iterator child, Iterator parent)
 {
@@ -362,7 +492,13 @@ void BinaryTree<T>::addLeftChild(Iterator child, Iterator parent)
     }
 }
 
-
+/**
+ * Aggiunge un nodo destro ad un nodo con radice parent
+ * 
+ * @tparam T : Tipo di dato contenuto nell'albero
+ * @param child : Puntatore al figlio destro  di parent
+ * @param parent : Puntatore del nodo genitore di child
+ */
 template <class T>
 void BinaryTree<T>::addRightChild(Iterator child, Iterator parent)
 {
@@ -377,19 +513,40 @@ void BinaryTree<T>::addRightChild(Iterator child, Iterator parent)
     }
 }
 
-
+/**
+ * Aggiunge un sotto-albero, di radice child, a sinistro di un nodo con radice parent
+ * 
+ * @tparam T : Tipo di dato contenuto nell'albero
+ * @param child : Puntatore alla radice del sotto-albero
+ * @param parent : Puntatore del nodo genitore di child
+ */
 template <class T>
 void BinaryTree<T>::addLeftChild(BinaryTree<Type>* child, Iterator parent)
 {
     this->addLeftChild(child->_root, parent);
 }
 
+
+/**
+ * Aggiunge un sotto-albero, di radice child, a destra di un nodo con radice parent
+ * 
+ * @tparam T : Tipo di dato contenuto nell'albero
+ * @param child : Puntatore alla radice del sotto-albero
+ * @param parent : Puntatore del nodo genitore di child
+ */
 template <class T>
 void BinaryTree<T>::addRightChild(BinaryTree<Type>* child, Iterator parent)
 {
     this->addRightChild(child->_root, parent);
 }
 
+
+/**
+ * Elimina node, cioe' il figlio  sinistro di un nodo
+ * 
+ * @tparam T : Tipo di dato contenuto nell'albero
+ * @param node : Figlio  sinistro  di  un nodo
+ */
 template <class T>
 void BinaryTree<T>::deleteLeft(Iterator node)
 {
@@ -404,6 +561,12 @@ void BinaryTree<T>::deleteLeft(Iterator node)
     }
 }
 
+/**
+ * Elimina node, cioe' il figlio  destro di un nodo
+ * 
+ * @tparam T : Tipo di dato contenuto nell'albero
+ * @param node : Figlio  destro  di  un nodo
+ */
 template <class T>
 void BinaryTree<T>::deleteRight(Iterator node)
 {
@@ -418,6 +581,14 @@ void BinaryTree<T>::deleteRight(Iterator node)
     }
 }
 
+/**
+ * Restituisce il  puntatore ad un sottoalbero di radice root.
+ * Se root e' uguale alla radice dell'albero allora vieene restituito this
+ * 
+ * @tparam T : Tipo di dato contenuto nell'albero
+ * @param root : Radice del sottoalbero da restituire
+ * @return Sottoalbero di radice root
+ */
 template <class T>
 BinaryTree<T>* BinaryTree<T>::subTree(Iterator root)
 {
@@ -441,7 +612,12 @@ BinaryTree<T>* BinaryTree<T>::subTree(Iterator root)
     return subT;
 }
 
-
+/**
+ * Attraversa l'albero con ordine previsita
+ * 
+ * @tparam T : Tipo di dato contenuto nell'albero
+ * @param root : Nodo di partenza della visita
+ */
 template <class T>
 void BinaryTree<T>::preorderTraversal(Iterator root)
 {
@@ -453,6 +629,12 @@ void BinaryTree<T>::preorderTraversal(Iterator root)
     }
 }
 
+/**
+ * Attraversa l'albero con ordine postvisita
+ * 
+ * @tparam T : Tipo di dato contenuto nell'albero
+ * @param root : Nodo di partenza della visita
+ */
 template <class T>
 void BinaryTree<T>::postorderTraversal(Iterator root)
 {
@@ -464,6 +646,12 @@ void BinaryTree<T>::postorderTraversal(Iterator root)
     }
 }
 
+/**
+ * Attraversa l'albero con ordine simmetrico
+ * 
+ * @tparam T : Tipo di dato contenuto nell'albero
+ * @param root : Nodo di partenza della visita
+ */
 template <class T>
 void BinaryTree<T>::inorderTraversal(Iterator root)
 {
@@ -475,6 +663,12 @@ void BinaryTree<T>::inorderTraversal(Iterator root)
     }
 }
 
+/**
+ * Attraversa l'albero con visita a livelli
+ * 
+ * @tparam T : Tipo di dato contenuto nell'albero
+ * @param root : Nodo di partenza della visita
+ */
 template <class T>
 void BinaryTree<T>::levelOrderTraversal(Iterator root)
 {
@@ -500,7 +694,13 @@ void BinaryTree<T>::levelOrderTraversal(Iterator root)
     }
 }
 
-
+/**
+ * Restituisce true se il nodo sinistro di leftChild e' vuoto, altrimenti false
+ * 
+ * @tparam T : Tipo di dato contenuto nell'albero
+ * @param leftChild : Nodo a cui  controllare il nodo sinistro
+ * @return True se il nodo sinistro di leftChild e' vuoto, altrimenti false
+ */
 template <class T>
 bool BinaryTree<T>::isLeftEmpty(Iterator leftChild)
 {
@@ -512,6 +712,13 @@ bool BinaryTree<T>::isLeftEmpty(Iterator leftChild)
     return this->_isNodeEmpty(leftChild->_leftChild);
 }
 
+/**
+ * Restituisce true se il nodo destro di rightChild e' vuoto, altrimenti false
+ * 
+ * @tparam T : Tipo di dato contenuto nell'albero
+ * @param leftChild : Nodo a cui  controllare il nodo destro
+ * @return True se il nodo destro di leftChild e' vuoto, altrimenti false
+ */
 template <class T>
 bool BinaryTree<T>::isRightEmpty(Iterator rightChild)
 {
@@ -523,25 +730,48 @@ bool BinaryTree<T>::isRightEmpty(Iterator rightChild)
     return this->_isNodeEmpty(rightChild->_rightChild);
 }
 
+/**
+ * Restituisce true se l'albero e' vuoto, altrimenti false.
+ * 
+ * @tparam T : Tipo di dato contenuto nell'albero
+ * @return True se l'albero e' vuoto, altrimenti false.
+ */
 template <class T>
 bool BinaryTree<T>::isBinaryTreeEmpty()
 {
     return this->_isNodeEmpty(this->_root);
 }
 
+/**
+ * Restituisce l'altezza totale dell'albero
+ * 
+ * @tparam T : Tipo di dato contenuto nell'albero
+ * @return Altezza albero
+ */
 template <class T>
 uint32_t BinaryTree<T>::getHeight()
 {
     return this->_height;
 }
 
+/**
+ * Immposta una nuova altezza all'albero
+ * 
+ * @tparam T : Tipo di dato contenuto nell'albero
+ * @param newH : Nuova altezzza dell'albero
+ */
 template <class T>
 void BinaryTree<T>::setHeight(uint32_t newH)
 {
     this->_height = newH;
 }
 
-
+/**
+ * Restituisce il  numero totale di  nodi contenuti nell'albero
+ * 
+ * @tparam T : Tipo di dato contenuto nell'albero
+ * @return Numero totale di nodi nell'albero
+ */
 template <class T>
 uint32_t BinaryTree<T>::calculateNodesAmount()
 {
@@ -569,45 +799,89 @@ uint32_t BinaryTree<T>::calculateNodesAmount()
     return amount;
 }
 
-
+/**
+ * Restituisce il  puntatore alla radice dell'albero
+ * 
+ * @tparam T : Tipo di dato contenuto nell'albero
+ * @return Puntatore alla radice
+ */
 template <class T>
 typename BinaryTree<T>::Iterator BinaryTree<T>::getRoot() const
 {
     return this->_root;
 }
 
+
+/**
+ * Restituisce il  puntatore al figlio sinistro di node
+ * 
+ * @tparam T : Tipo di dato contenuto nell'albero
+ * @return puntatore al figlio sinistro di node
+ */
 template <class T>
 typename BinaryTree<T>::Iterator BinaryTree<T>::getLeftChild(Iterator node)
 {
     return node->_leftChild;
 }
 
+
+/**
+ * Restituisce il  puntatore al figlio destro di node
+ * 
+ * @tparam T : Tipo di dato contenuto nell'albero
+ * @return puntatore al figlio destro di node
+ */
 template <class T>
 typename BinaryTree<T>::Iterator BinaryTree<T>::getRightChild(Iterator node)
 {
     return node->_rightChild;
 }
 
+/**
+ * Restituisce il  puntatore al padre di  node
+ * 
+ * @tparam T : Tipo di dato contenuto nell'albero
+ * @param node : Nodo a cui prendere il padre
+ * @return Puntatore al padre di  node
+ */
 template <class T>
 typename BinaryTree<T>::Iterator BinaryTree<T>::getParent(Iterator node)
 {
     return node->_parent;
 }
 
+/**
+ * Restituisce true se node e'  una foglia, altrimenti false
+ * 
+ * @tparam T : Tipo di dato contenuto nell'albero
+ * @param node : Nodo da controllare
+ * @return true se node e'  una foglia, altrimenti false
+ */
 template <class T>
 bool BinaryTree<T>::isLeaf(Iterator node)
 {
     return (this->isLeftEmpty(node)) && (this->isRightEmpty(node));
 }
 
-
+/**
+ * Imposta la radice dell'albero
+ * 
+ * @tparam T : Tipo di dato contenuto nell'albero
+ * @param newRoot : Nuova radice
+ */
 template <class T>
 void BinaryTree<T>::setRoot(Iterator newRoot)
 {
     this->_root = newRoot;
 }
 
-
+/**
+ * Restituisce il livello massimo dell'albero con radice node
+ * 
+ * @tparam T : Tipo di dato contenuto nell'albero
+ * @param node : Radice albero o sottoalbero
+ * @return Livello massimo
+ */
 template <class T>
 uint32_t BinaryTree<T>::calculateMaxLevel(Iterator node)
 {
@@ -647,20 +921,37 @@ uint32_t BinaryTree<T>::calculateMaxLevel(Iterator node)
     return rightH;
 }
 
+/**
+ * Restituisce true se node e' la  radice dell'albero, altrimenti false
+ * 
+ * @tparam T : Tipo di dato contenuto nell'albero
+ * @param node : Nodo da controllare
+ * @return true se node e' la  radice dell'albero, altrimenti false
+ */
 template <class T>
 bool BinaryTree<T>::isRoot(Iterator node)
 {
     return this->_isNodeEmpty(node->_parent);
 }
 
-
+/**
+ * Restituisce true se node e' vuoto, altrimenti false
+ * 
+ * @tparam T : Tipo di dato contenuto nell'albero
+ * @param node : Nodo da controllare
+ * @return true se node e' vuoto, altrimenti false
+ */
 template <class T>
 bool BinaryTree<T>::_isNodeEmpty(Iterator node)
 {
     return (node == nullptr);
 }
 
-
+/**
+ * Aggiorna l'altezza dell'albero
+ * 
+ * @tparam T : Tipo di dato contenuto nell'albero
+ */
 template <class T>
 void BinaryTree<T>::_updateHeight()
 {
@@ -672,14 +963,26 @@ void BinaryTree<T>::_updateHeight()
     }
 }
 
-
+/**
+ * Aggiorna l'altezza di un sottoalbero 
+ * 
+ * @tparam T : Tipo di dato contenuto nell'albero
+ * @param subTreeHeight : Altezza del sottoalbero
+ * @param parentH : Livello del genitore del sottoalbero
+ */
 template <class T>
 void BinaryTree<T>::_updateHeight(uint32_t subTreeHeight, uint32_t parentH)
 {
     this->_height = (subTreeHeight + parentH) - 1;
 }
 
-
+/**
+ * Aggiorna i livelli dei nodi figli di startingNode, partendo dal suo livello
+ * 
+ * @tparam T : Tipo di dato contenuto nell'albero
+ * @param startingNode : Radice
+ * @param initLevel ; Livello di partenza
+ */
 template <class T>
 void BinaryTree<T>::_updateLevels(Iterator startingNode, uint32_t initLevel)
 {
@@ -691,7 +994,14 @@ void BinaryTree<T>::_updateLevels(Iterator startingNode, uint32_t initLevel)
     }
 }
 
-
+/**
+ * Diminuisce i livelli dei nodi dell'albero  con radice root di un fattore pari  a
+ * decrementFactor
+ * 
+ * @tparam T : Tipo di dato contenuto nell'albero
+ * @param root : Radice albero
+ * @param decrementFactor : Di quanto diminuire i livelli dei nodi
+ */
 template <class T>
 void BinaryTree<T>::_decreaseLevel(Iterator root, uint32_t decrementFactor)
 {
@@ -707,6 +1017,13 @@ void BinaryTree<T>::_decreaseLevel(Iterator root, uint32_t decrementFactor)
     }
 }
 
+
+/**
+ * Cancella l'albero o sottoalbero di radice root
+ * 
+ * @tparam T : Tipo di dato contenuto nell'albero
+ * @param root : Radice albero o sottoalbero
+ */
 template <class T>
 void BinaryTree<T>::_erase(Iterator root)
 {
@@ -752,4 +1069,4 @@ void BinaryTree<T>::_erase(Iterator root)
 
 
 
-#endif //STRUCTURES_BINARYTREE_H
+#endif // _BINARYTREE_H

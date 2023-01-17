@@ -27,6 +27,7 @@ class ArrayQueue : public IQueue<T, std::size_t>
 
         bool isEmpty() const;
         std::size_t getLength() const;
+        std::size_t getSize() const;
 
         Type read(const Iterator pos) const;
         void write(const Type& item, Iterator pos);
@@ -45,6 +46,11 @@ class ArrayQueue : public IQueue<T, std::size_t>
         bool operator!=(const ArrayQueue<T>& arrayQueue) const;
 };
 
+/**
+ * Costruisce una coda con dimensioni massime pari a 16
+ *
+ * @tparam T : Tipo di dato da contener
+ */
 template <class T>
 ArrayQueue<T>::ArrayQueue()
 {
@@ -54,7 +60,14 @@ ArrayQueue<T>::ArrayQueue()
     this->_currentSize = 0;
 }
 
-
+/**
+ * Costruisce una coda con dimensioni massime pari a size
+ *
+ * Se start == 0, allora vengono usate le dimensioni di default (16)
+ *
+ * @tparam T : Tipo di dato da contener
+ * @param size : Dimensioni della coda
+ */
 template <class T>
 ArrayQueue<T>::ArrayQueue(Iterator size)
 {
@@ -74,6 +87,17 @@ ArrayQueue<T>::ArrayQueue(Iterator size)
     this->_currentSize = 0;
 }
 
+/**
+ * Costruisce una coda con dimensioni massime pari a size e con
+ * indice di partenza pari a start.
+ *
+ * Se start > size, allora vengono usate le dimensioni di default (16) e
+ * la coda partira' dall'indice 0
+ *
+ * @tparam T : Tipo di dato da contener
+ * @param size : Dimensioni della coda
+ * @param start : Indice di partenza della coda
+ */
 template <class T>
 ArrayQueue<T>::ArrayQueue(Iterator size, Iterator start)
 {
@@ -96,7 +120,11 @@ ArrayQueue<T>::ArrayQueue(Iterator size, Iterator start)
 }
 
 
-
+/**
+ * Costruttore di copia
+ * @tparam T : Tipo di dato da contener
+ * @param source : Coda da copiare
+ */
 template <class T>
 ArrayQueue<T>::ArrayQueue(const ArrayQueue<T>& source)
 {
@@ -111,7 +139,10 @@ ArrayQueue<T>::ArrayQueue(const ArrayQueue<T>& source)
     }
 }
 
-
+/**
+ * Distruttore
+ * @tparam T : Tipo di dato da contener
+ */
 template <class T>
 ArrayQueue<T>::~ArrayQueue()
 {
@@ -121,20 +152,49 @@ ArrayQueue<T>::~ArrayQueue()
     this->_headIndex = 0;
 }
 
+/**
+ * Restituisce il numero di elementi attualmente contenuti
+ * nella coda
+* @tparam T : Tipo di dato da contenere
+ * @return Numero di elementi presenti in coda
+ */
+template <class T>
+std::size_t ArrayQueue<T>::getSize() const
+{
+    return this->_currentSize;
+}
+
+/**
+ * Restituisce true se la coda e' vuota, altrimenti false
+ *
+ * @tparam T : Tipo di dato da contenere
+ * @return true se la coda e' vuota, altrimenti false
+ */
 template <class T>
 bool ArrayQueue<T>::isEmpty() const
 {
     return (this->_length == 0);
 }
 
-
+/**
+ * Restituisce la lunghezza massima della coda
+ *
+ * @tparam T : Tipo di dato da contenere
+ * @return Lunghezza massima coda
+ */
 template <class T>
 std::size_t ArrayQueue<T>::getLength() const
 {
     return this->_length;
 }
 
-
+/**
+ * Legge il valore di un nodo pos
+ *
+ * @tparam T : Tipo di dato da contenere
+ * @param pos : Nodo a cui leggere il valore
+ * @return Valore di pos
+ */
 template <class T>
 typename ArrayQueue<T>::Type ArrayQueue<T>::read(const Iterator pos) const
 {
@@ -144,7 +204,13 @@ typename ArrayQueue<T>::Type ArrayQueue<T>::read(const Iterator pos) const
     }
 }
 
-
+/**
+ * Scrive un valore in un nodo pos
+ *
+ * @tparam T : Tipo di dato da contenere
+ * @param item : Valore da scrivere
+ * @param pos : Nodo a cui leggere il valore
+ */
 template <class T>
 void ArrayQueue<T>::write(const Type& item, Iterator pos)
 {
@@ -154,7 +220,12 @@ void ArrayQueue<T>::write(const Type& item, Iterator pos)
     }
 }
 
-
+/**
+ * Aggiunge nella coda un elemento item
+ *
+ * @tparam T : Tipo di dato da contenere
+ * @param item : Valore da inserire
+ */
 template <class T>
 void ArrayQueue<T>::enqueue(const Type& item)
 {
@@ -163,7 +234,10 @@ void ArrayQueue<T>::enqueue(const Type& item)
     this->_currentSize++;
 }
 
-
+/**
+ * Elimina il primo elemento entrato in coda
+ * @tparam T : Tipo di dato da contenere
+ */
 template <class T>
 void ArrayQueue<T>::dequeue()
 {
@@ -174,35 +248,56 @@ void ArrayQueue<T>::dequeue()
     }
 }
 
-
+/**
+ * Legge il primo elemento in coda
+ * @tparam T : Tipo di dato da contenere
+ * @return Primo elemento in coda
+ */
 template <class T>
 typename ArrayQueue<T>::Type ArrayQueue<T>::top() const
 {
     return this->_circularArray[this->_headIndex];
 }
 
-
+/**
+ * Indice del primo elemento in coda
+ * @tparam T : Tipo di dato da contenere
+ * @return Primo elemento in coda
+ */
 template <class T>
 typename ArrayQueue<T>::Iterator ArrayQueue<T>::begin() const
 {
     return this->_headIndex;
 }
 
-
+/**
+ * Indice dell'ultimo elemento in coda
+ * @tparam T : Tipo di dato da contenere
+ * @return Ultimo elemento in coda
+ */
 template <class T>
 typename ArrayQueue<T>::Iterator ArrayQueue<T>::end() const
 {
     return (this->_headIndex + this->_currentSize - 1) % this->_length;
 }
 
-
+/**
+ * Restituisce true se ho raggiunto la fine della coda, altrimenti false
+ * @tparam T : Tipo di dato da contenere
+ * @return True se ho raggiunto la fine della coda, altrimenti false
+ */
 template <class T>
 bool ArrayQueue<T>::isEnd(const Iterator& pos) const
 {
     return pos == (this->_headIndex + this->_currentSize) % this->_length;
 }
 
-
+/**
+ * Restituisce l'indice del nodo successivo a pos
+ * @tparam T : Tipo di dato da contenere
+ * @param pos : Nodo a cui ottenere il successivo
+ * @return indice al successivo di pos
+ */
 template <class T>
 typename ArrayQueue<T>::Iterator ArrayQueue<T>::next(Iterator& pos) const
 {

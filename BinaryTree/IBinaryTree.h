@@ -12,6 +12,8 @@ class IBinaryTree
         typedef I Iterator;
 
     public:
+        virtual void create() =  0;
+
         virtual void addLeftChild(Type value) = 0;
         virtual void addRightChild(Type value) = 0;
 

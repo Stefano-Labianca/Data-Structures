@@ -5,9 +5,9 @@
 
 
 /**
- * @brief Classe che implementa la struttura dati dello Stack attraverso un array
+ * Classe che implementa la struttura dati dello Stack attraverso un array
  *
- * @tparam T - Tipo di dato memorizzato all'interno della struttura
+ * @tparam T: Tipo di dato memorizzato all'interno della struttura
  */
 template <class T>
 class ArrayStack : public IStack<T, std::size_t>
@@ -52,9 +52,9 @@ class ArrayStack : public IStack<T, std::size_t>
 };
 
 /**
- * @brief Crea un'istanza della classe ArrayStack con dimensioni massime di default pari a 16
+ * Crea un'istanza della classe ArrayStack con dimensioni massime di default pari a 16
  * 
- * @tparam T Tipo di dato memorizzato nella struttura dati
+  * @tparam T : Tipo di dato da contenere
  */
 template <class T>
 ArrayStack<T>::ArrayStack()
@@ -65,10 +65,10 @@ ArrayStack<T>::ArrayStack()
 }
 
 /**
- * @brief Crea un'stanza della classe ArrayStack con dimensioni massime pari a size
+ * Crea un'stanza della classe ArrayStack con dimensioni massime pari a size
  * 
- * @tparam T Tipo di dato memorizzato nella struttura dati
- * @param size Dimensioni massime dell'array
+  * @tparam T : Tipo di dato da contenere
+ * @param size: Dimensioni massime dell'array
  */
 template <class T>
 ArrayStack<T>::ArrayStack(Iterator size)
@@ -79,9 +79,9 @@ ArrayStack<T>::ArrayStack(Iterator size)
 }
 
 /**
- * @brief Costruttore di copia della classe ArrayStack
+ * Costruttore di copia della classe ArrayStack
  * 
- * @tparam T Tipo di dato memorizzato nella struttura dati
+  * @tparam T : Tipo di dato da contenere
  * @param source Istanza della classe ArrayStack da copiare all'interno di una nuova istanza
  */
 template <class T>
@@ -98,9 +98,9 @@ ArrayStack<T>::ArrayStack(const ArrayStack<T>& source)
 }
 
 /**
- * @brief Distruttore della classe ArrayStack
+ * Distruttore della classe ArrayStack
  * 
- * @tparam T Tipo di dato memorizzato nella struttura
+  * @tparam T : Tipo di dato da contenere
  */
 template <class T>
 ArrayStack<T>::~ArrayStack()
@@ -111,10 +111,10 @@ ArrayStack<T>::~ArrayStack()
 }
 
 /**
- * @brief Inserisce un nuovo elemento alla fine dell'array
+ * Inserisce un nuovo elemento alla fine dell'array
  * 
- * @tparam T Tipo dell'elemento da inserire
- * @param item Elemento da inserire
+  * @tparam T : Tipo di dato da contenere
+ * @param item: Elemento da inserire
  */
 template <class T>
 void ArrayStack<T>::push(const T& item)
@@ -130,9 +130,9 @@ void ArrayStack<T>::push(const T& item)
 }
 
 /**
- * @brief Elimina l'ultimo elemento inserito nella struttura
+ * Elimina l'ultimo elemento inserito nello stack
  * 
- * @tparam T Tipo dell'elemento da eliminare
+ * @tparam T : Tipo di dato da contenere
  */
 template <class T>
 void ArrayStack<T>::pop()
@@ -144,11 +144,11 @@ void ArrayStack<T>::pop()
 }
 
 /**
- * @brief Verifica se la struttura dati è vuota, restituendo true se è 
+ * Verifica se la struttura dati è vuota, restituendo true se è
  * vuota, altrimenti false.
  * 
- * @tparam T Tipo di dato contenuto nella struttura dati
- * @return bool 
+  * @tparam T : Tipo di dato da contenere
+ * @return true se è vuota, altrimenti false.
  */
 template <class T>
 bool ArrayStack<T>::isEmpty() const
@@ -157,11 +157,10 @@ bool ArrayStack<T>::isEmpty() const
 }
 
 /**
- * @brief Restituisce l'elemento, inserito per ultimo, all'interno della
- * struttura dati
- * 
- * @tparam T Tipo di dato dell'elemento da prelevare 
- * @return ArrayStack<T>::Type 
+ * Restituisce il valore contenuto nel nodo in cima allo stack
+ *
+ * @tparam T : Tipo di dato da contenere
+ * @return Valore del nodo in cima
  */
 template <class T>
 typename ArrayStack<T>::Type ArrayStack<T>::peek() const
@@ -170,10 +169,10 @@ typename ArrayStack<T>::Type ArrayStack<T>::peek() const
 }
 
 /**
- * @brief Restituisce la prima posizione dell'array
+ * Restituisce la prima posizione dello stack
  * 
- * @tparam T Tipo di dato contenuto nella struttura dati
- * @return ArrayStack<T>::Iterator 
+ * @tparam T : Tipo di dato da contenere
+ * @return Prima posizione dello stack
  */
 template <class T>
 typename ArrayStack<T>::Iterator ArrayStack<T>::begin() const
@@ -181,14 +180,22 @@ typename ArrayStack<T>::Iterator ArrayStack<T>::begin() const
     return this->_size - this->_headIndex;
 }
 
-
+/**
+ * Ultimo indice dello stack
+ * @tparam T : Tipo di dato da contenere
+ * @return Ultimo indice dello stack
+ */
 template <class T>
 typename ArrayStack<T>::Iterator ArrayStack<T>::end() const
 {
     return this->_size;
 }
 
-
+/**
+* Restituisce true se ho raggiunto la fine dello stack, altrimenti false
+* @tparam T : Tipo di dato da contenere
+* @return True se ho raggiunto la fine dello stack, altrimenti false
+*/
 template <class T>
 bool ArrayStack<T>::isEnd(const Iterator pos) const
 {
@@ -196,10 +203,10 @@ bool ArrayStack<T>::isEnd(const Iterator pos) const
 }
 
 /**
- * @brief Restituisce la lunghezza massima dell'array
+ * Restituisce la lunghezza massima dell'array
  *
- * @tparam T Tipo di dato contenuto nell'array
- * @return Iterator
+ * @tparam T: Tipo di dato contenuto nell'array
+ * @return lunghezza massima
  */
 template <class T>
 typename ArrayStack<T>::Iterator ArrayStack<T>::getSize() const
@@ -209,10 +216,10 @@ typename ArrayStack<T>::Iterator ArrayStack<T>::getSize() const
 
 
 /**
- * @brief Restituisce la lunghezza corrente dell'array
+ *  Restituisce la lunghezza corrente dell'array
  *
- * @tparam T Tipo di dato contenuto nell'array
- * @return Iterator
+ * @tparam T: Tipo di dato contenuto nell'array
+ * @return lunghezza corrente
  */
 template <class T>
 typename ArrayStack<T>::Iterator ArrayStack<T>::getLength() const
@@ -220,12 +227,25 @@ typename ArrayStack<T>::Iterator ArrayStack<T>::getLength() const
     return this->_headIndex;
 }
 
+/**
+ * Restituisce l'indice successivo a pos
+ *
+ * @tparam T : Tipo di dato da contenere
+ * @param pos : indice
+ * @return Indice successivo di pos
+ */
 template <class T>
 typename ArrayStack<T>::Iterator ArrayStack<T>::next(Iterator pos) const
 {
     return ++pos;
 }
 
+/**
+ * Legge il valore contenuto  in pos
+  * @tparam T : Tipo di dato da contenere
+ * @param pos : Indice
+ * @return Valore all'indice pos
+ */
 template <class T>
 typename ArrayStack<T>::Type ArrayStack<T>::read(const Iterator pos) const
 {
@@ -235,7 +255,11 @@ typename ArrayStack<T>::Type ArrayStack<T>::read(const Iterator pos) const
     }
 }
 
-
+/**
+ * Scrive un valore contenuto  in pos
+  * @tparam T : Tipo di dato da contenere
+ * @param pos : Indice
+ */
 template <class T>
 void ArrayStack<T>::write(const Type& item, const Iterator pos) const
 {
